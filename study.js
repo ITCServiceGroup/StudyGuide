@@ -380,15 +380,15 @@ function showFinalScore() {
     }
 
     summaryHTML += `
-      <li class="summary-item">
-        <div class="question-block">
-          <p class="question-type">Type: ${formatQuestionType(answer.type)}</p>
-          <p class="question-text">Question ${index + 1}: ${answer.question}</p>
-          <p class="${isCorrect ? 'correct' : 'incorrect'}">Your Answer: ${userAnswerFormatted}</p>
-          ${!isCorrect ? `<p class="correct">Correct Answer: ${correctAnswerFormatted}</p>` : ''}
-          <p class="explanation">Explanation: ${answer.explanation}</p>
-        </div>
-      </li>`;
+  <li class="summary-item">
+    <div class="question-block">
+      <p class="question-text">Question ${index + 1}: ${answer.question}</p>
+      <p class="question-type">Type: ${formatQuestionType(answer.type)}</p>
+      <p class="${answer.isCorrect ? 'correct' : 'incorrect'}">Your Answer: ${userAnswerFormatted}</p>
+      ${!answer.isCorrect ? `<p class="correct">Correct Answer: ${correctAnswerFormatted}</p>` : ''}
+      <p class="explanation">Explanation: ${answer.explanation}</p>
+    </div>
+  </li>`;
   });
 
   summaryHTML += `</ul></div></div>
