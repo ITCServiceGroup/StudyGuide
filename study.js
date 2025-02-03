@@ -217,12 +217,12 @@ function evaluateAnswer(question, selectedIndex) {
 
   const feedback = document.getElementById('feedback');
   if (isCorrect) {
-    feedback.textContent = 'Correct!';
+    feedback.innerHTML = `Correct!<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
     feedback.classList.add('feedback-correct');
     feedback.classList.remove('feedback-incorrect');
     score++;
   } else {
-    feedback.innerHTML = `Incorrect.<br><br>Explanation: ${question.explanation}`;
+    feedback.innerHTML = `Incorrect.<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
     feedback.classList.add('feedback-incorrect');
     feedback.classList.remove('feedback-correct');
   }
@@ -250,12 +250,12 @@ function handleCheckButton() {
 
   const feedback = document.getElementById('feedback');
   if (isCorrect) {
-    feedback.textContent = 'Correct!';
+    feedback.innerHTML = `Correct!<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
     feedback.classList.add('feedback-correct');
     feedback.classList.remove('feedback-incorrect');
     score++;
   } else {
-    feedback.innerHTML = `Incorrect.<br><br>Explanation: ${question.explanation}`;
+    feedback.innerHTML = `Incorrect.<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
     feedback.classList.add('feedback-incorrect');
     feedback.classList.remove('feedback-correct');
   }

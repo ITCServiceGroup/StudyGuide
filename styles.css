@@ -303,6 +303,17 @@ body {
   margin-top: 8px;
 }
 
+.explanation-title {
+  margin: 10px 0 5px; /* Top and bottom margin to separate the title */
+  padding-bottom: 5px;
+  font-weight: bold;
+}
+
+.explanation-text {
+  margin: 0;
+  text-align: left;
+}
+
 /* Button Styles in Summary */
 #download-pdf-button,
 #restart-button,
