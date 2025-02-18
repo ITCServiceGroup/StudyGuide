@@ -1,0 +1,64 @@
+<!-- study.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Mode - Service Tech Advanced Quiz</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- Added Favicon -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="quiz-container">
+   <!-- <img src="assets/images/logo.png" alt="Service Tech Logo" id="branding-logo" /> -->
+    <h1 id="quiz-title">Service Tech Advanced Quiz - Study Guide</h1>
+    <p id="quiz-description">
+      This study guide allows you to learn with immediate feedback. Select the number of questions to begin.
+    </p>
+    
+    <div id="question-count-selection">
+      <h2>Select Number of Questions:</h2>
+      <!-- Updated Buttons with Difficulty Labels -->
+      <button data-start="0" data-end="15">
+        Questions 1-15<br><span class="difficulty-label">(Easy)</span>
+      </button>
+      <button data-start="15" data-end="40">
+        Questions 16-40<br><span class="difficulty-label">(Medium)</span>
+      </button>
+      <button data-start="40" data-end="50">
+        Questions 41-50<br><span class="difficulty-label">(Hard)</span>
+      </button>
+    </div>
+    
+    <button id="back-to-menu" onclick="window.location.href='index.html'">Back to Menu</button>
+    
+    <!-- Quiz Content -->
+    <div id="navigation-buttons" style="display: none;">
+      <button id="back-to-questions" onclick="window.location.href='study.html'">Back to Question Selection</button>
+      <button id="quiz-back-to-menu" onclick="window.location.href='index.html'">Back to Menu</button>
+    </div>
+    <div id="quiz-content" style="display: none;">
+      <div id="question-number"></div>
+      <div id="question-type" class="question-type"></div> <!-- Added Question Type -->
+      
+      <!-- Progress Bar with Inline Styles -->
+      <div id="progress-bar-container">
+        <div id="progress-bar"></div>
+      </div>
+      
+      <div id="question-text"></div>
+      <ul id="options-list"></ul>
+      <div id="feedback"></div>
+      <div id="action-buttons">
+        <button id="check-button" style="display: none;">Check</button>
+        <button id="next-button" disabled>Next</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include questions.js -->
+  <script src="questions.js"></script>
+  
+  <!-- Include study.js -->
+  <script src="study.js"></script>
+</body>
+</html>

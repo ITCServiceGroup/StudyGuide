@@ -60,8 +60,10 @@ function getQuestions(start, end) {
 function startQuiz(start, end) {
   document.getElementById('question-count-selection').style.display = 'none';
   document.getElementById('quiz-description').style.display = 'none';
+  document.getElementById('back-to-menu').style.display = 'none';
   document.getElementById('quiz-content').style.display = 'block';
   document.getElementById('progress-bar-container').style.display = 'block';
+  document.getElementById('navigation-buttons').style.display = 'flex';
 
   quizQuestions = getQuestions(start, end);
   currentQuestionIndex = 0;
