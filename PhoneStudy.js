@@ -1,5 +1,5 @@
 /************************************
-  study.js
+  PhoneStudy.js
 ************************************/
 
 let quizQuestions = [];
@@ -201,10 +201,7 @@ function handleOptionClick(question, button) {
 }
 
 function evaluateAnswer(question, selectedIndex) {
-  let isCorrect = false;
-  if (question.type === 'true_false' || question.type === 'multiple_choice') {
-    isCorrect = selectedIndex === question.correctAnswerIndex;
-  }
+  const isCorrect = selectedIndex === question.correctAnswerIndex;
 
   const allButtons = document.querySelectorAll('#options-list .option-button');
   allButtons.forEach((btn) => {
@@ -218,13 +215,18 @@ function evaluateAnswer(question, selectedIndex) {
   });
 
   const feedback = document.getElementById('feedback');
+  const explanationHtml = `<div class="explanation-section">
+    <p class="explanation-title">Explanation:</p>
+    <p class="explanation-text">${question.explanation}</p>
+  </div>`;
+
   if (isCorrect) {
-    feedback.innerHTML = `Correct!<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
+    feedback.innerHTML = `<div class="feedback-correct">Correct!</div>${explanationHtml}`;
     feedback.classList.add('feedback-correct');
     feedback.classList.remove('feedback-incorrect');
     score++;
   } else {
-    feedback.innerHTML = `Incorrect.<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
+    feedback.innerHTML = `<div class="feedback-incorrect">Incorrect.</div>${explanationHtml}`;
     feedback.classList.add('feedback-incorrect');
     feedback.classList.remove('feedback-correct');
   }
@@ -251,15 +253,58 @@ function handleCheckButton() {
   });
 
   const feedback = document.getElementById('feedback');
-  if (isCorrect) {
-    feedback.innerHTML = `Correct!<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
-    feedback.classList.add('feedback-correct');
-    feedback.classList.remove('feedback-incorrect');
-    score++;
+
+  if (question.type === 'check_all_that_apply') {
+    const userAnswersList = selected.map(idx => `<li>${question.options[idx]}</li>`).join('');
+    const correctAnswersList = correct.map(idx => `<li>${question.options[idx]}</li>`).join('');
+
+    const answersHtml = `
+      <div class="answer-columns">
+        <div class="answer-column your-answers">
+          <h4>Your Answer:</h4>
+          <ul class="answer-list">
+            ${userAnswersList || '<li>No answer selected</li>'}
+          </ul>
+        </div>
+        <div class="answer-column correct-answers">
+          <h4>Correct Answer:</h4>
+          <ul class="answer-list">
+            ${correctAnswersList}
+          </ul>
+        </div>
+      </div>
+      <div class="explanation-section">
+        <p class="explanation-title">Explanation:</p>
+        <p class="explanation-text">${question.explanation}</p>
+      </div>
+    `;
+
+    if (isCorrect) {
+      feedback.innerHTML = `<div class="feedback-correct">Correct!</div>${answersHtml}`;
+      feedback.classList.add('feedback-correct');
+      feedback.classList.remove('feedback-incorrect');
+      score++;
+    } else {
+      feedback.innerHTML = `<div class="feedback-incorrect">Incorrect.</div>${answersHtml}`;
+      feedback.classList.add('feedback-incorrect');
+      feedback.classList.remove('feedback-correct');
+    }
   } else {
-    feedback.innerHTML = `Incorrect.<br><br><p class="explanation-title">Explanation:</p><p class="explanation-text">${question.explanation}</p>`;
-    feedback.classList.add('feedback-incorrect');
-    feedback.classList.remove('feedback-correct');
+    const explanationHtml = `<div class="explanation-section">
+      <p class="explanation-title">Explanation:</p>
+      <p class="explanation-text">${question.explanation}</p>
+    </div>`;
+
+    if (isCorrect) {
+      feedback.innerHTML = `<div class="feedback-correct">Correct!</div>${explanationHtml}`;
+      feedback.classList.add('feedback-correct');
+      feedback.classList.remove('feedback-incorrect');
+      score++;
+    } else {
+      feedback.innerHTML = `<div class="feedback-incorrect">Incorrect.</div>${explanationHtml}`;
+      feedback.classList.add('feedback-incorrect');
+      feedback.classList.remove('feedback-correct');
+    }
   }
 
   document.getElementById('check-button').disabled = true;
@@ -329,17 +374,36 @@ function showFinalScore() {
     }
 
     summaryHTML += `
-      <li class="summary-item">
+      <li class="summary-item" data-correct="${isCorrect}">
         <div class="question-block">
           <p class="question-text">Question ${index + 1}: ${answer.question}</p>
           <p class="question-type">Type: ${formatQuestionType(answer.type)}</p>
-          <p class="${isCorrect ? 'correct' : 'incorrect'}">Your Answer: ${userAnswerFormatted}</p>
-          ${
-            !isCorrect
-              ? `<p class="correct">Correct Answer: ${correctAnswerFormatted}</p>`
-              : ''
-          }
-          <p class="explanation">Explanation: ${answer.explanation}</p>
+          <div class="answer-columns">
+            <div class="answer-column your-answers">
+              <h4>Your Answer:</h4>
+              <ul class="answer-list">
+                ${answer.type === 'check_all_that_apply'
+                  ? answer.selected.length === 0 
+                    ? '<li>No answer selected</li>'
+                    : answer.selected.map(idx => `<li>${answer.options[idx]}</li>`).join('')
+                  : `<li>${answer.options[answer.selected] || 'No answer selected'}</li>`
+                }
+              </ul>
+            </div>
+            <div class="answer-column correct-answers">
+              <h4>Correct Answer:</h4>
+              <ul class="answer-list">
+                ${answer.type === 'check_all_that_apply'
+                  ? answer.correct.map(idx => `<li>${answer.options[idx]}</li>`).join('')
+                  : `<li>${answer.options[answer.correct]}</li>`
+                }
+              </ul>
+            </div>
+          </div>
+          <div class="explanation-section">
+            <p class="explanation-title">Explanation:</p>
+            <p class="explanation-text">${answer.explanation}</p>
+          </div>
         </div>
       </li>`;
   });
@@ -348,7 +412,7 @@ function showFinalScore() {
         </ul>
       </div>
     </div>
-    <button id="restart-button">Restart Quiz</button>
+    <button id="restart-button">Restart</button>
   `;
 
   quizContainer.innerHTML = summaryHTML;

@@ -288,19 +288,73 @@ body {
   margin-bottom: 12px; /* Space below question type */
 }
 
-/* Optional: Enhanced Styles for Correct and Incorrect Answers */
+/* Summary Answer Styles */
+#summary .answer-columns {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+#summary .answer-column {
+  width: 48%;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* Color coding for summary view */
+#summary .summary-item[data-correct="true"] .your-answers {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+#summary .summary-item[data-correct="true"] .your-answers h4,
+#summary .summary-item[data-correct="true"] .your-answers li {
+  color: #28a745;
+}
+
+#summary .summary-item[data-correct="false"] .your-answers {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+#summary .summary-item[data-correct="false"] .your-answers h4,
+#summary .summary-item[data-correct="false"] .your-answers li {
+  color: #dc3545;
+}
+
+/* Correct answers column always green */
+#summary .correct-answers {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+#summary .correct-answers h4,
+#summary .correct-answers li {
+  color: #28a745;
+}
+
+/* Other summary styles */
 #summary .correct {
-  color: #28a745; /* Green */
+  color: #28a745;
 }
 
 #summary .incorrect {
-  color: #dc3545; /* Red */
+  color: #dc3545;
 }
 
 #summary .explanation {
   font-style: italic;
   color: #555555;
   margin-top: 8px;
+}
+
+#summary .answer-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 4px 0;
+}
+
+#summary .answer-list li {
+  margin: 2px 0;
+  line-height: 1.4;
+  text-align: left;
 }
 
 .explanation-title {
@@ -312,6 +366,102 @@ body {
 .explanation-text {
   margin: 0;
   text-align: left;
+}
+
+/* Reset all margins and padding first */
+#feedback .answer-columns,
+#feedback .answer-column,
+#feedback .answer-list,
+#feedback .explanation-section,
+#feedback .explanation-title,
+#feedback .explanation-text {
+  margin: 0;
+  padding: 0;
+}
+
+#feedback .answer-columns {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+#feedback .answer-column {
+  width: 48%;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+/* Color handling for correct/incorrect answers */
+#feedback.feedback-correct .your-answers {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+#feedback.feedback-correct .your-answers h4 {
+  color: #28a745;
+}
+
+#feedback.feedback-correct .your-answers li {
+  color: #28a745;
+}
+
+#feedback.feedback-incorrect .your-answers {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+#feedback.feedback-incorrect .your-answers h4 {
+  color: #dc3545;
+}
+
+#feedback.feedback-incorrect .your-answers li {
+  color: #dc3545;
+}
+
+#feedback .correct-answers {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+#feedback .correct-answers h4,
+#feedback .correct-answers li {
+  color: #28a745;
+}
+
+#feedback .answer-column h4 {
+  margin: 0 0 2px 0;
+  font-size: 1.1em;
+  padding: 0 4px;
+}
+
+#feedback .answer-list {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+#feedback .answer-list li {
+  margin: 1px 0;
+  padding: 0;
+  line-height: 1.3;
+  text-align: left;
+}
+
+#feedback .explanation-section {
+  margin-top: 8px;
+  padding: 4px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+#feedback .explanation-title {
+  color: #444;
+  margin-bottom: 2px;
+  font-weight: bold;
+  padding: 0 4px;
+}
+
+#feedback .explanation-text {
+  line-height: 1.4;
+  color: #555;
+  padding: 0 4px;
 }
 
 /* Button Styles in Summary */
@@ -530,7 +680,7 @@ body {
 }
 
 /* Specific icons for each guide */
-.study-guide-tile[href="#"]::after { /* Phone Service */
+.study-guide-tile[href="PhoneStudy.html"]::after { /* Phone Service */
     content: '';
     display: inline-block;
     width: 24px;
@@ -544,7 +694,7 @@ body {
     transition: opacity 0.3s ease;
 }
 
-.study-guide-tile[href='study.html']::after { /* Advanced Service Tech */
+.study-guide-tile[href='AdvServStudy.html']::after { /* Advanced Service Tech */
     content: '';
     display: inline-block;
     width: 28px;
@@ -599,7 +749,7 @@ body {
     transform: translateY(0);
   }
 }
-  .study-guide-tile::after{
-    display: none;
-  }
-/* Removed old separator styles and h2 styles */
+
+.study-guide-tile::after {
+  display: none;
+}
