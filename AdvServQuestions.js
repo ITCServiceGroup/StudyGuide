@@ -2,7 +2,7 @@
 
 // Assign the questionBank to the global window object
 window.questionBank = [
-  // Easy Difficulty (1–15)
+  // (1–15)
   {
     question: "What is a traceroute?",
     type: "multiple_choice",
@@ -172,7 +172,7 @@ window.questionBank = [
     explanation: "A large fish tank can block or weaken WiFi signals. Moving the router away from it and closer to a window improves outdoor signal strength."
   },
   
-  // Intermediate Difficulty (16–35)
+  // (16–35)
   {
     question: "How do you run a traceroute on Mac?",
     type: "check_all_that_apply",
@@ -438,7 +438,7 @@ window.questionBank = [
     explanation: "Firmware updates can resolve known router bugs. WiFi analyzer tools help identify channel congestion or interference. Overheating or proximity to interference (e.g., microwaves) can also disrupt WiFi. Fiber connection issues would affect all devices, not just WiFi."
   },
   {
-    question: "What can the WiFi channel cause problems in a network?",
+    question: "How can the WiFi channel cause problems in a network?",
     type: "multiple_choice",
     options: [
       "Using higher channels always increases security vulnerabilities.",
