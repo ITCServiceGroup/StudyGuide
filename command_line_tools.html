@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command-Line Tools Study Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        h1 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #1976D2;
+            margin-top: 20px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+
+        .command-box {
+            background-color: #263238;
+            color: #fff;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-example {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin: 5px 0;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .os-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .os-tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+
+        .os-tab.active {
+            background-color: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        .terminal {
+            background-color: #1e1e1e;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+
+        .command-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        .command-table th,
+        .command-table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .command-table th {
+            background-color: #f5f5f5;
+        }
+
+        .note {
+            background-color: #fff3e0;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .access-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .access-method {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .shortcut {
+            display: inline-block;
+            padding: 3px 8px;
+            background-color: #e0e0e0;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            margin: 0 2px;
+        }
+
+        .output {
+            color: #4CAF50;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Command-Line Tools Study Guide</h1>
+
+    <div class="section">
+        <h2>1. Accessing Command-Line Interfaces</h2>
+        <p>Different operating systems provide various ways to access their command-line interfaces. Understanding these access methods is crucial for network diagnostics.</p>
+
+        <div class="access-methods">
+            <div class="access-method">
+                <h3>Windows</h3>
+                <ul>
+                    <li>Press <span class="shortcut">Windows + R</span>, type "cmd", press Enter</li>
+                    <li>Search for "Command Prompt" in Start menu</li>
+                    <li>Navigate to C:\Windows\System32 and run cmd.exe</li>
+                </ul>
+            </div>
+
+        <div class="access-method">
+            <h3>macOS</h3>
+            <ul>
+                <li>Open Spotlight (<span class="shortcut">Command + Space</span>), type "Terminal"</li>
+                <li>Find Terminal in Applications > Utilities</li>
+                <li>Use Launchpad to locate Terminal</li>
+                <li>Use Network Utility:
+                    <ul>
+                        <li>Open Spotlight, type "Network Utility"</li>
+                        <li>Find in Applications > Utilities folder</li>
+                        <li>Access comprehensive network tools</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+            <div class="access-method">
+                <h3>Chrome OS</h3>
+                <ul>
+                    <li>Press <span class="shortcut">Ctrl + Alt + T</span> to open Crosh shell</li>
+                    <li>Use Linux Terminal (if enabled)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>Important:</strong> Some commands may require administrator privileges. On Windows, right-click Command Prompt and select "Run as administrator". On macOS/Linux, use "sudo" before commands requiring elevated privileges.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Essential Network Diagnostic Commands</h2>
+        <p>Learn the core commands used for network troubleshooting across different operating systems.</p>
+
+        <div class="os-tabs">
+            <button class="os-tab active" onclick="switchOS('windows')">Windows</button>
+            <button class="os-tab" onclick="switchOS('mac')">Mac</button>
+            <button class="os-tab" onclick="switchOS('chrome')">Chrome OS</button>
+        </div>
+
+        <table class="command-table" id="commandTable">
+            <tr>
+                <th>Operation</th>
+                <th>Windows</th>
+                <th>macOS</th>
+                <th>Chrome OS</th>
+            </tr>
+            <tr>
+                <td>Trace Route</td>
+                <td>tracert</td>
+                <td>traceroute</td>
+                <td>tracepath</td>
+            </tr>
+            <tr>
+                <td>Check Packet Loss</td>
+                <td>ping -n [count]</td>
+                <td>ping -c [count]</td>
+                <td>ping -c [count]</td>
+            </tr>
+            <tr>
+                <td>Find Internal IP</td>
+                <td>ipconfig</td>
+                <td>ipconfig getifaddr en0</td>
+                <td>ip addr show</td>
+            </tr>
+            <tr>
+                <td>Find External IP</td>
+                <td>nslookup myip.opendns.com resolver1.opendns.com</td>
+                <td>curl ifconfig.me</td>
+                <td>Use browser</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>3. Command Usage and Examples</h2>
+
+        <div class="key-point">
+            <h3>Traceroute</h3>
+            <p>Maps the path between your device and a destination:</p>
+            <div class="command-box">
+                Windows: tracert google.com
+                <div class="output">
+                Tracing route to google.com [142.250.xxx.xxx]
+                1    1 ms    1 ms    1 ms  192.168.1.1
+                2    5 ms    5 ms    5 ms  10.0.0.1
+                3   15 ms   14 ms   15 ms  172.16.0.1
+                </div>
+            </div>
+
+            <div class="command-box">
+                macOS (Standard): traceroute google.com
+                <div class="output">
+                traceroute to google.com (142.250.xxx.xxx), 64 hops max
+                1  192.168.1.1  1.234 ms  1.123 ms  1.234 ms
+                2  10.0.0.1  5.678 ms  5.567 ms  5.789 ms
+                3  172.16.0.1  15.123 ms  14.567 ms  15.789 ms
+                </div>
+            </div>
+
+            <div class="command-box">
+                macOS (MTR): sudo mtr -n google.com
+                <div class="output">
+                My traceroute [v0.95]
+                Host                   Loss%   Snt   Last   Avg  Best  Wrst StDev
+                1. 192.168.1.1         0.0%    10    0.5   0.6   0.4   0.8   0.1
+                2. 10.0.0.1            0.0%    10    5.4   5.5   5.3   5.8   0.2
+                3. 172.16.0.1          0.0%    10   15.3  15.4  15.2  15.9   0.3
+                </div>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h3>Packet Loss Testing</h3>
+            <p>Send multiple pings to test connection stability:</p>
+            <div class="command-box">
+                Windows: ping -n 50 8.8.8.8
+                <div class="output">
+                Reply from 8.8.8.8: bytes=32 time=15ms TTL=57
+                Reply from 8.8.8.8: bytes=32 time=14ms TTL=57
+                Packets: Sent = 50, Received = 50, Lost = 0 (0% loss)
+                </div>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h3>Finding IP Addresses on Mac</h3>
+            <p>Different network interfaces require different commands:</p>
+            <div class="command-box">
+                WiFi Connection: ipconfig getifaddr en0
+                <div class="output">
+                192.168.1.100
+                </div>
+            </div>
+
+            <div class="command-box">
+                Ethernet Connection: ipconfig getifaddr en1
+                <div class="output">
+                192.168.1.101
+                </div>
+            </div>
+
+            <div class="command-box">
+                All Network Interfaces: ifconfig
+                <div class="output">
+                en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST>
+                    inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255
+                en1: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST>
+                    inet 192.168.1.101 netmask 0xffffff00 broadcast 192.168.1.255
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>Pro Tip:</strong> Use "ifconfig | grep inet" to filter and only show IP addresses.
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>Pro Tip:</strong> When testing for packet loss, always send at least 50 packets to get a meaningful sample size. This helps identify intermittent issues that might not show up in a standard ping test.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. DNS Cache Management</h2>
+        <p>DNS cache can become corrupted or outdated, leading to connectivity issues. Knowing how to clear the DNS cache is essential for troubleshooting.</p>
+
+        <div class="key-point">
+            <h3>DNS Cache Clearing Commands:</h3>
+            <table class="command-table">
+                <tr>
+                    <th>Operating System</th>
+                    <th>Command</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>Windows</td>
+                    <td>ipconfig /flushdns</td>
+                    <td>Requires admin privileges</td>
+                </tr>
+                <tr>
+                    <td>macOS</td>
+                    <td>sudo killall -HUP mDNSResponder</td>
+                    <td>Password required</td>
+                </tr>
+                <tr>
+                    <td>Chrome OS</td>
+                    <td>Clear browser cache</td>
+                    <td>DNS managed by Chrome</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="note">
+            <strong>When to Clear DNS Cache:</strong>
+            <ul>
+                <li>After DNS server changes</li>
+                <li>When websites don't load correctly</li>
+                <li>After network configuration changes</li>
+                <li>If security issues are suspected</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Interpreting Command Output</h2>
+        <p>Understanding command output is crucial for effective troubleshooting.</p>
+
+        <div class="key-point">
+            <h3>Common Output Patterns:</h3>
+            <ul>
+                <li><strong>Request timed out</strong> - No response received, indicates connection issues</li>
+                <li><strong>Destination host unreachable</strong> - No route to target</li>
+                <li><strong>TTL expired in transit</strong> - Packet took too many hops</li>
+                <li><strong>General failure</strong> - Network adapter issues</li>
+            </ul>
+        </div>
+
+        <div class="command-box">
+            <h3>Ping Results Interpretation:</h3>
+            <pre>
+Pinging 8.8.8.8 with 32 bytes of data:
+Reply from 8.8.8.8: bytes=32 time=15ms TTL=57    ← Good response
+Request timed out.                                ← Connection issue
+Reply from 192.168.1.1: Destination unreachable   ← Routing problem
+General failure.                                  ← Hardware/driver issue</pre>
+        </div>
+
+        <div class="key-point">
+            <h3>Performance Metrics:</h3>
+            <ul>
+                <li><strong>Response Time:</strong> < 50ms is excellent, > 150ms may indicate issues</li>
+                <li><strong>Packet Loss:</strong> < 1% is normal, > 5% indicates problems</li>
+                <li><strong>TTL Values:</strong> Typically 64 or 128, lower values show longer paths</li>
+                <li><strong>Jitter:</strong> Variation in response times, should be minimal</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Best Practices</h2>
+        
+        <div class="key-point">
+            <h3>Command-Line Troubleshooting Guidelines:</h3>
+            <ol>
+                <li>Start with basic connectivity tests (ping)</li>
+                <li>Progress to more detailed tests (traceroute)</li>
+                <li>Document all command outputs</li>
+                <li>Test from multiple locations when possible</li>
+                <li>Use appropriate sample sizes for tests</li>
+            </ol>
+        </div>
+
+        <div class="note">
+            <strong>Documentation Tip:</strong> When documenting command outputs, include:
+            <ul>
+                <li>Date and time of test</li>
+                <li>Complete command used</li>
+                <li>Full output received</li>
+                <li>Network conditions at time of test</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function switchOS(os) {
+            document.querySelectorAll('.os-tab').forEach(tab => {
+                if (tab.textContent.toLowerCase().includes(os)) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // Update command examples based on selected OS
+            const commandBoxes = document.querySelectorAll('.command-box');
+            commandBoxes.forEach(box => {
+                // Update command examples based on OS
+                // This would be expanded in a full implementation
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting Techniques Study Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        h1 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #1976D2;
+            margin-top: 20px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+
+        .checklist {
+            background-color: #e8f5e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #4caf50;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background-color: #ffebee;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f44336;
+            border-radius: 4px;
+        }
+
+        .scenario {
+            background-color: #fff3e0;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+
+        .interactive-element {
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .router-placement {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 15px 0;
+            background-color: #f5f5f5;
+        }
+
+        .router {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: #2196F3;
+            border-radius: 50%;
+            cursor: move;
+        }
+
+        .obstacle {
+            position: absolute;
+            background-color: #795548;
+            cursor: pointer;
+        }
+
+        .signal-strength {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .flowchart {
+            width: 100%;
+            max-width: 800px;
+            margin: 15px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .decision-node {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #2196F3;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .decision-node:hover {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <h1>Troubleshooting Techniques Study Guide</h1>
+
+    <div class="section">
+        <h2>1. Systematic Troubleshooting Approach</h2>
+        <p>Effective troubleshooting requires a methodical approach to identify and resolve network issues efficiently.</p>
+
+        <div class="key-point">
+            <h3>Key Steps in Network Troubleshooting:</h3>
+            <ol>
+                <li>Identify and document the problem
+                    <ul>
+                        <li>Gather specific symptoms</li>
+                        <li>Determine when the issue started</li>
+                        <li>Identify affected devices/services</li>
+                    </ul>
+                </li>
+                <li>Establish a theory of probable cause
+                    <ul>
+                        <li>Question users</li>
+                        <li>Identify recent changes</li>
+                        <li>Document your theory</li>
+                    </ul>
+                </li>
+                <li>Test the theory
+                    <ul>
+                        <li>Perform specific tests</li>
+                        <li>Observe results</li>
+                        <li>Determine if issue is resolved</li>
+                    </ul>
+                </li>
+                <li>Create action plan and implement solution
+                    <ul>
+                        <li>Develop solution steps</li>
+                        <li>Back up if necessary</li>
+                        <li>Document changes</li>
+                    </ul>
+                </li>
+                <li>Verify system functionality
+                    <ul>
+                        <li>Test full functionality</li>
+                        <li>Monitor for issue recurrence</li>
+                        <li>Document resolution</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="interactive-element">
+            <h3>Interactive Troubleshooting Flowchart</h3>
+            <div class="flowchart" id="troubleshootingFlow">
+                <!-- Flowchart nodes will be added by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Router Placement and Signal Optimization</h2>
+        <p>Proper router placement is crucial for optimal WiFi coverage and performance.</p>
+
+        <div class="key-point">
+            <h3>Router Placement Guidelines:</h3>
+            <ul>
+                <li>Central location in the coverage area</li>
+                <li>Elevated position (off the floor)</li>
+                <li>Away from metal objects and appliances</li>
+                <li>Away from thick walls and obstacles</li>
+                <li>Away from water features (fish tanks, etc.)</li>
+            </ul>
+        </div>
+
+        <div class="scenario">
+            <strong>Common Scenario:</strong> A customer complains about weak WiFi in their backyard despite having good signal in the living room. The router is placed near a large fish tank. Solution: Move the router away from the fish tank and closer to a window facing the backyard.
+        </div>
+
+        <div class="interactive-element">
+            <h3>Router Placement Simulator</h3>
+            <div class="router-placement" id="routerPlacement">
+                <div id="router" class="router" draggable="true"></div>
+                <canvas id="signalStrength" class="signal-strength"></canvas>
+            </div>
+            <button onclick="addObstacle()">Add Obstacle</button>
+            <button onclick="clearObstacles()">Clear Obstacles</button>
+            <p id="placementAdvice">Drag the router to test different positions. Add obstacles to simulate walls or large objects.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Common Network Issues and Solutions</h2>
+        
+        <table>
+            <tr>
+                <th>Issue</th>
+                <th>Common Causes</th>
+                <th>Troubleshooting Steps</th>
+                <th>Prevention</th>
+            </tr>
+            <tr>
+                <td>No Internet Connection</td>
+                <td>
+                    <ul>
+                        <li>Physical connection issues</li>
+                        <li>Router/modem problems</li>
+                        <li>ISP outage</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li>Check physical connections</li>
+                        <li>Verify power to devices</li>
+                        <li>Reset router/modem</li>
+                        <li>Contact ISP</li>
+                    </ol>
+                </td>
+                <td>
+                    <ul>
+                        <li>Regular maintenance</li>
+                        <li>Secure connections</li>
+                        <li>UPS backup</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Slow Connection</td>
+                <td>
+                    <ul>
+                        <li>Network congestion</li>
+                        <li>WiFi interference</li>
+                        <li>Hardware limitations</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li>Run speed tests</li>
+                        <li>Check for interference</li>
+                        <li>Monitor network usage</li>
+                        <li>Update firmware</li>
+                    </ol>
+                </td>
+                <td>
+                    <ul>
+                        <li>Regular speed tests</li>
+                        <li>Channel optimization</li>
+                        <li>Traffic management</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>Intermittent Connection</td>
+                <td>
+                    <ul>
+                        <li>Signal interference</li>
+                        <li>Loose connections</li>
+                        <li>Environmental factors</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li>Check connections</li>
+                        <li>Monitor signal strength</li>
+                        <li>Identify interference</li>
+                        <li>Test different channels</li>
+                    </ol>
+                </td>
+                <td>
+                    <ul>
+                        <li>Secure connections</li>
+                        <li>Regular signal checks</li>
+                        <li>Environmental controls</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <div class="warning">
+            <strong>Important:</strong> Always verify basic connectivity (power, physical connections) before moving to more complex troubleshooting steps.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. WiFi Interference Management</h2>
+        <p>Understanding and managing various sources of WiFi interference is crucial for maintaining optimal network performance.</p>
+
+        <div class="key-point">
+            <h3>Common Interference Sources:</h3>
+            <table>
+                <tr>
+                    <th>Source</th>
+                    <th>Impact</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>Microwave Ovens</td>
+                    <td>Temporary disruption of 2.4 GHz signals</td>
+                    <td>Use 5 GHz band, relocate router</td>
+                </tr>
+                <tr>
+                    <td>Bluetooth Devices</td>
+                    <td>2.4 GHz interference</td>
+                    <td>Switch to 5 GHz, maintain distance</td>
+                </tr>
+                <tr>
+                    <td>Baby Monitors</td>
+                    <td>Continuous signal interference</td>
+                    <td>Change channels, use different frequency</td>
+                </tr>
+                <tr>
+                    <td>Cordless Phones</td>
+                    <td>Periodic signal disruption</td>
+                    <td>Use DECT phones, separate frequencies</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="scenario">
+            <strong>Common Scenario:</strong> A customer's smart home devices (lights, plugs) disconnect when the microwave runs. Solution: These devices typically use 2.4 GHz WiFi, which is susceptible to microwave interference. Either relocate the devices to use a closer access point or switch to ZigBee/Z-Wave protocols for smart home devices.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Smart Home Device Troubleshooting</h2>
+        <p>Smart home devices present unique networking challenges due to their specific requirements and limitations.</p>
+
+        <div class="key-point">
+            <h3>Common Smart Device Issues:</h3>
+            <ul>
+                <li>Frequent disconnections</li>
+                <li>Slow response times</li>
+                <li>Device conflicts</li>
+                <li>Range limitations</li>
+                <li>Protocol incompatibilities</li>
+            </ul>
+        </div>
+
+        <div class="checklist">
+            <h3>Smart Device Best Practices:</h3>
+            <ul>
+                <li>Network Setup
+                    <ul>
+                        <li>Dedicated 2.4 GHz network for IoT devices</li>
+                        <li>Strong, consistent signal coverage</li>
+                        <li>Proper channel selection</li>
+                        <li>Regular firmware updates</li>
+                    </ul>
+                </li>
+                <li>Device Placement
+                    <ul>
+                        <li>Within optimal range</li>
+                        <li>Away from interference sources</li>
+                        <li>Clear line of sight when possible</li>
+                        <li>Consider mesh network for better coverage</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>Important:</strong> Many smart home devices only support 2.4 GHz WiFi. Ensure this band is properly configured and has good coverage throughout the home.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Real-World Troubleshooting Scenarios</h2>
+        <p>Understanding how to approach and solve common customer issues is crucial for effective troubleshooting.</p>
+
+        <div class="scenario">
+            <h3>Scenario 1: Intermittent WiFi Disconnections</h3>
+            <div class="key-point">
+                <strong>Customer Complaint:</strong> "My WiFi keeps dropping every few hours, especially in the evening."
+                <hr>
+                <h4>Solution Steps:</h4>
+                <ol>
+                    <li>Initial Investigation
+                        <ul>
+                            <li>Document time patterns of disconnections</li>
+                            <li>Check for patterns with other device usage</li>
+                            <li>Verify router firmware version</li>
+                        </ul>
+                    </li>
+                    <li>Analysis
+                        <ul>
+                            <li>Review WiFi channel congestion</li>
+                            <li>Check for interfering devices</li>
+                            <li>Monitor router temperature</li>
+                        </ul>
+                    </li>
+                    <li>Resolution
+                        <ul>
+                            <li>Change WiFi channel</li>
+                            <li>Update router firmware</li>
+                            <li>Adjust device placement</li>
+                        </ul>
+                    </li>
+                    <li>Prevention
+                        <ul>
+                            <li>Schedule automatic channel scanning</li>
+                            <li>Set up monitoring alerts</li>
+                            <li>Document optimal configuration</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <h3>Scenario 2: Slow Internet After Equipment Upgrade</h3>
+            <div class="key-point">
+                <strong>Customer Complaint:</strong> "Internet speed dropped significantly after installing a new router."
+                <hr>
+                <h4>Solution Steps:</h4>
+                <ol>
+                    <li>Initial Verification
+                        <ul>
+                            <li>Run speed tests at multiple points</li>
+                            <li>Check router settings</li>
+                            <li>Verify physical connections</li>
+                        </ul>
+                    </li>
+                    <li>Configuration Check
+                        <ul>
+                            <li>Confirm correct VLAN settings</li>
+                            <li>Verify QoS configuration</li>
+                            <li>Check DNS settings</li>
+                        </ul>
+                    </li>
+                    <li>Resolution
+                        <ul>
+                            <li>Reset router to factory defaults</li>
+                            <li>Configure optimal settings</li>
+                            <li>Test with different devices</li>
+                        </ul>
+                    </li>
+                    <li>Follow-up
+                        <ul>
+                            <li>Document working configuration</li>
+                            <li>Schedule check-in with customer</li>
+                            <li>Create backup of settings</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="scenario">
+            <h3>Scenario 3: Smart Home Device Connectivity</h3>
+            <div class="key-point">
+                <strong>Customer Complaint:</strong> "Smart devices keep going offline and need frequent resets."
+                <hr>
+                <h4>Solution Steps:</h4>
+                <ol>
+                    <li>Environment Assessment
+                        <ul>
+                            <li>Map device locations</li>
+                            <li>Check signal strength</li>
+                            <li>Identify interference sources</li>
+                        </ul>
+                    </li>
+                    <li>Network Analysis
+                        <ul>
+                            <li>Verify 2.4GHz network availability</li>
+                            <li>Check DHCP settings</li>
+                            <li>Monitor network traffic</li>
+                        </ul>
+                    </li>
+                    <li>Implementation
+                        <ul>
+                            <li>Adjust device placement</li>
+                            <li>Configure dedicated IoT network</li>
+                            <li>Optimize channel settings</li>
+                        </ul>
+                    </li>
+                    <li>Long-term Solution
+                        <ul>
+                            <li>Install mesh network system</li>
+                            <li>Set up monitoring tools</li>
+                            <li>Create maintenance schedule</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="tip">
+            <h3>Scenario Documentation Best Practices:</h3>
+            <ul>
+                <li>Record initial symptoms and customer description</li>
+                <li>Document all troubleshooting steps taken</li>
+                <li>Note any temporary workarounds implemented</li>
+                <li>Track resolution time and effectiveness</li>
+                <li>Create knowledge base entry for similar issues</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. Environmental Factors</h2>
+        <p>Environmental conditions can significantly impact network performance and reliability.</p>
+
+        <div class="checklist">
+            <h3>Environmental Considerations:</h3>
+            <ul>
+                <li>Temperature
+                    <ul>
+                        <li>Equipment operating range</li>
+                        <li>Ventilation requirements</li>
+                        <li>Heat dissipation</li>
+                    </ul>
+                </li>
+                <li>Moisture
+                    <ul>
+                        <li>Water ingress prevention</li>
+                        <li>Condensation control</li>
+                        <li>Weather sealing</li>
+                    </ul>
+                </li>
+                <li>Electromagnetic Interference
+                    <ul>
+                        <li>Source identification</li>
+                        <li>Shielding requirements</li>
+                        <li>Equipment placement</li>
+                    </ul>
+                </li>
+                <li>Physical Protection
+                    <ul>
+                        <li>Cable management</li>
+                        <li>Equipment security</li>
+                        <li>Access control</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="scenario">
+            <strong>Weather Impact Scenario:</strong> A customer reports intermittent internet drops during rainstorms, but the ONT's optical light remains green. This could indicate water ingress in the NIU or corrosion in Ethernet connections, requiring inspection and weatherproofing.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Construction Material Impact</h2>
+        <p>Different building materials can significantly affect WiFi signal strength and coverage.</p>
+
+        <div class="key-point">
+            <h3>Material Impact Chart:</h3>
+            <table>
+                <tr>
+                    <th>Material</th>
+                    <th>Signal Impact</th>
+                    <th>Mitigation Strategy</th>
+                </tr>
+                <tr>
+                    <td>Drywall/Wood</td>
+                    <td>Low impact</td>
+                    <td>Standard placement usually sufficient</td>
+                </tr>
+                <tr>
+                    <td>Glass</td>
+                    <td>Moderate impact</td>
+                    <td>Consider signal reflection patterns</td>
+                </tr>
+                <tr>
+                    <td>Metal/Concrete</td>
+                    <td>High impact</td>
+                    <td>Additional access points or mesh system</td>
+                </tr>
+                <tr>
+                    <td>Metal Mesh/Foil</td>
+                    <td>Severe impact</td>
+                    <td>Strategic AP placement, multiple units</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="tip">
+            <h3>Signal Optimization Tips:</h3>
+            <ul>
+                <li>Map dead zones in relation to building materials</li>
+                <li>Use WiFi analyzers to measure actual signal penetration</li>
+                <li>Consider external antennas for better coverage</li>
+                <li>Plan AP placement around major obstacles</li>
+                <li>Document successful configurations for similar environments</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>9. Advanced Smart Device Troubleshooting</h2>
+        <p>Complex smart home setups require specialized troubleshooting approaches.</p>
+
+        <div class="key-point">
+            <h3>Device-Specific Solutions:</h3>
+            <table>
+                <tr>
+                    <th>Device Type</th>
+                    <th>Common Issues</th>
+                    <th>Resolution</th>
+                </tr>
+                <tr>
+                    <td>Smart Plugs</td>
+                    <td>2.4 GHz interference</td>
+                    <td>Dedicated IoT network, channel adjustment</td>
+                </tr>
+                <tr>
+                    <td>Security Cameras</td>
+                    <td>Bandwidth congestion</td>
+                    <td>QoS settings, mesh node placement</td>
+                </tr>
+                <tr>
+                    <td>Smart Speakers</td>
+                    <td>Intermittent response</td>
+                    <td>WiFi channel optimization, position adjustment</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>Critical Considerations:</h3>
+            <ul>
+                <li>Network segmentation for security</li>
+                <li>Bandwidth allocation per device type</li>
+                <li>Protocol compatibility checks</li>
+                <li>Update management strategy</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Router Placement Simulator
+        const routerPlacement = document.getElementById("routerPlacement");
+        const router = document.getElementById("router");
+        const signalStrength = document.getElementById("signalStrength");
+        const signalCtx = signalStrength.getContext("2d");
+        
+        signalStrength.width = routerPlacement.offsetWidth;
+        signalStrength.height = routerPlacement.offsetHeight;
+
+        let obstacles = [];
+
+        router.addEventListener("dragstart", e => {
+            e.dataTransfer.setData("text/plain", "router");
+        });
+
+        routerPlacement.addEventListener("dragover", e => {
+            e.preventDefault();
+        });
+
+        routerPlacement.addEventListener("drop", e => {
+            e.preventDefault();
+            const rect = routerPlacement.getBoundingClientRect();
+            router.style.left = (e.clientX - rect.left - 15) + "px";
+            router.style.top = (e.clientY - rect.top - 15) + "px";
+            updateSignalStrength();
+        });
+
+        function addObstacle() {
+            const obstacle = document.createElement("div");
+            obstacle.className = "obstacle";
+            obstacle.style.width = "100px";
+            obstacle.style.height = "50px";
+            obstacle.style.left = Math.random() * (routerPlacement.offsetWidth - 100) + "px";
+            obstacle.style.top = Math.random() * (routerPlacement.offsetHeight - 50) + "px";
+            routerPlacement.appendChild(obstacle);
+            obstacles.push(obstacle);
+            updateSignalStrength();
+        }
+
+        function clearObstacles() {
+            obstacles.forEach(obstacle => obstacle.remove());
+            obstacles = [];
+            updateSignalStrength();
+        }
+
+        function updateSignalStrength() {
+            signalCtx.clearRect(0, 0, signalStrength.width, signalStrength.height);
+            
+            const routerX = parseInt(router.style.left) + 15;
+            const routerY = parseInt(router.style.top) + 15;
+            
+            const gradient = signalCtx.createRadialGradient(
+                routerX, routerY, 0,
+                routerX, routerY, 300
+            );
+            
+            gradient.addColorStop(0, "rgba(33, 150, 243, 0.5)");
+            gradient.addColorStop(1, "rgba(33, 150, 243, 0)");
+            
+            signalCtx.fillStyle = gradient;
+            signalCtx.fillRect(0, 0, signalStrength.width, signalStrength.height);
+        }
+
+        // Troubleshooting Flowchart
+        const flowchart = document.getElementById("troubleshootingFlow");
+        const steps = [
+            {
+                question: "Is there a connection problem?",
+                options: ["Yes", "No"],
+                next: {
+                    "Yes": "Check Physical Connections",
+                    "No": "Check Performance Issues"
+                }
+            },
+            {
+                question: "Check Physical Connections",
+                options: ["Connected", "Disconnected"],
+                next: {
+                    "Connected": "Test Network Connection",
+                    "Disconnected": "Fix Physical Connection"
+                }
+            },
+            {
+                question: "Test Network Connection",
+                options: ["Working", "Not Working"],
+                next: {
+                    "Working": "Monitor Performance",
+                    "Not Working": "Contact ISP"
+                }
+            }
+        ];
+
+        let currentStep = steps[0];
+        updateFlowchart();
+
+        function updateFlowchart() {
+            flowchart.innerHTML = `
+                <div class="decision-node">
+                    <h4>${currentStep.question}</h4>
+                    ${currentStep.options.map(opt => 
+                        `<button onclick="selectOption('${opt}')">${opt}</button>`
+                    ).join('')}
+                </div>
+            `;
+        }
+
+        function selectOption(option) {
+            const nextStep = steps.find(s => s.question === currentStep.next[option]);
+            if (nextStep) {
+                currentStep = nextStep;
+                updateFlowchart();
+            }
+        }
+
+        // Initialize
+        updateSignalStrength();
+    </script>
+</body>
+</html>

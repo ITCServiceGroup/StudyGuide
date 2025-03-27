@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Topics Study Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        h1 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+        }
+
+        h2 {
+            color: #1976D2;
+            margin-top: 20px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #2196F3;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background-color: #ffebee;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #f44336;
+            border-radius: 4px;
+        }
+
+        .technical-note {
+            background-color: #f3e5f5;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #9c27b0;
+            border-radius: 4px;
+        }
+
+        .interactive-element {
+            background-color: #fff;
+            padding: 20px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f5f5f5;
+        }
+
+        .diagram {
+            max-width: 100%;
+            margin: 15px auto;
+            display: block;
+        }
+
+        .msap-cache {
+            width: 100%;
+            max-width: 600px;
+            margin: 15px auto;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .device-slot {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .device-slot.occupied {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .scenario {
+            background-color: #fff3e0;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #ff9800;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Topics Study Guide</h1>
+
+    <div class="section">
+        <h2>1. Power over Ethernet (PoE)</h2>
+        <p>Power over Ethernet technology allows network cables to carry electrical power to devices, eliminating the need for separate power supplies.</p>
+
+        <div class="key-point">
+            <h3>PoE Standards:</h3>
+            <table>
+                <tr>
+                    <th>Standard</th>
+                    <th>Power Output</th>
+                    <th>Wire Pairs Used</th>
+                    <th>Common Applications</th>
+                </tr>
+                <tr>
+                    <td>802.3af (Type 1)</td>
+                    <td>Up to 15.4W</td>
+                    <td>2 pairs (4-5, 7-8)</td>
+                    <td>IP phones, basic cameras</td>
+                </tr>
+                <tr>
+                    <td>802.3at (Type 2)</td>
+                    <td>Up to 30W</td>
+                    <td>2 pairs (4-5, 7-8)</td>
+                    <td>PTZ cameras, wireless APs</td>
+                </tr>
+                <tr>
+                    <td>802.3bt (Type 3/4)</td>
+                    <td>Up to 90W/100W</td>
+                    <td>All 4 pairs</td>
+                    <td>Digital displays, laptops</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="technical-note">
+            <h3>Wire Pair Configuration:</h3>
+            <table>
+                <tr>
+                    <th>Pin Pairs</th>
+                    <th>Traditional Role</th>
+                    <th>PoE Function</th>
+                    <th>Wire Colors (T568B)</th>
+                </tr>
+                <tr>
+                    <td>1-2</td>
+                    <td>Data Transmit</td>
+                    <td>Data + Power (802.3bt)</td>
+                    <td>Orange/White-Orange</td>
+                </tr>
+                <tr>
+                    <td>3-6</td>
+                    <td>Data Receive</td>
+                    <td>Data + Power (802.3bt)</td>
+                    <td>Green/White-Green</td>
+                </tr>
+                <tr>
+                    <td>4-5</td>
+                    <td>Unused</td>
+                    <td>Primary Power</td>
+                    <td>Blue/White-Blue</td>
+                </tr>
+                <tr>
+                    <td>7-8</td>
+                    <td>Unused</td>
+                    <td>Primary Power</td>
+                    <td>Brown/White-Brown</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>Critical PoE Safety Considerations:</h3>
+            <ul>
+                <li>Always use CAT5e or better cable for PoE applications</li>
+                <li>Check cable quality and termination to prevent shorts</li>
+                <li>Ensure proper cooling for high-power PoE devices</li>
+                <li>Never modify active PoE connections</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>PoE Operation:</h3>
+            <ol>
+                <li>Detection
+                    <ul>
+                        <li>PSE applies low voltage to detect PoE devices</li>
+                        <li>Prevents power delivery to non-PoE devices</li>
+                        <li>Identifies device power class</li>
+                    </ul>
+                </li>
+                <li>Classification
+                    <ul>
+                        <li>Device communicates power requirements</li>
+                        <li>PSE confirms available power budget</li>
+                        <li>Negotiates optimal power delivery</li>
+                    </ul>
+                </li>
+                <li>Power Delivery
+                    <ul>
+                        <li>48V DC nominal voltage</li>
+                        <li>Current limited for safety</li>
+                        <li>Continuous monitoring for faults</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <canvas id="poeWiring" class="diagram" width="600" height="300"></canvas>
+    </div>
+
+    <div class="section">
+        <h2>2. MSAP Cache Management</h2>
+        <p>The Multi Service Access Platform (MSAP) manages device connections on Optical Network Terminals (ONT). Understanding MSAP cache behavior is crucial for troubleshooting connectivity issues.</p>
+
+        <div class="key-point">
+            <h3>MSAP Fundamentals:</h3>
+            <ul>
+                <li>Limited to two devices simultaneously</li>
+                <li>Stores device serial numbers in cache</li>
+                <li>Must be cleared when adding new devices</li>
+                <li>Affects provisioning and connectivity</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>Cache Size and Limitations:</h3>
+            <ul>
+                <li>Maximum of 2 MAC addresses per ONT</li>
+                <li>48-hour retention period</li>
+                <li>Binary storage format</li>
+                <li>No automatic clearing</li>
+                <li>Manual intervention required for changes</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>MSAP Cache Clearing Procedures:</h3>
+            <ol>
+                <li>Pre-clearing Steps:
+                    <ul>
+                        <li>Document connected devices</li>
+                        <li>Verify customer equipment</li>
+                        <li>Check current cache status</li>
+                    </ul>
+                </li>
+                <li>Clearing Process:
+                    <ul>
+                        <li>Access ONT management interface</li>
+                        <li>Navigate to MSAP settings</li>
+                        <li>Execute clear command</li>
+                        <li>Wait for confirmation</li>
+                    </ul>
+                </li>
+                <li>Post-clearing Steps:
+                    <ul>
+                        <li>Verify cache is empty</li>
+                        <li>Reconnect primary device</li>
+                        <li>Test connectivity</li>
+                        <li>Add secondary device if needed</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <h3>Common MSAP Issues:</h3>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>Symptoms</th>
+                    <th>Resolution</th>
+                </tr>
+                <tr>
+                    <td>Cache Corruption</td>
+                    <td>Intermittent connectivity, device recognition problems</td>
+                    <td>Full cache clear and ONT reboot</td>
+                </tr>
+                <tr>
+                    <td>Duplicate Entries</td>
+                    <td>New devices can't connect, existing devices show errors</td>
+                    <td>Clear cache and reconnect devices in sequence</td>
+                </tr>
+                <tr>
+                    <td>Stale Cache</td>
+                    <td>Old devices still listed, new devices rejected</td>
+                    <td>Manual cache clearing required</td>
+                </tr>
+                <tr>
+                    <td>Cache Lock</td>
+                    <td>Unable to modify cache, devices stuck</td>
+                    <td>ONT power cycle and cache reset</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="scenario">
+            <strong>Common Issue:</strong> Customer cannot connect a new router after replacing old equipment. The MSAP cache still contains the old device's serial number, preventing the new device from connecting. Solution: Clear the MSAP cache to allow new device provisioning.
+        </div>
+
+        <div class="tip">
+            <h3>Best Practices:</h3>
+            <ul>
+                <li>Always clear cache when replacing customer equipment</li>
+                <li>Document MAC addresses before clearing cache</li>
+                <li>Verify proper device registration after clearing</li>
+                <li>Monitor for reoccurrence of cache issues</li>
+                <li>Schedule regular cache maintenance</li>
+            </ul>
+        </div>
+
+        <div class="interactive-element">
+            <div class="msap-cache" id="msapCache">
+                <div class="device-slot" id="slot1">Slot 1: Empty</div>
+                <div class="device-slot" id="slot2">Slot 2: Empty</div>
+            </div>
+            <button onclick="addDevice()">Add Device</button>
+            <button onclick="clearMSAP()">Clear MSAP Cache</button>
+            <p id="msapStatus">MSAP cache can handle two devices simultaneously.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. DNS Configuration and Troubleshooting</h2>
+        <p>DNS (Domain Name System) issues can cause connectivity problems even when physical connections are working properly.</p>
+
+        <div class="key-point">
+            <h3>Common DNS Issues:</h3>
+            <ul>
+                <li>Incorrect DNS server settings</li>
+                <li>DNS cache corruption</li>
+                <li>Slow DNS resolution</li>
+                <li>Domain resolution failures</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>DNS Troubleshooting Steps:</h3>
+            <ol>
+                <li>Verify current DNS settings
+                    <ul>
+                        <li>Check for manual vs. automatic configuration</li>
+                        <li>Compare against ISP-provided servers</li>
+                    </ul>
+                </li>
+                <li>Test DNS resolution
+                    <ul>
+                        <li>Use nslookup or dig commands</li>
+                        <li>Try multiple domains</li>
+                    </ul>
+                </li>
+                <li>Clear DNS cache
+                    <ul>
+                        <li>Windows: ipconfig /flushdns</li>
+                        <li>Mac: sudo killall -HUP mDNSResponder</li>
+                    </ul>
+                </li>
+                <li>Consider alternative DNS servers
+                    <ul>
+                        <li>Google DNS: 8.8.8.8, 8.8.4.4</li>
+                        <li>Cloudflare: 1.1.1.1</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. WiFi Extension Methods</h2>
+        <p>Understanding the differences between traditional WiFi extenders and mesh systems is crucial for recommending the best solution for each situation.</p>
+
+        <div class="key-point">
+            <h3>Comparison: Mesh WiFi vs Traditional Extenders</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Mesh WiFi Systems</th>
+                    <th>Traditional Extenders</th>
+                </tr>
+                <tr>
+                    <td>Network Name (SSID)</td>
+                    <td>Single unified SSID</td>
+                    <td>Separate SSIDs with "_EXT" suffix</td>
+                </tr>
+                <tr>
+                    <td>Handoff</td>
+                    <td>Seamless device transition</td>
+                    <td>Manual network switching</td>
+                </tr>
+                <tr>
+                    <td>Backhaul</td>
+                    <td>Dedicated radio for inter-node communication</td>
+                    <td>Shared bandwidth with clients</td>
+                </tr>
+                <tr>
+                    <td>Management</td>
+                    <td>Centralized app control</td>
+                    <td>Individual device configuration</td>
+                </tr>
+                <tr>
+                    <td>Performance</td>
+                    <td>Consistent throughout coverage area</td>
+                    <td>Degrades with each hop</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="scenario">
+            <strong>Recommendation Scenario:</strong> For a large home with multiple dead zones, recommend a mesh system over extenders. While initially more expensive, mesh systems provide better coverage, easier management, and consistent performance throughout the home.
+        </div>
+
+        <div class="technical-note">
+            <h3>Mesh System Advantages:</h3>
+            <ul>
+                <li>Intelligent path selection between nodes</li>
+                <li>Automatic channel optimization</li>
+                <li>Self-healing network capabilities</li>
+                <li>Easy expansion with additional nodes</li>
+                <li>Unified security settings</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>5. Environmental Impact Factors</h2>
+        <p>Advanced troubleshooting requires understanding how environmental factors affect network performance.</p>
+
+        <div class="key-point">
+            <h3>Critical Environmental Factors:</h3>
+            <table>
+                <tr>
+                    <th>Factor</th>
+                    <th>Impact</th>
+                    <th>Mitigation</th>
+                </tr>
+                <tr>
+                    <td>Water Ingress</td>
+                    <td>Signal degradation, corrosion</td>
+                    <td>Proper sealing, regular inspection</td>
+                </tr>
+                <tr>
+                    <td>Temperature Extremes</td>
+                    <td>Equipment failure, performance issues</td>
+                    <td>Climate control, ventilation</td>
+                </tr>
+                <tr>
+                    <td>EMI Sources</td>
+                    <td>Signal interference</td>
+                    <td>Shielding, proper spacing</td>
+                </tr>
+                <tr>
+                    <td>Physical Strain</td>
+                    <td>Cable damage, connection issues</td>
+                    <td>Proper support, strain relief</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <strong>Important:</strong> Weather-related issues may not show immediate symptoms. Regular preventive maintenance is crucial for long-term reliability.
+        </div>
+    </div>
+
+    <script>
+        // PoE Wiring Diagram
+        const canvas = document.getElementById("poeWiring");
+        const ctx = canvas.getContext("2d");
+
+        function drawPoEDiagram() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw RJ45 connector outline
+            ctx.strokeRect(50, 50, 200, 200);
+            
+            // Draw wire pairs
+            const pairs = [
+                { pins: [4, 5], active: true, color: "#4CAF50" },
+                { pins: [7, 8], active: true, color: "#4CAF50" },
+                { pins: [1, 2], active: false, color: "#2196F3" },
+                { pins: [3, 6], active: false, color: "#2196F3" }
+            ];
+
+            pairs.forEach(pair => {
+                ctx.beginPath();
+                pair.pins.forEach(pin => {
+                    ctx.arc(100, 70 + pin * 20, 5, 0, Math.PI * 2);
+                });
+                ctx.fillStyle = pair.color;
+                ctx.fill();
+            });
+
+            // Add labels
+            ctx.fillStyle = "black";
+            ctx.font = "12px Arial";
+            ctx.fillText("Power Pairs", 260, 100);
+            ctx.fillText("Data Pairs", 260, 150);
+        }
+
+        // MSAP Cache Simulation
+        let devices = [];
+
+        function addDevice() {
+            if (devices.length >= 2) {
+                document.getElementById("msapStatus").textContent = 
+                    "MSAP cache full. Clear cache to add more devices.";
+                return;
+            }
+            
+            const deviceId = Date.now();
+            devices.push(deviceId);
+            const slot = document.getElementById(`slot${devices.length}`);
+            slot.textContent = `Slot ${devices.length}: Device ${deviceId}`;
+            slot.classList.add("occupied");
+            
+            updateMsapStatus();
+        }
+
+        function clearMSAP() {
+            devices = [];
+            document.querySelectorAll('.device-slot').forEach(slot => {
+                slot.textContent = slot.id.replace('slot', 'Slot ') + ': Empty';
+                slot.classList.remove("occupied");
+            });
+            document.getElementById("msapStatus").textContent = 
+                "MSAP cache cleared. Ready for new devices.";
+        }
+
+        function updateMsapStatus() {
+            document.getElementById("msapStatus").textContent = 
+                `MSAP cache has ${devices.length}/2 slots occupied.`;
+        }
+
+        // Initialize
+        drawPoEDiagram();
+    </script>
+</body>
+</html>

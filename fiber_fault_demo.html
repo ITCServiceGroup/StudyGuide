@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiber Fault Detection Simulator Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .simulator-container {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .fault-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .fault-info {
+            background-color: #f5f5f5;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border-left: 4px solid #2196F3;
+        }
+
+        .fault-severity {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+
+        .severity-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .low { background-color: #4CAF50; }
+        .medium { background-color: #FF9800; }
+        .high { background-color: #F44336; }
+
+        .troubleshooting-steps {
+            background-color: #e8f5e9;
+            padding: 15px;
+            margin: 15px 0;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fiber Fault Detection Simulator</h1>
+    
+    <div class="simulator-container">
+        <p>This simulator demonstrates various types of faults that can occur in fiber optic networks. Select a fault type to see its visualization and learn about troubleshooting steps.</p>
+        
+        <div class="fault-controls">
+            <button onclick="simulator.showFault('break')">Fiber Break</button>
+            <button onclick="simulator.showFault('macrobend')">Macrobend</button>
+            <button onclick="simulator.showFault('microbend')">Microbend</button>
+            <button onclick="simulator.showFault('connector')">Bad Connector</button>
+            <button onclick="simulator.showFault('splice')">Poor Splice</button>
+            <button onclick="simulator.showFault('contamination')">Contamination</button>
+            <button onclick="simulator.showFault('stress')">Stress Point</button>
+            <button onclick="simulator.showFault('ghosting')">Ghost Reflection</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            <canvas id="fault-detector" width="600" height="300"></canvas>
+            <canvas id="otdr-trace" width="600" height="150"></canvas>
+        </div>
+
+        <div class="fault-info">
+            <h3 id="fault-title">Select a fault type above</h3>
+            <p id="fault-description">Click one of the buttons above to simulate different types of fiber optic faults.</p>
+            
+            <div class="fault-severity">
+                <div class="severity-indicator" id="severity-indicator"></div>
+                <span id="severity-text">Severity: N/A</span>
+            </div>
+            
+            <div class="troubleshooting-steps" id="troubleshooting-steps" style="display: none;">
+                <h4>Troubleshooting Steps:</h4>
+                <ol id="troubleshooting-list"></ol>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the simulator code -->
+    <script src="fiber_fault_simulator.js"></script>
+    <script>
+        // Initialize the simulator when the page loads
+        let simulator;
+        window.addEventListener('load', () => {
+            try {
+                simulator = new FiberFaultSimulator('fault-detector', 'otdr-trace');
+                
+                // Update the UI when a fault is shown
+                const showFaultOriginal = simulator.showFault.bind(simulator);
+                simulator.showFault = (faultType) => {
+                    const result = showFaultOriginal(faultType);
+                    if (result) {
+                        // Update the UI with fault information
+                        document.getElementById("fault-title").textContent = result.name;
+                        document.getElementById("fault-description").textContent = result.description;
+                        document.getElementById("severity-text").textContent = 
+                            `Severity: ${result.severity.charAt(0).toUpperCase() + result.severity.slice(1)}`;
+                        document.getElementById("severity-indicator").className = 
+                            "severity-indicator " + result.severity;
+                        
+                        const troubleshootingList = document.getElementById("troubleshooting-list");
+                        troubleshootingList.innerHTML = "";
+                        result.troubleshooting.forEach(step => {
+                            const li = document.createElement("li");
+                            li.textContent = step;
+                            troubleshootingList.appendChild(li);
+                        });
+                        
+                        document.getElementById("troubleshooting-steps").style.display = "block";
+                    }
+                };
+            } catch (error) {
+                console.error('Failed to initialize simulator:', error);
+                document.querySelector('.simulator-container').innerHTML = 
+                    '<p style="color: red;">Failed to load the simulator. Please check the console for errors.</p>';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiber Optic Technology Study Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --bg-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .overview {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            margin: 0 0 30px;
+            padding: 30px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .overview p {
+            margin: 0;
+            text-align: justify;
+            max-width: 1000px;
+            color: #1b5e20;
+        }
+
+        .overview p::first-letter {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin: 25px 0 15px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .warning {
+            background-color: #ffebee;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--error-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tip {
+            background-color: #fff3e0;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--warning-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        .comparison-table th {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:hover td {
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+
+        .interactive-element {
+            background-color: white;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .interactive-element:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            margin: 5px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .contamination-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .contamination-card {
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contamination-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .contamination-card h4 {
+            color: var(--primary-dark);
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        .tool-box {
+            background-color: var(--bg-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .info-list li {
+            position: relative;
+            padding: 12px 15px 12px 35px;
+            margin: 8px 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .info-list li:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .technical-note {
+            background-color: #f1f8ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #0366d6;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .example {
+            background-color: var(--bg-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .scenario {
+            background-color: #e6f7ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #1890ff;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Enhanced table styles */
+        .enhanced-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .enhanced-table th {
+            background: var(--primary-dark);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-align: left;
+            border: none;
+        }
+
+        .enhanced-table td {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+            vertical-align: top;
+        }
+
+        .enhanced-table ul {
+            margin: 0;
+            padding-left: 20px;
+            list-style-type: disc;
+        }
+
+        .enhanced-table ul li {
+            margin: 8px 0;
+            color: var(--text-color);
+        }
+
+        .enhanced-table td:last-child {
+            font-weight: 500;
+            color: var(--primary-dark);
+        }
+
+        .enhanced-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .enhanced-table tr:hover td {
+            background-color: #f8f9fa;
+        }
+
+        /* Difficulty indicators */
+        .difficulty {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .difficulty-bar {
+            width: 50px;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            overflow: hidden;
+        }
+
+        .difficulty-fill {
+            height: 100%;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .difficulty-fill.high {
+            width: 100%;
+            background: var(--error-color);
+        }
+
+        .difficulty-fill.medium {
+            width: 66%;
+            background: var(--warning-color);
+        }
+
+        .difficulty-fill.low {
+            width: 33%;
+            background: var(--success-color);
+        }
+
+        /* Feature cards */
+        .feature-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 25px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-card h4 {
+            color: var(--primary-dark);
+            margin: 0 0 15px 0;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .feature-list li {
+            margin: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .otdr-trace {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            margin: 20px 0;
+        }
+
+        .trace-event {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.2s ease;
+        }
+
+        .trace-event:last-child {
+            border-bottom: none;
+        }
+
+        .trace-event:hover {
+            background-color: #f8f9fa;
+        }
+
+        .event-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        .event-icon.reflection {
+            background: var(--primary-color);
+        }
+
+        .event-icon.loss {
+            background: var(--warning-color);
+        }
+
+        .event-icon.break {
+            background: var(--error-color);
+        }
+
+        .event-details {
+            flex: 1;
+        }
+
+        .event-details h4 {
+            margin: 0 0 5px 0;
+            color: var(--text-color);
+        }
+
+        .event-details p {
+            margin: 0;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        .installation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .installation-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .installation-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .installation-card h4 {
+            color: var(--primary-dark);
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .installation-stats {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .stat-label {
+            color: var(--text-color);
+            opacity: 0.8;
+            font-size: 0.9em;
+        }
+
+        .scenario {
+            background-color: #e6f7ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #1890ff;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .scenario:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* Alert card styles for Signal Attenuation */
+        .alert-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            margin: 10px 0;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: var(--radius-sm);
+            transition: transform 0.2s ease;
+        }
+
+        .alert-item:hover {
+            transform: translateX(5px);
+        }
+
+        .alert-icon {
+            color: var(--error-color);
+            font-size: 1.5em;
+        }
+
+        /* Weather-themed styles */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f0f7ff 0%, #e5f2ff 100%);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .weather-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .weather-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .weather-icon {
+            font-size: 2em;
+            color: var(--primary-color);
+        }
+
+        /* Environmental checklist styles */
+        .env-checklist {
+            background: linear-gradient(135deg, #f6fdf6 0%, #ebf7eb 100%);
+            padding: 25px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+            margin: 20px 0;
+        }
+
+        .env-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            margin: 10px 0;
+            border-radius: var(--radius-sm);
+            transition: transform 0.2s ease;
+        }
+
+        .env-item:hover {
+            transform: translateX(5px);
+        }
+
+        .env-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--success-color);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+        }
+
+        .range-meter {
+            flex: 1;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .range-fill {
+            position: absolute;
+            height: 100%;
+            background: var(--success-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fiber Optic Technology Study Guide</h1>
+
+    <div class="section overview">
+        <p>Fiber optic technology represents one of the most significant advancements in modern telecommunications, enabling the high-speed data transmission that powers today's digital world. This technology utilizes thin strands of glass or plastic to transmit information as pulses of light, offering unprecedented bandwidth, security, and reliability compared to traditional copper-based systems. Understanding fiber optics is essential for network engineers, telecommunications specialists, and IT professionals who design, install, and maintain modern communication infrastructure. This study guide covers the fundamental principles of fiber optic transmission, different fiber types and their applications, proper installation techniques, testing methodologies, and troubleshooting approaches. By mastering these concepts, technicians can ensure optimal performance and longevity of fiber optic networks in various environments and applications.</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Fundamentals of Fiber Optic Transmission</h2>
+        <p>Fiber optic technology uses pulses of light to transmit data through thin glass or plastic fibers. This revolutionary approach offers several advantages over traditional copper cabling.</p>
+
+        <div class="key-point">
+            <h3>Key Benefits:</h3>
+            <ul>
+                <li>Higher bandwidth capacity</li>
+                <li>Longer transmission distances</li>
+                <li>Immunity to electromagnetic interference</li>
+                <li>Enhanced security</li>
+                <li>Thinner and lighter cables</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <strong>Important:</strong> The color of fiber optic cable jackets is used for identification purposes only and does NOT indicate transmission speed or performance characteristics.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Fiber Types and Characteristics</h2>
+        <p>Understanding different fiber types is crucial for selecting the right solution for specific applications.</p>
+
+        <table class="comparison-table">
+            <tr>
+                <th>Characteristic</th>
+                <th>Single-mode Fiber</th>
+                <th>Multi-mode Fiber</th>
+                <th>Plastic Optical Fiber</th>
+            </tr>
+            <tr>
+                <td>Core Size</td>
+                <td>8-10 microns</td>
+                <td>50-62.5 microns</td>
+                <td>~ 1mm</td>
+            </tr>
+            <tr>
+                <td>Distance</td>
+                <td>40+ kilometers</td>
+                <td>Up to 2 kilometers</td>
+                <td>Up to 50 meters</td>
+            </tr>
+            <tr>
+                <td>Bandwidth</td>
+                <td>Highest</td>
+                <td>High</td>
+                <td>Lower</td>
+            </tr>
+            <tr>
+                <td>Cost</td>
+                <td>Higher</td>
+                <td>Moderate</td>
+                <td>Lowest</td>
+            </tr>
+            <tr>
+                <td>Primary Use</td>
+                <td>Long-haul networks</td>
+                <td>Building/Campus networks</td>
+                <td>Short-range applications</td>
+            </tr>
+        </table>
+
+        <div class="installation-grid">
+            <div class="installation-card">
+                <h4 class="installation-title">Single-mode Fiber</h4>
+                <div class="installation-stats">
+                    <span class="stat-label">Splicing:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill high"></div></div></div>
+                    <span class="stat-label">Equipment Cost:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill high"></div></div></div>
+                    <span class="stat-label">Installation Time:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill high"></div></div></div>
+                    <span class="stat-label">Skill Level:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill high"></div></div></div>
+                </div>
+            </div>
+
+            <div class="installation-card">
+                <h4 class="installation-title">Multi-mode Fiber</h4>
+                <div class="installation-stats">
+                    <span class="stat-label">Splicing:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill medium"></div></div></div>
+                    <span class="stat-label">Equipment Cost:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill medium"></div></div></div>
+                    <span class="stat-label">Installation Time:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill medium"></div></div></div>
+                    <span class="stat-label">Skill Level:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill medium"></div></div></div>
+                </div>
+            </div>
+
+            <div class="installation-card">
+                <h4 class="installation-title">Plastic Optical Fiber</h4>
+                <div class="installation-stats">
+                    <span class="stat-label">Splicing:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill low"></div></div></div>
+                    <span class="stat-label">Equipment Cost:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill low"></div></div></div>
+                    <span class="stat-label">Installation Time:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill low"></div></div></div>
+                    <span class="stat-label">Skill Level:</span>
+                    <div class="difficulty"><div class="difficulty-bar"><div class="difficulty-fill low"></div></div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="feature-cards">
+            <div class="feature-card">
+                <h4>Single-mode Fiber</h4>
+                <ul class="feature-list">
+                    <li>Higher initial cost but longer lifespan</li>
+                    <li>Future-proof for bandwidth needs</li>
+                    <li>Lower signal loss over distance</li>
+                    <li>Best for enterprise and carrier networks</li>
+                </ul>
+                <div class="cost-indicator" style="margin-top: 15px; font-size: 0.9em; color: var(--error-color);">
+                    💰💰💰 High Initial Investment
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h4>Multi-mode Fiber</h4>
+                <ul class="feature-list">
+                    <li>Lower installation costs</li>
+                    <li>Good for campus/building networks</li>
+                    <li>Cost-effective for shorter distances</li>
+                    <li>Simpler equipment requirements</li>
+                </ul>
+                <div class="cost-indicator" style="margin-top: 15px; font-size: 0.9em; color: var(--warning-color);">
+                    💰💰 Moderate Investment
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <h4>Plastic Optical Fiber</h4>
+                <ul class="feature-list">
+                    <li>Lowest material and tool costs</li>
+                    <li>Quick installation and repairs</li>
+                    <li>Limited distance/bandwidth applications</li>
+                    <li>Ideal for home/small office use</li>
+                </ul>
+                <div class="cost-indicator" style="margin-top: 15px; font-size: 0.9em; color: var(--success-color);">
+                    💰 Low Investment
+                </div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>Selection Tip:</strong> Consider distance requirements, bandwidth needs, and budget when choosing between fiber types. Single-mode fiber is ideal for long-distance, high-bandwidth applications, while multi-mode and plastic optical fiber are better suited for shorter distances and cost-sensitive installations.
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>3. Cable Handling and Installation</h2>
+        <p>Proper handling of fiber optic cables is crucial to maintain their integrity and performance.</p>
+
+        <div class="key-point">
+            <h3>Critical Handling Guidelines:</h3>
+            <ul>
+                <li>Never exceed the minimum bend radius</li>
+                <li>Avoid crushing or kinking the cable</li>
+                <li>Protect connectors from contamination</li>
+                <li>Use proper pulling techniques</li>
+                <li>Maintain proper strain relief</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Fiber Optic Tools and Testing</h2>
+        
+        <div class="tool-box">
+            <h3>Visual Fault Locator (VFL)</h3>
+            <p>A VFL is an essential tool that helps identify:</p>
+            <ul>
+                <li>Breaks in the fiber</li>
+                <li>Sharp bends causing signal loss</li>
+                <li>Poor connections</li>
+                <li>Splice points</li>
+            </ul>
+        </div>
+
+        <div class="tool-box">
+            <h3>Optical Time-Domain Reflectometer (OTDR)</h3>
+            <p>An OTDR is a sophisticated diagnostic tool that provides comprehensive analysis of fiber optic links.</p>
+            
+            <div class="technical-note">
+                <h4>OTDR Principles & Measurements</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h5>Operation</h5>
+                        <ul>
+                            <li>Sends light pulses down the fiber</li>
+                            <li>Measures reflected signals to identify and locate issues</li>
+                            <li>Creates detailed trace of the entire fiber span</li>
+                            <li>Provides distance-based measurements</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5>Key Measurements</h5>
+                        <ul>
+                            <li>Fiber length and attenuation</li>
+                            <li>Splice and connector loss</li>
+                            <li>Reflection points and breaks</li>
+                            <li>Bend locations and severity</li>
+                            <li>Overall link quality</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>Pro Tip:</strong> OTDR measurements should be taken from both ends of the fiber for most accurate results, as some events may be more visible from one direction than the other.
+            </div>
+        </div>
+
+        <div class="otdr-trace">
+            <h3>Common OTDR Trace Events:</h3>
+            
+            <div class="trace-event">
+                <div class="event-icon reflection">R</div>
+                <div class="event-details">
+                    <h4>Reflection Event</h4>
+                    <p><strong>Characteristics:</strong> Sharp spike in trace pattern</p>
+                    <p><strong>Typical Causes:</strong> Connectors, mechanical splices, or air gaps in the fiber path</p>
+                </div>
+            </div>
+
+            <div class="trace-event">
+                <div class="event-icon loss">L</div>
+                <div class="event-details">
+                    <h4>Loss Event</h4>
+                    <p><strong>Characteristics:</strong> Step down in signal level</p>
+                    <p><strong>Typical Causes:</strong> Fusion splices, macro-bends, or micro-bends in fiber</p>
+                </div>
+            </div>
+
+            <div class="trace-event">
+                <div class="event-icon break">B</div>
+                <div class="event-details">
+                    <h4>Break Event</h4>
+                    <p><strong>Characteristics:</strong> Large reflection followed by complete signal loss</p>
+                    <p><strong>Typical Causes:</strong> Cable cuts, severe physical damage, or complete fiber break</p>
+                </div>
+            </div>
+
+            <div class="tip" style="margin-top: 20px;">
+                <strong>Analysis Tip:</strong> When interpreting OTDR traces, always look for patterns. Multiple similar events at regular intervals often indicate systematic issues like poorly made splices or stressed cable installations.
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>5. Signal Degradation and Environmental Factors</h2>
+        <p>Understanding the causes of signal degradation and environmental impacts is crucial for maintaining optimal fiber optic network performance.</p>
+
+        <div class="alert-card">
+            <h3>Signal Attenuation Factors:</h3>
+            <div class="alert-item">
+                <span class="alert-icon">⚠️</span>
+                <div>
+                    <strong>Excessive Bending</strong>
+                    <p>Signal loss due to cable kinking and sharp bends</p>
+                </div>
+            </div>
+            <div class="alert-item">
+                <span class="alert-icon">⚡</span>
+                <div>
+                    <strong>Poor Splicing</strong>
+                    <p>Improper techniques causing signal degradation</p>
+                </div>
+            </div>
+            <div class="alert-item">
+                <span class="alert-icon">🔍</span>
+                <div>
+                    <strong>Contamination</strong>
+                    <p>Connector contamination affecting signal quality</p>
+                </div>
+            </div>
+            <div class="alert-item">
+                <span class="alert-icon">🔧</span>
+                <div>
+                    <strong>Material Issues</strong>
+                    <p>Micro-fractures due to tranportation and handling</p>
+                </div>
+            </div>
+            <div class="alert-item">
+                <span class="alert-icon">⏳</span>
+                <div>
+                    <strong>Age-related</strong>
+                    <p>Degradation over time impacting performance</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="weather-grid">
+            <div class="weather-card">
+                <span class="weather-icon">💧</span>
+                <div>
+                    <strong>Water Ingress</strong>
+                    <p>NIU degradation from moisture</p>
+                </div>
+            </div>
+            <div class="weather-card">
+                <span class="weather-icon">🌡️</span>
+                <div>
+                    <strong>Temperature</strong>
+                    <p>Performance affected by rapid fluctuations</p>
+                </div>
+            </div>
+            <div class="weather-card">
+                <span class="weather-icon">☀️</span>
+                <div>
+                    <strong>UV Exposure</strong>
+                    <p>Cable jacket degradation</p>
+                </div>
+            </div>
+            <div class="weather-card">
+                <span class="weather-icon">↔️</span>
+                <div>
+                    <strong>Physical Stress</strong>
+                    <p>Expansion and contraction issues</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="env-checklist">
+            <h3>Critical Environmental Considerations</h3>
+            <div class="env-item">
+                <div class="env-icon">T</div>
+                <div>
+                    <strong>Temperature Range</strong>
+                    <p>Operating range: -40°F (-40°C) to +158°F (+70°C)</p>
+                    <div class="range-meter">
+                        <div class="range-fill" style="width: 80%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="env-item">
+                <div class="env-icon">H</div>
+                <div>
+                    <strong>Humidity Protection</strong>
+                    <p>Required in high-moisture areas</p>
+                    <div class="range-meter">
+                        <div class="range-fill" style="width: 90%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="env-item">
+                <div class="env-icon">P</div>
+                <div>
+                    <strong>Physical Protection</strong>
+                    <p>Proper conduit and mounting required</p>
+                    <div class="range-meter">
+                        <div class="range-fill" style="width: 95%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="env-item">
+                <div class="env-icon">U</div>
+                <div>
+                    <strong>UV Protection</strong>
+                    <p>Special jacketing for outdoor installations</p>
+                    <div class="range-meter">
+                        <div class="range-fill" style="width: 85%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> Regular inspection of outdoor fiber installations, especially after severe weather events, can help identify potential issues before they cause service interruptions.
+        </div>
+
+        <div class="key-point">
+            <h3>Seasonal Maintenance Guidelines:</h3>
+            <table class="enhanced-table" style="border-spacing: 0; border-collapse: separate;">
+                <thead>
+                    <tr>
+                        <th style="padding: 20px; background: var(--primary-dark); color: white; font-weight: 600;">Season</th>
+                        <th style="padding: 20px; background: var(--primary-dark); color: white; font-weight: 600;">Focus Areas</th>
+                        <th style="padding: 20px; background: var(--primary-dark); color: white; font-weight: 600;">Maintenance Tasks</th>
+                        <th style="padding: 20px; background: var(--primary-dark); color: white; font-weight: 600;">Special Considerations</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td style="font-weight: 600; color: var(--primary-dark);">Spring</td>
+                    <td style="padding: 20px;">
+                        <ul>
+                            <li>Winter damage assessment</li>
+                            <li>Water ingress checks</li>
+                            <li>Drainage systems</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Clear drainage paths</li>
+                            <li>Check seals and gaskets</li>
+                            <li>Inspect for frost damage</li>
+                        </ul>
+                    </td>
+                    <td>Ground heaving from frost</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--primary-dark);">Summer</td>
+                    <td style="padding: 20px;">
+                        <ul>
+                            <li>Heat management</li>
+                            <li>UV protection</li>
+                            <li>Ventilation systems</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Clean cooling systems</li>
+                            <li>Check sun exposure</li>
+                            <li>Monitor temperature alarms</li>
+                        </ul>
+                    </td>
+                    <td>Thermal expansion stress</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--primary-dark);">Fall</td>
+                    <td style="padding: 20px;">
+                        <ul>
+                            <li>Weather sealing</li>
+                            <li>Support structures</li>
+                            <li>Entry points</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Seal inspection</li>
+                            <li>Tighten mountings</li>
+                            <li>Clear vegetation</li>
+                        </ul>
+                    </td>
+                    <td>Preparation for winter</td>
+                </tr>
+                <tr>
+                    <td style="font-weight: 600; color: var(--primary-dark);">Winter</td>
+                    <td style="padding: 20px;">
+                        <ul>
+                            <li>Ice prevention</li>
+                            <li>Snow accumulation</li>
+                            <li>Cold protection</li>
+                        </ul>
+                    </td>
+                    <td>
+                        <ul>
+                            <li>Remove ice buildup</li>
+                            <li>Check heaters</li>
+                            <li>Monitor strain relief</li>
+                        </ul>
+                    </td>
+                    <td>Ice loading on cables</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <h2>6. Contamination and Cleaning</h2>
+        <p>Contamination is a leading cause of fiber optic network problems. Understanding different types of contamination and proper cleaning procedures is essential.</p>
+
+        <div class="contamination-types">
+            <div class="contamination-card">
+                <h4>Dust and Particles</h4>
+                <ul>
+                    <li>Most common contaminant</li>
+                    <li>Causes signal attenuation</li>
+                    <li>Can scratch connector surfaces</li>
+                    <li>Easily removed with proper cleaning</li>
+                </ul>
+            </div>
+            <div class="contamination-card">
+                <h4>Oils and Residue</h4>
+                <ul>
+                    <li>From improper handling</li>
+                    <li>Causes signal scattering</li>
+                    <li>Requires solvent-based cleaning</li>
+                    <li>Can attract more contamination</li>
+                </ul>
+            </div>
+            <div class="contamination-card">
+                <h4>Scratches and Damage</h4>
+                <ul>
+                    <li>Permanent signal loss</li>
+                    <li>Cannot be cleaned</li>
+                    <li>Requires connector replacement</li>
+                    <li>Prevention is critical</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h3>Proper Cleaning Procedure:</h3>
+            <ol>
+                <li>Inspect the connector first</li>
+                <li>Use appropriate cleaning materials</li>
+                <li>Clean in one direction only</li>
+                <li>Re-inspect after cleaning</li>
+                <li>Repeat if necessary</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 
+        The Advanced Fault Detection Simulator code has been moved to a separate file: 
+        StudyGuide/fiber_fault_simulator.js
+    -->
+</body>
+</html>
