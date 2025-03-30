@@ -37,7 +37,7 @@
             background-color: #e3f2fd;
             padding: 15px;
             margin: 15px 0;
-            border-left: 4px solid #2196F3;
+            border-left: 4px solid #2196F3; /* Restored border */
             border-radius: 4px;
         }
 
@@ -80,28 +80,38 @@
             border: 1px solid #ccc;
             margin: 15px 0;
             background-color: #f5f5f5;
+            /* overflow: hidden; Removed as it might interfere */
         }
 
         .router {
             position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #2196F3;
-            border-radius: 50%;
-            cursor: move;
+            z-index: 10;
+            cursor: grab;
+            width: 40px;
+            height: 40px;
+            user-select: none;
+            touch-action: none;
+            will-change: left, top;
+            left: 0;
+            top: 0;
+            transition: left 0.05s ease-out, top 0.05s ease-out;
+            pointer-events: auto;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
-        .obstacle {
-            position: absolute;
-            background-color: #795548;
-            cursor: pointer;
+        .router:active {
+            cursor: grabbing;
         }
+
 
         .signal-strength {
             position: absolute;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: 1;
         }
 
         table {
@@ -149,11 +159,184 @@
             padding: 10px;
             border: 1px solid #2196F3;
             border-radius: 5px;
-            cursor: pointer;
+            /* cursor: pointer; Removed as buttons handle clicks */
         }
 
-        .decision-node:hover {
+        .decision-node button { /* Style buttons within flowchart */
+             display: block;
+             margin: 5px 0;
+        }
+
+
+        .controls { /* Shared controls class */
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        #signalInfo {
             background-color: #e3f2fd;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .room {
+            position: absolute;
+            border: 2px solid #666;
+            background-color: rgba(200, 200, 200, 0.1);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .room-label {
+            position: absolute;
+            font-size: 12px;
+            color: #333;
+            pointer-events: none;
+            user-select: none;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 1px 3px;
+            border-radius: 2px;
+            z-index: 3;
+        }
+
+        .fixed-obstacle {
+            position: absolute;
+            pointer-events: none;
+            z-index: 4; /* Above rooms */
+        }
+
+        .interference-source {
+            position: absolute;
+            pointer-events: none;
+            z-index: 3; /* Above rooms, below obstacles */
+            opacity: 0; /* Hidden by default */
+            transition: all 0.3s ease-in-out;
+            border: 2px dashed rgba(244, 67, 54, 0);
+            animation: none;
+        }
+
+        .interference-source.active {
+            opacity: 0.3;
+            border-color: rgba(244, 67, 54, 0.8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.3;
+            }
+        }
+
+        .interference-source.bluetooth.active {
+            background: repeating-radial-gradient(
+                circle,
+                rgba(33, 150, 243, 0.2),
+                rgba(33, 150, 243, 0.2) 10px,
+                rgba(33, 150, 243, 0.3) 10px,
+                rgba(33, 150, 243, 0.3) 20px
+            );
+            border-color: rgba(33, 150, 243, 0.8);
+        }
+
+        .interference-source.babyMonitor.active {
+            background: repeating-radial-gradient(
+                circle,
+                rgba(244, 67, 54, 0.2),
+                rgba(244, 67, 54, 0.2) 10px,
+                rgba(244, 67, 54, 0.3) 10px,
+                rgba(244, 67, 54, 0.3) 20px
+            );
+        }
+
+        .interference-buttons {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .interference-button {
+            padding: 10px 20px;
+            background-color: #E0E0E0;
+            color: #424242;
+            border: 2px solid #BDBDBD;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .interference-button::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: #9E9E9E;
+            transition: all 0.3s ease;
+        }
+
+        .interference-button:hover {
+            background-color: #EEEEEE;
+            border-color: #9E9E9E;
+        }
+
+        .interference-button.active {
+            background-color: #FBE9E7;
+            border-color: #F44336;
+            color: #D32F2F;
+        }
+
+        .interference-button.active::before {
+            background-color: #F44336;
+            box-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+        }
+
+        .interference-button.bluetooth.active {
+            background-color: #E3F2FD;
+            border-color: #2196F3;
+            color: #1976D2;
+        }
+
+        .interference-button.bluetooth.active::before {
+            background-color: #2196F3;
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+        }
+
+        .tooltip {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #E3F2FD;
+            border: 1px solid #BBDEFB;
+            border-radius: 4px;
+            color: #1976D2;
+            font-size: 0.9em;
+            line-height: 1.4;
+            width: 100%;
+            text-align: center;
+        }
+
+        .tooltip::before {
+            content: '💡 ';
         }
     </style>
 </head>
@@ -163,48 +346,16 @@
     <div class="section">
         <h2>1. Systematic Troubleshooting Approach</h2>
         <p>Effective troubleshooting requires a methodical approach to identify and resolve network issues efficiently.</p>
-
         <div class="key-point">
             <h3>Key Steps in Network Troubleshooting:</h3>
             <ol>
-                <li>Identify and document the problem
-                    <ul>
-                        <li>Gather specific symptoms</li>
-                        <li>Determine when the issue started</li>
-                        <li>Identify affected devices/services</li>
-                    </ul>
-                </li>
-                <li>Establish a theory of probable cause
-                    <ul>
-                        <li>Question users</li>
-                        <li>Identify recent changes</li>
-                        <li>Document your theory</li>
-                    </ul>
-                </li>
-                <li>Test the theory
-                    <ul>
-                        <li>Perform specific tests</li>
-                        <li>Observe results</li>
-                        <li>Determine if issue is resolved</li>
-                    </ul>
-                </li>
-                <li>Create action plan and implement solution
-                    <ul>
-                        <li>Develop solution steps</li>
-                        <li>Back up if necessary</li>
-                        <li>Document changes</li>
-                    </ul>
-                </li>
-                <li>Verify system functionality
-                    <ul>
-                        <li>Test full functionality</li>
-                        <li>Monitor for issue recurrence</li>
-                        <li>Document resolution</li>
-                    </ul>
-                </li>
+                <li>Identify and document the problem</li>
+                <li>Establish a theory of probable cause</li>
+                <li>Test the theory</li>
+                <li>Create action plan and implement solution</li>
+                <li>Verify system functionality</li>
             </ol>
         </div>
-
         <div class="interactive-element">
             <h3>Interactive Troubleshooting Flowchart</h3>
             <div class="flowchart" id="troubleshootingFlow">
@@ -216,7 +367,6 @@
     <div class="section">
         <h2>2. Router Placement and Signal Optimization</h2>
         <p>Proper router placement is crucial for optimal WiFi coverage and performance.</p>
-
         <div class="key-point">
             <h3>Router Placement Guidelines:</h3>
             <ul>
@@ -227,578 +377,791 @@
                 <li>Away from water features (fish tanks, etc.)</li>
             </ul>
         </div>
-
         <div class="scenario">
             <strong>Common Scenario:</strong> A customer complains about weak WiFi in their backyard despite having good signal in the living room. The router is placed near a large fish tank. Solution: Move the router away from the fish tank and closer to a window facing the backyard.
         </div>
-
         <div class="interactive-element">
             <h3>Router Placement Simulator</h3>
+            <div id="signalInfo">Signal Strength at Router: 100%</div>
             <div class="router-placement" id="routerPlacement">
-                <div id="router" class="router" draggable="true"></div>
+                <svg id="router" class="router" draggable="true" viewBox="0 0 64 64">
+                    <rect x="4" y="24" width="56" height="16" rx="4" fill="#64B5F6"/>
+                    <line x1="16" y1="20" x2="16" y2="12" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="32" y1="20" x2="32" y2="8" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    <line x1="48" y1="20" x2="48" y2="12" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                    <circle cx="12" cy="32" r="3" fill="#1976D2"/>
+                    <circle cx="22" cy="32" r="3" fill="#1976D2"/>
+                    <circle cx="32" cy="32" r="3" fill="#1976D2"/>
+                    <circle cx="42" cy="32" r="3" fill="#1976D2"/>
+                    <circle cx="52" cy="32" r="3" fill="#1976D2"/>
+                </svg>
                 <canvas id="signalStrength" class="signal-strength"></canvas>
+                <div id="floorplan"></div>
+                <div id="fixedObstacles"></div>
+                <div id="interferenceSources"></div>
             </div>
-            <button onclick="addObstacle()">Add Obstacle</button>
-            <button onclick="clearObstacles()">Clear Obstacles</button>
-            <p id="placementAdvice">Drag the router to test different positions. Add obstacles to simulate walls or large objects.</p>
+            <div class="interference-buttons">
+                <button id="bluetoothToggle" class="interference-button bluetooth">Bluetooth Soundbar</button>
+                <button id="babyMonitorToggle" class="interference-button">Baby Monitor</button>
+                <div class="tooltip">Toggle interference sources to see their impact on WiFi signal</div>
+            </div>
+            <p id="placementAdvice">Drag the router to test different positions in this home layout. The heatmap shows signal strength considering walls, appliances, and active interference sources.</p>
         </div>
     </div>
 
     <div class="section">
         <h2>3. Common Network Issues and Solutions</h2>
-        
         <table>
-            <tr>
-                <th>Issue</th>
-                <th>Common Causes</th>
-                <th>Troubleshooting Steps</th>
-                <th>Prevention</th>
-            </tr>
-            <tr>
-                <td>No Internet Connection</td>
-                <td>
-                    <ul>
-                        <li>Physical connection issues</li>
-                        <li>Router/modem problems</li>
-                        <li>ISP outage</li>
-                    </ul>
-                </td>
-                <td>
-                    <ol>
-                        <li>Check physical connections</li>
-                        <li>Verify power to devices</li>
-                        <li>Reset router/modem</li>
-                        <li>Contact ISP</li>
-                    </ol>
-                </td>
-                <td>
-                    <ul>
-                        <li>Regular maintenance</li>
-                        <li>Secure connections</li>
-                        <li>UPS backup</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td>Slow Connection</td>
-                <td>
-                    <ul>
-                        <li>Network congestion</li>
-                        <li>WiFi interference</li>
-                        <li>Hardware limitations</li>
-                    </ul>
-                </td>
-                <td>
-                    <ol>
-                        <li>Run speed tests</li>
-                        <li>Check for interference</li>
-                        <li>Monitor network usage</li>
-                        <li>Update firmware</li>
-                    </ol>
-                </td>
-                <td>
-                    <ul>
-                        <li>Regular speed tests</li>
-                        <li>Channel optimization</li>
-                        <li>Traffic management</li>
-                    </ul>
-                </td>
-            </tr>
-            <tr>
-                <td>Intermittent Connection</td>
-                <td>
-                    <ul>
-                        <li>Signal interference</li>
-                        <li>Loose connections</li>
-                        <li>Environmental factors</li>
-                    </ul>
-                </td>
-                <td>
-                    <ol>
-                        <li>Check connections</li>
-                        <li>Monitor signal strength</li>
-                        <li>Identify interference</li>
-                        <li>Test different channels</li>
-                    </ol>
-                </td>
-                <td>
-                    <ul>
-                        <li>Secure connections</li>
-                        <li>Regular signal checks</li>
-                        <li>Environmental controls</li>
-                    </ul>
-                </td>
-            </tr>
+            <tr><th>Issue</th><th>Common Causes</th><th>Troubleshooting Steps</th><th>Prevention</th></tr>
+            <tr><td>No Internet Connection</td><td><ul><li>Physical connection issues</li><li>Router/modem problems</li><li>ISP outage</li></ul></td><td><ol><li>Check physical connections</li><li>Verify power to devices</li><li>Reset router/modem</li><li>Contact ISP</li></ol></td><td><ul><li>Regular maintenance</li><li>Secure connections</li><li>UPS backup</li></ul></td></tr>
+            <tr><td>Slow Connection</td><td><ul><li>Network congestion</li><li>WiFi interference</li><li>Hardware limitations</li></ul></td><td><ol><li>Run speed tests</li><li>Check for interference</li><li>Monitor network usage</li><li>Update firmware</li></ol></td><td><ul><li>Regular speed tests</li><li>Channel optimization</li><li>Traffic management</li></ul></td></tr>
+            <tr><td>Intermittent Connection</td><td><ul><li>Signal interference</li><li>Loose connections</li><li>Environmental factors</li></ul></td><td><ol><li>Check connections</li><li>Monitor signal strength</li><li>Identify interference</li><li>Test different channels</li></ol></td><td><ul><li>Secure connections</li><li>Regular signal checks</li><li>Environmental controls</li></ul></td></tr>
         </table>
-
-        <div class="warning">
-            <strong>Important:</strong> Always verify basic connectivity (power, physical connections) before moving to more complex troubleshooting steps.
-        </div>
+        <div class="warning"><strong>Important:</strong> Always verify basic connectivity (power, physical connections) before moving to more complex troubleshooting steps.</div>
     </div>
 
     <div class="section">
         <h2>4. WiFi Interference Management</h2>
         <p>Understanding and managing various sources of WiFi interference is crucial for maintaining optimal network performance.</p>
-
         <div class="key-point">
             <h3>Common Interference Sources:</h3>
             <table>
-                <tr>
-                    <th>Source</th>
-                    <th>Impact</th>
-                    <th>Solution</th>
-                </tr>
-                <tr>
-                    <td>Microwave Ovens</td>
-                    <td>Temporary disruption of 2.4 GHz signals</td>
-                    <td>Use 5 GHz band, relocate router</td>
-                </tr>
-                <tr>
-                    <td>Bluetooth Devices</td>
-                    <td>2.4 GHz interference</td>
-                    <td>Switch to 5 GHz, maintain distance</td>
-                </tr>
-                <tr>
-                    <td>Baby Monitors</td>
-                    <td>Continuous signal interference</td>
-                    <td>Change channels, use different frequency</td>
-                </tr>
-                <tr>
-                    <td>Cordless Phones</td>
-                    <td>Periodic signal disruption</td>
-                    <td>Use DECT phones, separate frequencies</td>
-                </tr>
+                <tr><th>Source</th><th>Impact</th><th>Solution</th></tr>
+                <tr><td>Microwave Ovens</td><td>Temporary disruption of 2.4 GHz signals</td><td>Use 5 GHz band, relocate router</td></tr>
+                <tr><td>Bluetooth Devices</td><td>2.4 GHz interference</td><td>Switch to 5 GHz, maintain distance</td></tr>
+                <tr><td>Baby Monitors</td><td>Continuous signal interference</td><td>Change channels, use different frequency</td></tr>
+                <tr><td>Cordless Phones</td><td>Periodic signal disruption</td><td>Use DECT phones, separate frequencies</td></tr>
             </table>
         </div>
-
-        <div class="scenario">
-            <strong>Common Scenario:</strong> A customer's smart home devices (lights, plugs) disconnect when the microwave runs. Solution: These devices typically use 2.4 GHz WiFi, which is susceptible to microwave interference. Either relocate the devices to use a closer access point or switch to ZigBee/Z-Wave protocols for smart home devices.
-        </div>
+        <div class="scenario"><strong>Common Scenario:</strong> A customer's smart home devices (lights, plugs) disconnect when the microwave runs...</div>
     </div>
 
     <div class="section">
         <h2>5. Smart Home Device Troubleshooting</h2>
-        <p>Smart home devices present unique networking challenges due to their specific requirements and limitations.</p>
-
-        <div class="key-point">
-            <h3>Common Smart Device Issues:</h3>
-            <ul>
-                <li>Frequent disconnections</li>
-                <li>Slow response times</li>
-                <li>Device conflicts</li>
-                <li>Range limitations</li>
-                <li>Protocol incompatibilities</li>
-            </ul>
-        </div>
-
-        <div class="checklist">
-            <h3>Smart Device Best Practices:</h3>
-            <ul>
-                <li>Network Setup
-                    <ul>
-                        <li>Dedicated 2.4 GHz network for IoT devices</li>
-                        <li>Strong, consistent signal coverage</li>
-                        <li>Proper channel selection</li>
-                        <li>Regular firmware updates</li>
-                    </ul>
-                </li>
-                <li>Device Placement
-                    <ul>
-                        <li>Within optimal range</li>
-                        <li>Away from interference sources</li>
-                        <li>Clear line of sight when possible</li>
-                        <li>Consider mesh network for better coverage</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <div class="warning">
-            <strong>Important:</strong> Many smart home devices only support 2.4 GHz WiFi. Ensure this band is properly configured and has good coverage throughout the home.
-        </div>
+        <p>Smart home devices present unique networking challenges...</p>
+        <div class="key-point"><h3>Common Smart Device Issues:</h3><ul><li>Frequent disconnections</li><li>Slow response times</li><li>...</li></ul></div>
+        <div class="checklist"><h3>Smart Device Best Practices:</h3><ul><li>Network Setup<ul><li>...</li></ul></li><li>Device Placement<ul><li>...</li></ul></li></ul></div>
+        <div class="warning"><strong>Important:</strong> Many smart home devices only support 2.4 GHz WiFi...</div>
     </div>
 
     <div class="section">
         <h2>6. Real-World Troubleshooting Scenarios</h2>
-        <p>Understanding how to approach and solve common customer issues is crucial for effective troubleshooting.</p>
-
-        <div class="scenario">
-            <h3>Scenario 1: Intermittent WiFi Disconnections</h3>
-            <div class="key-point">
-                <strong>Customer Complaint:</strong> "My WiFi keeps dropping every few hours, especially in the evening."
-                <hr>
-                <h4>Solution Steps:</h4>
-                <ol>
-                    <li>Initial Investigation
-                        <ul>
-                            <li>Document time patterns of disconnections</li>
-                            <li>Check for patterns with other device usage</li>
-                            <li>Verify router firmware version</li>
-                        </ul>
-                    </li>
-                    <li>Analysis
-                        <ul>
-                            <li>Review WiFi channel congestion</li>
-                            <li>Check for interfering devices</li>
-                            <li>Monitor router temperature</li>
-                        </ul>
-                    </li>
-                    <li>Resolution
-                        <ul>
-                            <li>Change WiFi channel</li>
-                            <li>Update router firmware</li>
-                            <li>Adjust device placement</li>
-                        </ul>
-                    </li>
-                    <li>Prevention
-                        <ul>
-                            <li>Schedule automatic channel scanning</li>
-                            <li>Set up monitoring alerts</li>
-                            <li>Document optimal configuration</li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="scenario">
-            <h3>Scenario 2: Slow Internet After Equipment Upgrade</h3>
-            <div class="key-point">
-                <strong>Customer Complaint:</strong> "Internet speed dropped significantly after installing a new router."
-                <hr>
-                <h4>Solution Steps:</h4>
-                <ol>
-                    <li>Initial Verification
-                        <ul>
-                            <li>Run speed tests at multiple points</li>
-                            <li>Check router settings</li>
-                            <li>Verify physical connections</li>
-                        </ul>
-                    </li>
-                    <li>Configuration Check
-                        <ul>
-                            <li>Confirm correct VLAN settings</li>
-                            <li>Verify QoS configuration</li>
-                            <li>Check DNS settings</li>
-                        </ul>
-                    </li>
-                    <li>Resolution
-                        <ul>
-                            <li>Reset router to factory defaults</li>
-                            <li>Configure optimal settings</li>
-                            <li>Test with different devices</li>
-                        </ul>
-                    </li>
-                    <li>Follow-up
-                        <ul>
-                            <li>Document working configuration</li>
-                            <li>Schedule check-in with customer</li>
-                            <li>Create backup of settings</li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="scenario">
-            <h3>Scenario 3: Smart Home Device Connectivity</h3>
-            <div class="key-point">
-                <strong>Customer Complaint:</strong> "Smart devices keep going offline and need frequent resets."
-                <hr>
-                <h4>Solution Steps:</h4>
-                <ol>
-                    <li>Environment Assessment
-                        <ul>
-                            <li>Map device locations</li>
-                            <li>Check signal strength</li>
-                            <li>Identify interference sources</li>
-                        </ul>
-                    </li>
-                    <li>Network Analysis
-                        <ul>
-                            <li>Verify 2.4GHz network availability</li>
-                            <li>Check DHCP settings</li>
-                            <li>Monitor network traffic</li>
-                        </ul>
-                    </li>
-                    <li>Implementation
-                        <ul>
-                            <li>Adjust device placement</li>
-                            <li>Configure dedicated IoT network</li>
-                            <li>Optimize channel settings</li>
-                        </ul>
-                    </li>
-                    <li>Long-term Solution
-                        <ul>
-                            <li>Install mesh network system</li>
-                            <li>Set up monitoring tools</li>
-                            <li>Create maintenance schedule</li>
-                        </ul>
-                    </li>
-                </ol>
-            </div>
-        </div>
-
-        <div class="tip">
-            <h3>Scenario Documentation Best Practices:</h3>
-            <ul>
-                <li>Record initial symptoms and customer description</li>
-                <li>Document all troubleshooting steps taken</li>
-                <li>Note any temporary workarounds implemented</li>
-                <li>Track resolution time and effectiveness</li>
-                <li>Create knowledge base entry for similar issues</li>
-            </ul>
-        </div>
+        <p>Understanding how to approach and solve common customer issues...</p>
+        <div class="scenario"><h3>Scenario 1: Intermittent WiFi Disconnections</h3><div class="key-point">...</div></div>
+        <div class="scenario"><h3>Scenario 2: Slow Internet After Equipment Upgrade</h3><div class="key-point">...</div></div>
+        <div class="scenario"><h3>Scenario 3: Smart Home Device Connectivity</h3><div class="key-point">...</div></div>
+        <div class="tip"><h3>Scenario Documentation Best Practices:</h3><ul><li>...</li></ul></div>
     </div>
 
     <div class="section">
         <h2>7. Environmental Factors</h2>
-        <p>Environmental conditions can significantly impact network performance and reliability.</p>
-
-        <div class="checklist">
-            <h3>Environmental Considerations:</h3>
-            <ul>
-                <li>Temperature
-                    <ul>
-                        <li>Equipment operating range</li>
-                        <li>Ventilation requirements</li>
-                        <li>Heat dissipation</li>
-                    </ul>
-                </li>
-                <li>Moisture
-                    <ul>
-                        <li>Water ingress prevention</li>
-                        <li>Condensation control</li>
-                        <li>Weather sealing</li>
-                    </ul>
-                </li>
-                <li>Electromagnetic Interference
-                    <ul>
-                        <li>Source identification</li>
-                        <li>Shielding requirements</li>
-                        <li>Equipment placement</li>
-                    </ul>
-                </li>
-                <li>Physical Protection
-                    <ul>
-                        <li>Cable management</li>
-                        <li>Equipment security</li>
-                        <li>Access control</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
-        <div class="scenario">
-            <strong>Weather Impact Scenario:</strong> A customer reports intermittent internet drops during rainstorms, but the ONT's optical light remains green. This could indicate water ingress in the NIU or corrosion in Ethernet connections, requiring inspection and weatherproofing.
-        </div>
+        <p>Environmental conditions can significantly impact network performance...</p>
+        <div class="checklist"><h3>Environmental Considerations:</h3><ul><li>Temperature<ul><li>...</li></ul></li><li>...</li></ul></div>
+        <div class="scenario"><strong>Weather Impact Scenario:</strong> ...</div>
     </div>
 
     <div class="section">
         <h2>8. Construction Material Impact</h2>
-        <p>Different building materials can significantly affect WiFi signal strength and coverage.</p>
-
-        <div class="key-point">
-            <h3>Material Impact Chart:</h3>
-            <table>
-                <tr>
-                    <th>Material</th>
-                    <th>Signal Impact</th>
-                    <th>Mitigation Strategy</th>
-                </tr>
-                <tr>
-                    <td>Drywall/Wood</td>
-                    <td>Low impact</td>
-                    <td>Standard placement usually sufficient</td>
-                </tr>
-                <tr>
-                    <td>Glass</td>
-                    <td>Moderate impact</td>
-                    <td>Consider signal reflection patterns</td>
-                </tr>
-                <tr>
-                    <td>Metal/Concrete</td>
-                    <td>High impact</td>
-                    <td>Additional access points or mesh system</td>
-                </tr>
-                <tr>
-                    <td>Metal Mesh/Foil</td>
-                    <td>Severe impact</td>
-                    <td>Strategic AP placement, multiple units</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="tip">
-            <h3>Signal Optimization Tips:</h3>
-            <ul>
-                <li>Map dead zones in relation to building materials</li>
-                <li>Use WiFi analyzers to measure actual signal penetration</li>
-                <li>Consider external antennas for better coverage</li>
-                <li>Plan AP placement around major obstacles</li>
-                <li>Document successful configurations for similar environments</li>
-            </ul>
-        </div>
+        <p>Different building materials can significantly affect WiFi signal strength...</p>
+        <div class="key-point"><h3>Material Impact Chart:</h3><table>...</table></div>
+        <div class="tip"><h3>Signal Optimization Tips:</h3><ul><li>...</li></ul></div>
     </div>
 
     <div class="section">
         <h2>9. Advanced Smart Device Troubleshooting</h2>
         <p>Complex smart home setups require specialized troubleshooting approaches.</p>
-
-        <div class="key-point">
-            <h3>Device-Specific Solutions:</h3>
-            <table>
-                <tr>
-                    <th>Device Type</th>
-                    <th>Common Issues</th>
-                    <th>Resolution</th>
-                </tr>
-                <tr>
-                    <td>Smart Plugs</td>
-                    <td>2.4 GHz interference</td>
-                    <td>Dedicated IoT network, channel adjustment</td>
-                </tr>
-                <tr>
-                    <td>Security Cameras</td>
-                    <td>Bandwidth congestion</td>
-                    <td>QoS settings, mesh node placement</td>
-                </tr>
-                <tr>
-                    <td>Smart Speakers</td>
-                    <td>Intermittent response</td>
-                    <td>WiFi channel optimization, position adjustment</td>
-                </tr>
-            </table>
-        </div>
-
-        <div class="warning">
-            <h3>Critical Considerations:</h3>
-            <ul>
-                <li>Network segmentation for security</li>
-                <li>Bandwidth allocation per device type</li>
-                <li>Protocol compatibility checks</li>
-                <li>Update management strategy</li>
-            </ul>
-        </div>
+        <div class="key-point"><h3>Device-Specific Solutions:</h3><table>...</table></div>
+        <div class="warning"><h3>Critical Considerations:</h3><ul><li>...</li></ul></div>
     </div>
 
     <script>
-        // Router Placement Simulator
-        const routerPlacement = document.getElementById("routerPlacement");
-        const router = document.getElementById("router");
-        const signalStrength = document.getElementById("signalStrength");
-        const signalCtx = signalStrength.getContext("2d");
-        
-        signalStrength.width = routerPlacement.offsetWidth;
-        signalStrength.height = routerPlacement.offsetHeight;
+        // Floorplan Configuration (Define first)
+        const floorplanData = {
+            rooms: [
+                { name: "Living Room", x: 20, y: 20, width: 200, height: 150, zoneAttenuation: 0.1 },
+                { name: "Kitchen", x: 220, y: 20, width: 150, height: 120, zoneAttenuation: 0.4 },
+                { name: "Dining Room", x: 220, y: 140, width: 150, height: 100, zoneAttenuation: 0.1 },
+                { name: "Bedroom 1", x: 20, y: 170, width: 120, height: 100, zoneAttenuation: 0.1 },
+                { name: "Bedroom 2", x: 140, y: 170, width: 120, height: 100, zoneAttenuation: 0.1 },
+                { name: "Bedroom 3", x: 260, y: 240, width: 110, height: 100, zoneAttenuation: 0.1 },
+                { name: "Bathroom 1", x: 20, y: 270, width: 80, height: 70, zoneAttenuation: 0.4 },
+                { name: "Bathroom 2", x: 140, y: 270, width: 80, height: 70, zoneAttenuation: 0.4 }
+            ],
+            fixedObstacles: [
+                { type: "refrigerator", room: "Kitchen", x: 340, y: 30, width: 20, height: 30, attenuation: 0.8 },
+                { type: "washer", room: "Kitchen", x: 240, y: 95, width: 20, height: 20, attenuation: 0.7 },
+                { type: "dryer", room: "Kitchen", x: 265, y: 95, width: 20, height: 20, attenuation: 0.7 },
+                { type: "mirror", room: "Bathroom 1", x: 25, y: 275, width: 30, height: 5, attenuation: 0.5 },
+                { type: "mirror", room: "Bathroom 2", x: 145, y: 275, width: 30, height: 5, attenuation: 0.5 },
+                { type: "cabinet", room: "Kitchen", x: 220, y: 20, width: 150, height: 10, attenuation: 0.6 }
+            ],
+            interferenceSources: [
+                { name: "bluetooth", room: "Living Room", x: 100, y: 100, radius: 40, attenuation: 1.2, active: false },
+                { name: "babyMonitor", room: "Bedroom 2", x: 200, y: 200, radius: 50, attenuation: 0.4, active: false }
+            ]
+        };
 
-        let obstacles = [];
+        // Wait for DOM to load before manipulating it
+        document.addEventListener('DOMContentLoaded', function() {
 
-        router.addEventListener("dragstart", e => {
-            e.dataTransfer.setData("text/plain", "router");
-        });
+            // --- Router Placement Simulator Elements & Logic ---
+            const routerPlacement = document.getElementById("routerPlacement");
+            const router = document.getElementById("router");
+            const signalStrengthCanvas = document.getElementById("signalStrength");
+            const signalCtx = signalStrengthCanvas.getContext("2d", { willReadFrequently: true });
+            const interferenceElements = {}; // Store references to the DOM elements for interference sources
 
-        routerPlacement.addEventListener("dragover", e => {
-            e.preventDefault();
-        });
+            // Router state management
+            let lastKnownPosition = { x: 0, y: 0 };
+            let routerDimensions = { width: 40, height: 40 };
 
-        routerPlacement.addEventListener("drop", e => {
-            e.preventDefault();
-            const rect = routerPlacement.getBoundingClientRect();
-            router.style.left = (e.clientX - rect.left - 15) + "px";
-            router.style.top = (e.clientY - rect.top - 15) + "px";
-            updateSignalStrength();
-        });
+            // Initialize Floorplan and Interference Elements
+            function initializeFloorplan() {
+                const floorplanContainer = document.getElementById("floorplan");
+                const fixedObstaclesContainer = document.getElementById("fixedObstacles");
+                const interferenceContainer = document.getElementById("interferenceSources");
 
-        function addObstacle() {
-            const obstacle = document.createElement("div");
-            obstacle.className = "obstacle";
-            obstacle.style.width = "100px";
-            obstacle.style.height = "50px";
-            obstacle.style.left = Math.random() * (routerPlacement.offsetWidth - 100) + "px";
-            obstacle.style.top = Math.random() * (routerPlacement.offsetHeight - 50) + "px";
-            routerPlacement.appendChild(obstacle);
-            obstacles.push(obstacle);
-            updateSignalStrength();
-        }
-
-        function clearObstacles() {
-            obstacles.forEach(obstacle => obstacle.remove());
-            obstacles = [];
-            updateSignalStrength();
-        }
-
-        function updateSignalStrength() {
-            signalCtx.clearRect(0, 0, signalStrength.width, signalStrength.height);
-            
-            const routerX = parseInt(router.style.left) + 15;
-            const routerY = parseInt(router.style.top) + 15;
-            
-            const gradient = signalCtx.createRadialGradient(
-                routerX, routerY, 0,
-                routerX, routerY, 300
-            );
-            
-            gradient.addColorStop(0, "rgba(33, 150, 243, 0.5)");
-            gradient.addColorStop(1, "rgba(33, 150, 243, 0)");
-            
-            signalCtx.fillStyle = gradient;
-            signalCtx.fillRect(0, 0, signalStrength.width, signalStrength.height);
-        }
-
-        // Troubleshooting Flowchart
-        const flowchart = document.getElementById("troubleshootingFlow");
-        const steps = [
-            {
-                question: "Is there a connection problem?",
-                options: ["Yes", "No"],
-                next: {
-                    "Yes": "Check Physical Connections",
-                    "No": "Check Performance Issues"
+                // Clear previous elements if any (important for re-initialization if needed)
+                if (floorplanContainer) floorplanContainer.innerHTML = '';
+                if (fixedObstaclesContainer) fixedObstaclesContainer.innerHTML = '';
+                if (interferenceContainer) interferenceContainer.innerHTML = '';
+                // Clear the interferenceElements object
+                for (const key in interferenceElements) {
+                    delete interferenceElements[key];
                 }
-            },
-            {
-                question: "Check Physical Connections",
-                options: ["Connected", "Disconnected"],
-                next: {
-                    "Connected": "Test Network Connection",
-                    "Disconnected": "Fix Physical Connection"
+
+                // Add rooms
+                if (floorplanContainer) {
+                    floorplanData.rooms.forEach(room => {
+                        const roomElement = document.createElement("div");
+                        roomElement.className = "room";
+                        roomElement.style.left = room.x + "px";
+                        roomElement.style.top = room.y + "px";
+                        roomElement.style.width = room.width + "px";
+                        roomElement.style.height = room.height + "px";
+
+                        const label = document.createElement("div");
+                        label.className = "room-label";
+                        label.textContent = room.name;
+                        label.style.left = (room.x + 5) + "px";
+                        label.style.top = (room.y + 5) + "px";
+
+                        floorplanContainer.appendChild(roomElement);
+                        floorplanContainer.appendChild(label);
+                    });
                 }
-            },
-            {
-                question: "Test Network Connection",
-                options: ["Working", "Not Working"],
-                next: {
-                    "Working": "Monitor Performance",
-                    "Not Working": "Contact ISP"
+
+                // Add fixed obstacles
+                if (fixedObstaclesContainer) {
+                    floorplanData.fixedObstacles.forEach(obstacle => {
+                        const element = document.createElement("div");
+                        element.className = "fixed-obstacle";
+                        element.style.left = obstacle.x + "px";
+                        element.style.top = obstacle.y + "px";
+                        element.style.width = obstacle.width + "px";
+                        element.style.height = obstacle.height + "px";
+                        element.style.backgroundColor = getObstacleColor(obstacle.type);
+                        element.title = obstacle.type;
+                        fixedObstaclesContainer.appendChild(element);
+                    });
+                }
+
+                // Add interference sources AND store references
+                if (interferenceContainer) {
+                    floorplanData.interferenceSources.forEach(source => {
+                        const element = document.createElement("div");
+                        element.className = "interference-source";
+                        element.classList.add(`interference-${source.name}`);
+                        element.style.left = (source.x - source.radius) + "px";
+                        element.style.top = (source.y - source.radius) + "px";
+                        element.style.width = (source.radius * 2) + "px";
+                        element.style.height = (source.radius * 2) + "px";
+                        element.style.borderRadius = "50%";
+                        element.style.backgroundColor = source.name === "bluetooth" ? "rgba(33, 150, 243, 0.2)" : "rgba(244, 67, 54, 0.2)";
+                        // Set initial visibility based on 'active' status in data
+                        if (source.active) {
+                            element.classList.add("active");
+                        }
+                        interferenceContainer.appendChild(element);
+                        interferenceElements[source.name] = element; // Store reference
+                    });
                 }
             }
-        ];
 
-        let currentStep = steps[0];
-        updateFlowchart();
+            function getObstacleColor(type) {
+                switch(type) {
+                    case "refrigerator": return "#90A4AE";
+                    case "washer": case "dryer": return "#78909C";
+                    case "mirror": return "rgba(200, 200, 200, 0.8)";
+                    case "cabinet": return "#8D6E63";
+                    default: return "#BDBDBD";
+                }
+            }
 
-        function updateFlowchart() {
-            flowchart.innerHTML = `
-                <div class="decision-node">
-                    <h4>${currentStep.question}</h4>
-                    ${currentStep.options.map(opt => 
-                        `<button onclick="selectOption('${opt}')">${opt}</button>`
-                    ).join('')}
-                </div>
-            `;
-        }
+            function lineIntersectsRect(x1, y1, x2, y2, rx1, ry1, rx2, ry2) {
+                const minX = Math.min(x1, x2), maxX = Math.max(x1, x2);
+                const minY = Math.min(y1, y2), maxY = Math.max(y1, y2);
+                // Basic bounding box check first
+                if (maxX < rx1 || minX > rx2 || maxY < ry1 || minY > ry2) {
+                    return false;
+                }
+                 // More precise check needed if bounding boxes overlap, but for simplicity:
+                 // Check if either endpoint is inside the rectangle
+                 if ((x1 >= rx1 && x1 <= rx2 && y1 >= ry1 && y1 <= ry2) || (x2 >= rx1 && x2 <= rx2 && y2 >= ry1 && y2 <= ry2)) {
+                     return true;
+                 }
+                 // A simple check if the line segment crosses the rectangle's center area (approximation)
+                 const centerX = (rx1 + rx2) / 2;
+                 const centerY = (ry1 + ry2) / 2;
+                 return (minX <= centerX && maxX >= centerX && minY <= centerY && maxY >= centerY);
+            }
 
-        function selectOption(option) {
-            const nextStep = steps.find(s => s.question === currentStep.next[option]);
-            if (nextStep) {
-                currentStep = nextStep;
+
+            function calculateSignalAtPoint(x, y, routerX, routerY) {
+                // Input validation
+                if (!Number.isFinite(x) || !Number.isFinite(y) || 
+                    !Number.isFinite(routerX) || !Number.isFinite(routerY)) {
+                    return 0;
+                }
+
+                // First, check if router is within any active interference zones
+                let routerInterferencePenalty = 1.0;
+                for (const source of floorplanData.interferenceSources) {
+                    if (source.active) {
+                        const routerToInterferenceDistance = Math.sqrt(
+                            Math.pow(routerX - source.x, 2) + 
+                            Math.pow(routerY - source.y, 2)
+                        );
+                        
+                        if (routerToInterferenceDistance <= source.radius) {
+                            // Router is within interference radius
+                            // Calculate penalty (0 at center, increasing to 1 at edge)
+                            const proximityFactor = routerToInterferenceDistance / source.radius;
+                            const penalty = Math.pow(proximityFactor, 1.5); // Steeper falloff
+                            routerInterferencePenalty *= penalty;
+                        }
+                    }
+                }
+
+                const dx = x - routerX;
+                const dy = y - routerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const maxRadius = Math.min(signalStrengthCanvas.width, signalStrengthCanvas.height) * 0.5 * 3;
+                
+                // Base signal strength calculation using quadratic decay
+                // Apply router interference penalty to base strength
+                let strength = Math.pow(Math.max(0, 1 - (distance / maxRadius)), 2) * routerInterferencePenalty;
+
+                // Count walls crossed
+                let wallsCrossed = 0;
+                let totalAttenuation = 0;
+
+                // Check room boundaries for wall crossings
+                for (const room of floorplanData.rooms) {
+                    const pointInRoom = x >= room.x && x <= room.x + room.width && 
+                                     y >= room.y && y <= room.y + room.height;
+                    const routerInRoom = routerX >= room.x && routerX <= room.x + room.width && 
+                                       routerY >= room.y && routerY <= room.y + room.height;
+                    
+                    if (pointInRoom !== routerInRoom) {
+                        wallsCrossed++;
+                        totalAttenuation += 0.2; // Base wall attenuation
+                    }
+
+                    if (pointInRoom) {
+                        totalAttenuation += room.zoneAttenuation;
+                    }
+                }
+
+                // Apply obstacles
+                for (const obstacle of floorplanData.fixedObstacles) {
+                    if (lineIntersectsRect(routerX, routerY, x, y, 
+                        obstacle.x, obstacle.y, 
+                        obstacle.x + obstacle.width, 
+                        obstacle.y + obstacle.height)) {
+                        totalAttenuation += obstacle.attenuation;
+                    }
+                }
+                // Apply interference sources
+                for (const source of floorplanData.interferenceSources) {
+                    if (source.active) {
+                        const distToSource = Math.sqrt(
+                            Math.pow(x - source.x, 2) + 
+                            Math.pow(y - source.y, 2)
+                        );
+                        if (distToSource <= source.radius) {
+                            const interferenceStrength = 1 - (distToSource / source.radius);
+                            totalAttenuation += source.attenuation * interferenceStrength;
+                        }
+                    }
+                }
+
+                // Apply total attenuation to base strength
+                strength *= Math.max(0, 1 - totalAttenuation);
+
+                return Math.max(0, Math.min(1, strength));
+            }
+
+            function updateSignalStrength() {
+                if (!routerPlacement || !signalCtx || !signalStrengthCanvas || !router) {
+                    console.warn('Missing required elements');
+                    return;
+                }
+
+                try {
+                    // Get router position in canvas coordinates
+                    const routerX = parseFloat(router.style.left) || 0;
+                    const routerY = parseFloat(router.style.top) || 0;
+                    
+                    // Add validation for router dimensions
+                    const routerWidth = router.offsetWidth || 40;
+                    const routerHeight = router.offsetHeight || 40;
+
+                    // Calculate center with validation
+                    const routerCenterX = Math.floor(routerX + (routerWidth / 2));
+                    const routerCenterY = Math.floor(routerY + (routerHeight / 2));
+
+                    // Validate coordinates
+                    if (!Number.isFinite(routerCenterX) || !Number.isFinite(routerCenterY)) {
+                        console.warn('Invalid router position:', { routerCenterX, routerCenterY });
+                        return;
+                    }
+
+                    // Ensure canvas dimensions are valid
+                    const canvasWidth = signalStrengthCanvas.width;
+                    const canvasHeight = signalStrengthCanvas.height;
+                    if (!canvasWidth || !canvasHeight) {
+                        console.warn('Invalid canvas dimensions');
+                        return;
+                    }
+
+                    // Clear canvas
+                    signalCtx.clearRect(0, 0, canvasWidth, canvasHeight);
+
+                    // Create multi-color gradient for signal visualization
+                    const maxRadius = Math.min(canvasWidth, canvasHeight) * 0.5 * 3; // Increased radius by 3x
+                    const gradient = signalCtx.createRadialGradient(
+                        routerCenterX, routerCenterY, 0,
+                        routerCenterX, routerCenterY, maxRadius
+                    );
+
+                    if (!gradient) {
+                        console.warn('Failed to create gradient');
+                        return;
+                    }
+
+                    // Define gradient stops for better visualization
+                    gradient.addColorStop(0, 'rgba(76, 175, 80, 0.6)');    // Strong signal (green)
+                    gradient.addColorStop(0.3, 'rgba(33, 150, 243, 0.5)'); // Good signal (blue)
+                    gradient.addColorStop(0.6, 'rgba(255, 193, 7, 0.4)');  // Fair signal (yellow)
+                    gradient.addColorStop(1, 'rgba(244, 67, 54, 0.2)');    // Weak signal (red)
+
+                    // Draw initial signal gradient
+                    signalCtx.fillStyle = gradient;
+                    signalCtx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+                    // Create pixel-perfect data for obstacles and interference
+                    const imageData = signalCtx.getImageData(0, 0, canvasWidth, canvasHeight);
+                    const data = imageData.data;
+                    const step = 2; // Balance between performance and quality
+
+                    for (let y = 0; y < canvasHeight; y += step) {
+                        for (let x = 0; x < canvasWidth; x += step) {
+                            const strength = calculateSignalAtPoint(x, y, routerCenterX, routerCenterY);
+                            const baseAlpha = data[((y * canvasWidth + x) * 4) + 3];
+                            const newAlpha = Math.floor(baseAlpha * strength);
+
+                            // Fill the step x step pixel block
+                            for (let sy = 0; sy < step && y + sy < canvasHeight; sy++) {
+                                for (let sx = 0; sx < step && x + sx < canvasWidth; sx++) {
+                                    const i = ((y + sy) * canvasWidth + (x + sx)) * 4;
+                                    data[i + 3] = newAlpha;
+                                }
+                            }
+                        }
+                    }
+
+                    signalCtx.putImageData(imageData, 0, 0);
+                } catch (error) {
+                    console.error('Error updating signal strength:', error);
+                }
+            }
+
+            function updateSignalInfo() {
+                if (!router) return;
+                
+                // Ensure router has valid dimensions before calculating
+                if (!router.offsetWidth || !router.offsetHeight) {
+                    return; // Silently return if dimensions aren't ready
+                }
+                
+                // Parse positions as numbers with fallback to 0
+                const routerLeft = parseFloat(router.style.left) || 0;
+                const routerTop = parseFloat(router.style.top) || 0;
+                
+                // Only proceed if we have valid position values
+                if (isNaN(routerLeft) || isNaN(routerTop)) {
+                    return; // Silently return if positions aren't valid
+                }
+                
+                const routerX = routerLeft + (router.offsetWidth / 2);
+                const routerY = routerTop + (router.offsetHeight / 2);
+                
+                const strengthAtRouter = calculateSignalAtPoint(routerX, routerY, routerX, routerY);
+                const signalInfo = document.getElementById("signalInfo");
+                if (signalInfo) {
+                    const signalPercent = Math.round(Math.max(0, Math.min(1, strengthAtRouter)) * 100);
+                    signalInfo.textContent = `Signal Strength at Router: ${signalPercent}%`;
+                }
+            }
+
+
+            function updateCanvasDimensions() {
+                if (!routerPlacement || !signalStrengthCanvas) {
+                    console.warn('Missing elements for canvas dimension update');
+                    return;
+                }
+
+                const containerRect = routerPlacement.getBoundingClientRect();
+                signalStrengthCanvas.style.width = containerRect.width + 'px';
+                signalStrengthCanvas.style.height = containerRect.height + 'px';
+                signalStrengthCanvas.width = containerRect.width;
+                signalStrengthCanvas.height = containerRect.height;
+
+                // Force a redraw of the signal visualization
+                requestAnimationFrame(() => {
+                    updateSignalStrength();
+                });
+            }
+
+            // Add a mutation observer to watch for size changes
+            const resizeObserver = new ResizeObserver(entries => {
+                for (const entry of entries) {
+                    if (entry.target === routerPlacement) {
+                        updateCanvasDimensions();
+                    }
+                }
+            });
+
+            if (routerPlacement) {
+                resizeObserver.observe(routerPlacement);
+            }
+
+            // --- Event Listeners ---
+            window.addEventListener('resize', updateCanvasDimensions);
+
+            // Router movement state
+            let isDragging = false;
+            let currentX = 0;
+            let currentY = 0;
+
+            // Remove default draggability
+            if (router) {
+                router.setAttribute('draggable', 'false');
+                
+                function startDrag(e) {
+                    e.preventDefault();
+                    isDragging = true;
+                    const rect = router.getBoundingClientRect();
+                    if (e.type === 'mousedown') {
+                        currentX = e.clientX - rect.left;
+                        currentY = e.clientY - rect.top;
+                    } else {
+                        currentX = e.touches[0].clientX - rect.left;
+                        currentY = e.touches[0].clientY - rect.top;
+                    }
+                    router.style.cursor = 'grabbing';
+                }
+
+                function moveRouter(e) {
+                    if (!isDragging || !router || !routerPlacement) return;
+                    e.preventDefault();
+
+                    const rect = routerPlacement.getBoundingClientRect();
+                    const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+                    const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+
+                    // Calculate new position
+                    const newX = clientX - rect.left - currentX;
+                    const newY = clientY - rect.top - currentY;
+
+                    // Update router position with our helper function
+                    updateRouterPosition(newX, newY);
+                }
+
+                function stopDrag() {
+                    isDragging = false;
+                    router.style.cursor = 'grab';
+                }
+
+                // Mouse events
+                router.addEventListener('mousedown', startDrag);
+                document.addEventListener('mousemove', moveRouter);
+                document.addEventListener('mouseup', stopDrag);
+
+                // Touch events
+                router.addEventListener('touchstart', startDrag, { passive: false });
+                document.addEventListener('touchmove', moveRouter, { passive: false });
+                document.addEventListener('touchend', stopDrag);
+                document.addEventListener('touchcancel', stopDrag);
+
+                // Initial cursor style
+                router.style.cursor = 'grab';
+            }
+
+            // Remove redundant event listeners since they're now handled in moveRouter
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
+            document.addEventListener('touchcancel', stopDrag);
+
+            // Set initial cursor style when not dragging
+            router.addEventListener('mouseenter', function() {
+                if (!isDragging) router.style.cursor = 'grab';
+            });
+            
+            router.addEventListener('mouseleave', function() {
+                if (!isDragging) router.style.cursor = 'default';
+            });
+
+
+            // Interference Toggle Buttons
+            const bluetoothToggle = document.getElementById("bluetoothToggle");
+            const babyMonitorToggle = document.getElementById("babyMonitorToggle");
+
+            if (bluetoothToggle) {
+                bluetoothToggle.addEventListener("click", function() {
+                    const sourceData = floorplanData.interferenceSources.find(s => s.name === "bluetooth");
+                    if (!sourceData) return;
+                    sourceData.active = !sourceData.active;
+                    this.classList.toggle("active");
+                    if (interferenceElements["bluetooth"]) {
+                         interferenceElements["bluetooth"].classList.toggle("active");
+                    }
+                    updateSignalStrength();
+                    updateSignalInfo();
+                });
+            }
+
+            if (babyMonitorToggle) {
+                babyMonitorToggle.addEventListener("click", function() {
+                    const sourceData = floorplanData.interferenceSources.find(s => s.name === "babyMonitor");
+                     if (!sourceData) return;
+                    sourceData.active = !sourceData.active;
+                    this.classList.toggle("active");
+                     if (interferenceElements["babyMonitor"]) {
+                        interferenceElements["babyMonitor"].classList.toggle("active");
+                     }
+                    updateSignalStrength();
+                    updateSignalInfo();
+                });
+            }
+
+            // --- Troubleshooting Flowchart ---
+            const flowchart = document.getElementById("troubleshootingFlow");
+            const steps = [
+                // Initial Step
+                { question: "What is the primary issue?", options: ["No Internet", "Slow Internet", "Intermittent Connection", "Specific Device Issue"], next: { "No Internet": "Check Modem/ONT Lights", "Slow Internet": "Run Speed Test", "Intermittent Connection": "Check Intermittent Pattern", "Specific Device Issue": "Check Device Specifics" } },
+                // No Internet Path
+                { question: "Check Modem/ONT Lights", options: ["Lights Normal", "Lights Abnormal"], next: { "Lights Normal": "Check Router Lights", "Lights Abnormal": "Power Cycle Modem/ONT" } },
+                { question: "Power Cycle Modem/ONT", options: ["Still Abnormal", "Now Normal"], next: { "Still Abnormal": "Check Modem Power/Connections", "Now Normal": "Check Router Lights" } },
+                { question: "Check Modem Power/Connections", options: ["Still Abnormal", "Now Normal"], next: { "Still Abnormal": "Contact ISP - Hardware", "Now Normal": "Check Router Lights" } },
+                { question: "Check Router Lights", options: ["Lights Normal", "Lights Abnormal"], next: { "Lights Normal": "Check Physical Connections", "Lights Abnormal": "Power Cycle Router" } },
+                { question: "Power Cycle Router", options: ["Still Abnormal", "Now Normal"], next: { "Still Abnormal": "Check Router Power/Connections", "Now Normal": "Check Physical Connections" } },
+                { question: "Check Router Power/Connections", options: ["Still Abnormal", "Now Normal"], next: { "Still Abnormal": "Router Hardware Issue", "Now Normal": "Check Physical Connections" } },
+                { question: "Check Physical Connections", options: ["Connections Secure", "Connections Loose/Damaged"], next: { "Connections Secure": "Test Wired Connection", "Connections Loose/Damaged": "Fix Connections" } },
+                { question: "Fix Connections", options: ["Now Working", "Still Not Working"], next: { "Now Working": "Issue Resolved", "Still Not Working": "Test Wired Connection" } },
+                { question: "Test Wired Connection", options: ["Works When Wired", "No Connection Wired"], next: { "Works When Wired": "WiFi Issue", "No Connection Wired": "Test Direct to Modem" } },
+                { question: "Test Direct to Modem", options: ["Works Direct to Modem", "No Connection to Modem"], next: { "Works Direct to Modem": "Router Issue", "No Connection to Modem": "ISP Issue" } },
+                // Slow Internet Path
+                { question: "Run Speed Test", options: ["Speed Significantly Slow", "Speed Normal"], next: { "Speed Significantly Slow": "Power Cycle Network Equipment", "Speed Normal": "Check Device Limits" } },
+                { question: "Power Cycle Network Equipment", options: ["Speed Improved", "Still Slow"], next: { "Speed Improved": "Monitor Performance", "Still Slow": "Test Direct to Modem Speed" } },
+                { question: "Test Direct to Modem Speed", options: ["Still Slow at Modem", "Speed OK at Modem"], next: { "Still Slow at Modem": "Contact ISP - Speed", "Speed OK at Modem": "Check Router Settings" } },
+                { question: "Check Router Settings", options: ["Speed Improved", "Still Slow"], next: { "Speed Improved": "Monitor Performance", "Still Slow": "WiFi Issue" } },
+                // Intermittent Connection Path
+                { question: "Check Intermittent Pattern", options: ["Pattern Found", "No Clear Pattern"], next: { "Pattern Found": "Check Physical Connections", "No Clear Pattern": "Check WiFi Interference" } },
+                { question: "Check WiFi Interference", options: ["Interference Found", "No Interference"], next: { "Interference Found": "Mitigate Interference", "No Interference": "Check Signal Strength" } },
+                { question: "Check Signal Strength", options: ["Signal Weak", "Signal Strong"], next: { "Signal Weak": "Optimize Router Placement", "Signal Strong": "Check Router Logs" } },
+                { question: "Optimize Router Placement", options: ["Improved", "Still Issues"], next: { "Improved": "Monitor Performance", "Still Issues": "Consider Mesh/Extender" } },
+                // Specific Device Issue Path
+                { question: "Check Device Specifics", options: ["Only This Device", "Multiple Devices"], next: { "Only This Device": "Check Device Connection", "Multiple Devices": "What is the primary issue?" } },
+                { question: "Check Device Connection", options: ["Not Connected", "Shows Connected"], next: { "Not Connected": "Basic Device Fixes", "Shows Connected": "Check Device Functionality" } },
+                { question: "Basic Device Fixes", options: ["Now Working", "Still Issues"], next: { "Now Working": "Monitor Device", "Still Issues": "Check Device Compatibility" } },
+                { question: "Check Device Functionality", options: ["Internet Issue", "Local Network Issue", "Performance Issue"], next: { "Internet Issue": "Check DNS Settings", "Local Network Issue": "Restart Network Equipment", "Performance Issue": "Check Signal Strength" } },
+                // WiFi Branch Entry Point
+                { question: "WiFi Issue", options: ["Signal Issue", "Speed Issue", "Interference Issue", "Connection Drops"], next: { "Signal Issue": "Check Signal Strength", "Speed Issue": "Check WiFi Channel", "Interference Issue": "Check Interference Sources", "Connection Drops": "Check Intermittent Pattern" } },
+                // WiFi Specific Checks
+                { question: "Check WiFi Channel", options: ["Channel Congested", "Channel Clear"], next: { "Channel Congested": "Change WiFi Channel", "Channel Clear": "Check Connected Devices" } },
+                { question: "Check Connected Devices", options: ["High Usage Found", "Normal Usage"], next: { "High Usage Found": "Manage Bandwidth", "Normal Usage": "Check Router Firmware" } },
+                { question: "Check Router Firmware", options: ["Update Available", "Firmware Current"], next: { "Update Available": "Update Router Firmware", "Firmware Current": "Consider Router Reset" } },
+                // Terminal/Concluding Steps
+                { question: "Issue Resolved", options: ["Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Monitor Performance", options: ["Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Monitor Device", options: ["Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Contact ISP - Hardware", options: ["Contact ISP about potential hardware failure.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Contact ISP - Speed", options: ["Contact ISP regarding slow speeds.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "ISP Issue", options: ["Contact ISP for assistance.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Router Hardware Issue", options: ["Consider factory reset or replacing router.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Router Issue", options: ["Troubleshoot router (settings, reset, replace).", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Consider Router Reset", options: ["Factory reset router (requires reconfiguration). Test again.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Consider Mesh/Extender", options: ["Recommend WiFi Extender or Mesh System for better coverage.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                // Missing Intermediate Steps (Added for completeness based on previous versions)
+                { question: "Check Device Limits", options: ["Device OK", "Device Limited"], next: { "Device OK": "WiFi Issue", "Device Limited": "Advise User on Device Limits" } },
+                { question: "Advise User on Device Limits", options: ["Inform user about potential device limitations.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Mitigate Interference", options: ["Interference Reduced", "Still Issues"], next: { "Interference Reduced": "Monitor Performance", "Still Issues": "Check Signal Strength" } },
+                { question: "Check Router Logs", options: ["Errors Found", "No Errors"], next: { "Errors Found": "Troubleshoot Router Error", "No Errors": "Test Wired to Router Stability" } },
+                { question: "Troubleshoot Router Error", options: ["Update Firmware", "Check Overheating", "Factory Reset"], next: { "Update Firmware": "Update Router Firmware", "Check Overheating": "Ensure Ventilation", "Factory Reset": "Consider Router Reset" } },
+                { question: "Ensure Ventilation", options: ["Ensure router has adequate ventilation.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Test Wired to Router Stability", options: ["Still Intermittent", "Stable Wired"], next: { "Still Intermittent": "Test Wired to Modem Stability", "Stable Wired": "WiFi Issue" } },
+                { question: "Test Wired to Modem Stability", options: ["Still Intermittent", "Stable at Modem"], next: { "Still Intermittent": "ISP Issue", "Stable at Modem": "Router Issue" } },
+                { question: "Check Device Compatibility", options: ["Device Compatible", "Device Incompatible"], next: { "Device Compatible": "Monitor Device", "Device Incompatible": "Advise on Compatibility" } },
+                { question: "Advise on Compatibility", options: ["Advise user on potential device incompatibility.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Check DNS Settings", options: ["DNS OK", "DNS Issue"], next: { "DNS OK": "Restart Network Equipment", "DNS Issue": "Correct DNS Settings" } },
+                { question: "Correct DNS Settings", options: ["Correct DNS settings on device or router.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Restart Network Equipment", options: ["Issue Resolved", "Still Issues"], next: { "Issue Resolved": "Monitor Performance", "Still Issues": "Consider Device Defect" } },
+                { question: "Consider Device Defect", options: ["Consider the possibility of a defective device.", "Start Over?"], next: { "Start Over?": "What is the primary issue?" } },
+                { question: "Check Interference Sources", options: ["Source Found", "No Source Found"], next: { "Source Found": "Mitigate Interference", "No Source Found": "Check WiFi Channel" } },
+                { question: "Change WiFi Channel", options: ["Improved", "No Improvement"], next: { "Improved": "Monitor Performance", "No Improvement": "Check Connected Devices" } },
+                { question: "Manage Bandwidth", options: ["Improved", "No Improvement"], next: { "Improved": "Monitor Performance", "No Improvement": "Check Router Firmware" } },
+                { question: "Update Router Firmware", options: ["Update Successful", "Update Failed/No Update"], next: { "Update Successful": "Monitor Performance", "Update Failed/No Update": "Consider Router Reset" } }
+            ];
+            let currentStep = steps[0]; // Start at the beginning
+
+            function updateFlowchart() {
+                if (!flowchart || !currentStep) return; // Guard clause
+                flowchart.innerHTML = `
+                    <div class="decision-node">
+                        <h4>${currentStep.question}</h4>
+                        ${currentStep.options.map(opt =>
+                            `<button onclick="selectFlowchartOption('${opt}')">${opt}</button>`
+                        ).join('')}
+                    </div>
+                `;
+            }
+
+            // Make function globally accessible for onclick handlers
+            window.selectFlowchartOption = function(option) {
+                const nextStepQuestion = currentStep.next[option];
+                // Find step by question text (ensure questions are unique identifiers in this context)
+                const nextStep = steps.find(s => s.question === nextStepQuestion);
+                if (nextStep) {
+                    currentStep = nextStep;
+                    updateFlowchart();
+                } else {
+                    console.error("Next step not found for option:", option, "from step:", currentStep.question);
+                    // Optional: Reset or show error message
+                    // currentStep = steps[0]; // Reset to start
+                    // updateFlowchart();
+                }
+            };
+
+            // --- Initializations ---
+            function updateRouterPosition(x, y) {
+                if (!router || !routerPlacement) return;
+
+                // Ensure coordinates are numbers and within bounds
+                x = Math.round(Math.max(0, Math.min(x, routerPlacement.offsetWidth - routerDimensions.width)));
+                y = Math.round(Math.max(0, Math.min(y, routerPlacement.offsetHeight - routerDimensions.height)));
+
+                // Update position state
+                lastKnownPosition = { x, y };
+
+                // Update position only with left/top (no transform)
+                router.style.left = x + 'px';
+                router.style.top = y + 'px';
+
+                // Schedule signal update with the new position
+                requestAnimationFrame(() => {
+                    updateSignalStrength();
+                    updateSignalInfo();
+                });
+            }
+
+            function initializeSimulator() {
+                if (!routerPlacement || !signalStrengthCanvas || !router) {
+                    console.error('Required elements not found for simulator initialization');
+                    return;
+                }
+
+                // Get initial router dimensions
+                const rect = router.getBoundingClientRect();
+                routerDimensions.width = rect.width || 40;
+                routerDimensions.height = rect.height || 40;
+
+                // Initialize canvas with correct dimensions and clear any previous state
+                updateCanvasDimensions();
+                if (signalCtx) {
+                    signalCtx.clearRect(0, 0, signalStrengthCanvas.width, signalStrengthCanvas.height);
+                }
+                
+                // Initialize floorplan
+                initializeFloorplan();
+
+                // Set initial router position in Living Room
+                const initialLivingRoom = floorplanData.rooms.find(r => r.name === "Living Room");
+                if (initialLivingRoom) {
+                    // Calculate center position of Living Room
+                    const centerX = Math.round(initialLivingRoom.x + (initialLivingRoom.width / 2) - (routerDimensions.width / 2));
+                    const centerY = Math.round(initialLivingRoom.y + (initialLivingRoom.height / 2) - (routerDimensions.height / 2));
+                    
+                    // Disable transitions temporarily
+                    router.style.transition = 'none';
+                    router.style.transform = 'none';
+                    
+                    // Set initial position directly
+                    updateRouterPosition(centerX, centerY);
+                    
+                    // Force a reflow
+                    router.offsetHeight;
+                    
+                    // Enable transitions and update visualization
+                    requestAnimationFrame(() => {
+                        router.style.transition = 'left 0.05s ease-out, top 0.05s ease-out';
+                    });
+                } else {
+                    updateRouterPosition(50, 50);
+                }
+
+                // Set initial styles
+                router.style.cursor = 'grab';
+                
+                // Initialize flowchart
                 updateFlowchart();
             }
-        }
 
-        // Initialize
-        updateSignalStrength();
+            // Wait for a brief moment to ensure DOM is fully ready
+            setTimeout(initializeSimulator, 100);
+        });
     </script>
 </body>
 </html>
+</final_file_content>
+
+IMPORTANT: For any future changes to this file, use the final_file_content shown above as your reference. This content reflects the current state of the file, including any auto-formatting (e.g., if you used single quotes but the formatter converted them to double quotes). Always base your SEARCH/REPLACE operations on this final version to ensure accuracy.
+
+<environment_details>
+# VSCode Visible Files
+StudyGuide/troubleshooting_techniques.html
+
+# VSCode Open Tabs
+Quiz/questions.js
+Dashboard/charts.js
+Quiz/quiz.html
+Quiz/quiz.js
+Dashboard/dashboard.js
+Dashboard/index.html
+Dashboard/styles.css
+StudyGuide/styles.css
+Quiz/index.html
+StudyGuide/index.html
+Quiz/styles.css
+v2/.env
+StudyGuide/fiber_optic_technology.html
+v2/src/pages/admin/components/StudyGuideEditor/index.jsx
+StudyGuide/troubleshooting_techniques.html
+
+# Current Time
+3/29/2025, 2:58:00 PM (America/Chicago, UTC-5:00)
+
+# Current Mode
+ACT MODE
+</environment_details>
