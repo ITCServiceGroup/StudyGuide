@@ -74,11 +74,11 @@
         }
 
         .router-placement {
-            width: 100%;
-            height: 400px;
+            width: 840px; /* Increased width + 40px padding */
+            height: 740px; /* Increased height + 40px padding */
             position: relative;
             border: 1px solid #ccc;
-            margin: 15px 0;
+            margin: 20px auto; /* Centered horizontally */
             background-color: #f5f5f5;
             /* overflow: hidden; Removed as it might interfere */
         }
@@ -87,8 +87,8 @@
             position: absolute;
             z-index: 10;
             cursor: grab;
-            width: 40px;
-            height: 40px;
+            width: 60px; /* Increased size */
+            height: 60px; /* Increased size */
             user-select: none;
             touch-action: none;
             will-change: left, top;
@@ -101,8 +101,26 @@
             transform: translateZ(0);
         }
 
-        .router:active {
+        .router:active, .mesh-extender:active {
             cursor: grabbing;
+        }
+
+        .mesh-extender {
+            position: absolute;
+            z-index: 10;
+            cursor: grab;
+            width: 60px;
+            height: 60px;
+            user-select: none;
+            touch-action: none;
+            will-change: left, top;
+            left: 0;
+            top: 0;
+            transition: left 0.05s ease-out, top 0.05s ease-out;
+            pointer-events: auto;
+            backface-visibility: hidden;
+            -webkit-transform: translateZ(0);
+            transform: translateZ(0);
         }
 
 
@@ -189,10 +207,11 @@
 
         .room {
             position: absolute;
-            border: 2px solid #666;
+            /* border: 2px solid #666; */ /* Border removed, will be drawn separately */
+            border: none; /* Explicitly remove border */
             background-color: rgba(200, 200, 200, 0.1);
             pointer-events: none;
-            z-index: 2;
+            z-index: 1; /* Lower z-index so walls draw on top */
         }
 
         .room-label {
@@ -204,13 +223,21 @@
             background-color: rgba(255, 255, 255, 0.7);
             padding: 1px 3px;
             border-radius: 2px;
-            z-index: 3;
+            z-index: 5; /* Increased z-index to be above obstacles */
         }
 
         .fixed-obstacle {
             position: absolute;
             pointer-events: none;
             z-index: 4; /* Above rooms */
+            /* Added styles for W/D labels */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: rgba(0, 0, 0, 0.6);
+            text-align: center;
         }
 
         .interference-source {
@@ -245,24 +272,14 @@
         }
 
         .interference-source.bluetooth.active {
-            background: repeating-radial-gradient(
-                circle,
-                rgba(33, 150, 243, 0.2),
-                rgba(33, 150, 243, 0.2) 10px,
-                rgba(33, 150, 243, 0.3) 10px,
-                rgba(33, 150, 243, 0.3) 20px
-            );
-            border-color: rgba(33, 150, 243, 0.8);
+            /* Changed from blue to purple */
+            /* Removed background fill */
+            border-color: rgba(156, 39, 176, 0.8); /* Purple */
         }
 
         .interference-source.babyMonitor.active {
-            background: repeating-radial-gradient(
-                circle,
-                rgba(244, 67, 54, 0.2),
-                rgba(244, 67, 54, 0.2) 10px,
-                rgba(244, 67, 54, 0.3) 10px,
-                rgba(244, 67, 54, 0.3) 20px
-            );
+             /* Removed background fill */
+             border-color: rgba(244, 67, 54, 0.8); /* Keep border color from .interference-source.active */
         }
 
         .interference-buttons {
@@ -312,14 +329,14 @@
         }
 
         .interference-button.bluetooth.active {
-            background-color: #E3F2FD;
-            border-color: #2196F3;
-            color: #1976D2;
+            background-color: #F3E5F5; /* Light Purple */
+            border-color: #9C27B0; /* Purple */
+            color: #7B1FA2; /* Dark Purple */
         }
 
         .interference-button.bluetooth.active::before {
-            background-color: #2196F3;
-            box-shadow: 0 0 8px rgba(33, 150, 243, 0.5);
+            background-color: #9C27B0; /* Purple */
+            box-shadow: 0 0 8px rgba(156, 39, 176, 0.5); /* Purple */
         }
 
         .tooltip {
@@ -382,7 +399,11 @@
         </div>
         <div class="interactive-element">
             <h3>Router Placement Simulator</h3>
-            <div id="signalInfo">Signal Strength at Router: 100%</div>
+            <div id="signalInfo">Signal Strength at Router: 100% | Mesh Extender: Not Placed</div>
+            <div class="controls">
+                <button id="meshExtenderButton" class="interference-button">Add Mesh Extender</button>
+                <div class="tooltip">Place a mesh extender to boost WiFi coverage. Signal strength depends on router's signal at extender location.</div>
+            </div>
             <div class="router-placement" id="routerPlacement">
                 <svg id="router" class="router" draggable="true" viewBox="0 0 64 64">
                     <rect x="4" y="24" width="56" height="16" rx="4" fill="#64B5F6"/>
@@ -395,8 +416,23 @@
                     <circle cx="42" cy="32" r="3" fill="#1976D2"/>
                     <circle cx="52" cy="32" r="3" fill="#1976D2"/>
                 </svg>
+                <svg id="meshExtender" class="mesh-extender" style="display: none;" viewBox="0 0 64 64">
+                    <!-- Main body - rounded square -->
+                    <rect x="8" y="20" width="48" height="24" rx="6" fill="#81D4FA"/>
+                    <!-- Curved arrow indicating signal boost -->
+                    <path d="M 16,18 A 20,20 0 0 1 48,18" stroke="#2196F3" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 20,14 A 24,24 0 0 1 44,14" stroke="#2196F3" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <!-- Signal indicators -->
+                    <circle cx="20" cy="32" r="2.5" fill="#0D47A1"/>
+                    <circle cx="32" cy="32" r="2.5" fill="#0D47A1"/>
+                    <circle cx="44" cy="32" r="2.5" fill="#0D47A1"/>
+                    <!-- Small feet/stands -->
+                    <rect x="16" y="44" width="8" height="2" rx="1" fill="#333"/>
+                    <rect x="40" y="44" width="8" height="2" rx="1" fill="#333"/>
+                </svg>
                 <canvas id="signalStrength" class="signal-strength"></canvas>
                 <div id="floorplan"></div>
+                <div id="wallContainer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2;"></div> <!-- Container for unique walls -->
                 <div id="fixedObstacles"></div>
                 <div id="interferenceSources"></div>
             </div>
@@ -475,29 +511,32 @@
     </div>
 
     <script>
-        // Floorplan Configuration (Define first)
+        // Floorplan Configuration (Define first) - Scaled by 2x
+        const padding = 20; // Define padding offset
         const floorplanData = {
             rooms: [
-                { name: "Living Room", x: 20, y: 20, width: 200, height: 150, zoneAttenuation: 0.1 },
-                { name: "Kitchen", x: 220, y: 20, width: 150, height: 120, zoneAttenuation: 0.4 },
-                { name: "Dining Room", x: 220, y: 140, width: 150, height: 100, zoneAttenuation: 0.1 },
-                { name: "Bedroom 1", x: 20, y: 170, width: 120, height: 100, zoneAttenuation: 0.1 },
-                { name: "Bedroom 2", x: 140, y: 170, width: 120, height: 100, zoneAttenuation: 0.1 },
-                { name: "Bedroom 3", x: 260, y: 240, width: 110, height: 100, zoneAttenuation: 0.1 },
-                { name: "Bathroom 1", x: 20, y: 270, width: 80, height: 70, zoneAttenuation: 0.4 },
-                { name: "Bathroom 2", x: 140, y: 270, width: 80, height: 70, zoneAttenuation: 0.4 }
+                { name: "Living Room", x: 40 + padding, y: 40 + padding, width: 400, height: 300, zoneAttenuation: 0.1, externalWalls: ["north", "west"] },
+                { name: "Kitchen", x: 440 + padding, y: 40 + padding, width: 300, height: 240, zoneAttenuation: 0.4, externalWalls: ["north", "east"] },
+                { name: "Dining Room", x: 440 + padding, y: 280 + padding, width: 300, height: 200, zoneAttenuation: 0.1, externalWalls: ["east"] },
+                { name: "Bedroom 1", x: 40 + padding, y: 340 + padding, width: 240, height: 240, zoneAttenuation: 0.05, externalWalls: ["west"] }, // Increased height
+                { name: "Bedroom 2", x: 280 + padding, y: 340 + padding, width: 240, height: 240, zoneAttenuation: 0.05 }, // Increased height
+                { name: "Bedroom 3", x: 520 + padding, y: 480 + padding, width: 220, height: 220, zoneAttenuation: 0.05, externalWalls: ["east", "south"] }, // Increased height
+                { name: "Bathroom 1", x: 40 + padding, y: 580 + padding, width: 240, height: 120, zoneAttenuation: 0.4, externalWalls: ["west", "south"] }, // Adjusted y, height, Increased width
+                { name: "Bathroom 2", x: 280 + padding, y: 580 + padding, width: 240, height: 120, zoneAttenuation: 0.4, externalWalls: ["south"] } // Adjusted y, width, height, externalWalls
             ],
             fixedObstacles: [
-                { type: "refrigerator", room: "Kitchen", x: 340, y: 30, width: 20, height: 30, attenuation: 0.8 },
-                { type: "washer", room: "Kitchen", x: 240, y: 95, width: 20, height: 20, attenuation: 0.7 },
-                { type: "dryer", room: "Kitchen", x: 265, y: 95, width: 20, height: 20, attenuation: 0.7 },
-                { type: "mirror", room: "Bathroom 1", x: 25, y: 275, width: 30, height: 5, attenuation: 0.5 },
-                { type: "mirror", room: "Bathroom 2", x: 145, y: 275, width: 30, height: 5, attenuation: 0.5 },
-                { type: "cabinet", room: "Kitchen", x: 220, y: 20, width: 150, height: 10, attenuation: 0.6 }
+                { type: "refrigerator", x: 441 + padding, y: 41 + padding, width: 50, height: 40, attenuation: 0.8 }, // Moved next to cabinet
+                { type: "washer", x: 450 + padding, y: 370 + padding, width: 40, height: 40, attenuation: 0.7 }, // Moved to Dining Room nook
+                { type: "dryer", x: 450 + padding, y: 415 + padding, width: 40, height: 40, attenuation: 0.7 }, // Moved to Dining Room nook
+                // Bathroom 1 Mirror: Centered on top wall (shared with Bedroom 1)
+                { type: "mirror", room: "Bathroom 1", x: (40 + padding) + (240 / 2) - (60 / 2), y: (580 + padding) + 5, width: 60, height: 10, attenuation: 0.5 },
+                // Bathroom 2 Mirror: Centered on top wall (shared with Bedroom 2)
+                { type: "mirror", room: "Bathroom 2", x: (280 + padding) + (240 / 2) - (60 / 2), y: (580 + padding) + 5, width: 60, height: 10, attenuation: 0.5 },
+                { type: "cabinet", x: 441 + padding, y: 44 + padding, width: 50, height: 236, attenuation: 0.6 } // Moved to left kitchen wall, full height, wider
             ],
             interferenceSources: [
-                { name: "bluetooth", room: "Living Room", x: 100, y: 100, radius: 40, attenuation: 1.2, active: false },
-                { name: "babyMonitor", room: "Bedroom 2", x: 200, y: 200, radius: 50, attenuation: 0.4, active: false }
+                { name: "bluetooth", room: "Living Room", x: 200 + padding, y: 200 + padding, radius: 80, attenuation: 0.5, active: false }, // Reduced attenuation
+                { name: "babyMonitor", room: "Bedroom 2", x: 400 + padding, y: 400 + padding, radius: 100, attenuation: 0.3, active: false } // Increased attenuation
             ]
         };
 
@@ -507,22 +546,268 @@
             // --- Router Placement Simulator Elements & Logic ---
             const routerPlacement = document.getElementById("routerPlacement");
             const router = document.getElementById("router");
+            const meshExtender = document.getElementById("meshExtender");
+            const meshExtenderButton = document.getElementById("meshExtenderButton");
             const signalStrengthCanvas = document.getElementById("signalStrength");
             const signalCtx = signalStrengthCanvas.getContext("2d", { willReadFrequently: true });
             const interferenceElements = {}; // Store references to the DOM elements for interference sources
+            let currentRoom = null; // Track current room for external wall calculations
+
+            // Mesh extender state
+            let meshExtenderPlaced = false;
+            let isMeshExtenderDragging = false;
+            let meshExtenderDimensions = { width: 60, height: 60 };
+            let meshExtenderLastPosition = { x: 0, y: 0 };
+            let meshExtenderStrength = 0;
+
+            // Mesh extender functions
+            function toggleMeshExtender() {
+                if (!meshExtender || !meshExtenderButton) return;
+                
+                meshExtenderPlaced = !meshExtenderPlaced;
+                meshExtender.style.display = meshExtenderPlaced ? 'block' : 'none';
+                meshExtenderButton.classList.toggle('active');
+
+                if (meshExtenderPlaced) {
+                    // Place mesh extender in center of router's current strongest coverage area
+                    const routerX = parseFloat(router.style.left) || 0;
+                    const routerY = parseFloat(router.style.top) || 0;
+                    const centerX = Math.round(routerX + (routerDimensions.width / 2));
+                    const centerY = Math.round(routerY + (routerDimensions.height / 2));
+
+                    // Find a good initial position (e.g., strongest signal area that needs coverage)
+                    const bestPosition = findBestMeshExtenderPosition(centerX, centerY);
+                    updateMeshExtenderPosition(bestPosition.x, bestPosition.y);
+                }
+
+                updateSignalStrength();
+                updateSignalInfo();
+            }
+
+            function findBestMeshExtenderPosition(routerX, routerY) {
+                // For now, place it 2/3 of the distance across the living room
+                const livingRoom = floorplanData.rooms.find(r => r.name === "Living Room");
+                if (livingRoom) {
+                    return {
+                        x: livingRoom.x + Math.round(livingRoom.width * 0.66) - (meshExtenderDimensions.width / 2),
+                        y: livingRoom.y + Math.round(livingRoom.height / 2) - (meshExtenderDimensions.height / 2)
+                    };
+                }
+                // Fallback position
+                return { x: routerX + 200, y: routerY };
+            }
+
+            // Mesh extender constants and helper functions
+            const MESH_MIN_INPUT_THRESHOLD = 0.05; // 5% minimum input signal
+            const MESH_EFFECTIVE_RANGE = 1.2; // 20% more range than router
+
+            function getScaledBoost(minOutput, maxOutput, input, minInput, maxInput) {
+                const scale = (input - minInput) / (maxInput - minInput);
+                return minOutput + (maxOutput - minOutput) * Math.min(1, Math.max(0, scale));
+            }
+
+            function getMeshBoostFactor(inputSignal) {
+                // Below minimum threshold
+                if (inputSignal < MESH_MIN_INPUT_THRESHOLD) return 0;
+
+                // Tier 1: 5-15% input -> 30-40% output
+                if (inputSignal <= 0.15) {
+                    return getScaledBoost(0.30, 0.40, inputSignal, 0.05, 0.15);
+                }
+                
+                // Tier 2: 16-30% input -> 41-60% output
+                if (inputSignal <= 0.30) {
+                    return getScaledBoost(0.41, 0.60, inputSignal, 0.16, 0.30);
+                }
+                
+                // Tier 3: 31-50% input -> 61-80% output
+                if (inputSignal <= 0.50) {
+                    return getScaledBoost(0.61, 0.80, inputSignal, 0.31, 0.50);
+                }
+                
+                // Above 50% input -> 100% output
+                return 1.0;
+            }
+
+            function calculateCombinedSignalStrength(x, y, routerX, routerY, meshX, meshY) {
+                // First calculate direct router signal to this point
+                const routerSignal = calculateSignalAtPoint(x, y, routerX, routerY);
+                
+                if (!meshExtenderPlaced) return routerSignal;
+
+                // Calculate mesh extender's received signal from router
+                meshExtenderStrength = calculateSignalAtPoint(meshX, meshY, routerX, routerY);
+
+                // If below minimum threshold, mesh extender doesn't function
+                if (meshExtenderStrength < MESH_MIN_INPUT_THRESHOLD) {
+                    return routerSignal;
+                }
+
+                // Calculate boosted output based on input signal strength tiers
+                const boostFactor = getMeshBoostFactor(meshExtenderStrength);
+                
+                // Calculate distance-based falloff from mesh extender
+                const dx = x - meshX;
+                const dy = y - meshY;
+                const distanceFromMesh = Math.sqrt(dx * dx + dy * dy);
+                const maxRange = Math.min(signalStrengthCanvas.width, signalStrengthCanvas.height) * 
+                    0.5 * 5 * MESH_EFFECTIVE_RANGE;
+                
+                // Calculate mesh signal with boosted strength but normal attenuation
+                let meshSignal = boostFactor * Math.pow(Math.max(0, 1 - (distanceFromMesh / maxRange)), 2);
+                
+                // Apply normal attenuation factors (walls, obstacles, etc.)
+                const totalAttenuation = calculateAttenuation(x, y, meshX, meshY);
+                meshSignal *= Math.max(0, 1 - totalAttenuation);
+
+                // Return the stronger of the two signals
+                return Math.max(routerSignal, meshSignal);
+            }
+
+            function calculateAttenuation(x, y, sourceX, sourceY) {
+                let totalAttenuation = 0;
+
+                // Check for external wall crossings
+                if (checkExternalWallsInPath(sourceX, sourceY, x, y, floorplanData.rooms)) {
+                    totalAttenuation += 0.65; // High attenuation for external walls
+                }
+
+                // Check room boundaries for internal wall crossings
+                for (const room of floorplanData.rooms) {
+                    const pointInRoom = x >= room.x && x <= room.x + room.width &&
+                                     y >= room.y && y <= room.y + room.height;
+                    const sourceInRoom = sourceX >= room.x && sourceX <= room.x + room.width &&
+                                       sourceY >= room.y && sourceY <= room.y + room.height;
+
+                    if (pointInRoom !== sourceInRoom) {
+                        totalAttenuation += 0.08; // Normal attenuation for internal walls
+                    }
+
+                    // Apply zone attenuation if the point is inside the room
+                    if (pointInRoom) {
+                        totalAttenuation += room.zoneAttenuation;
+                    }
+                }
+
+                // Apply obstacles
+                for (const obstacle of floorplanData.fixedObstacles) {
+                    if (lineIntersectsRect(sourceX, sourceY, x, y,
+                        obstacle.x, obstacle.y,
+                        obstacle.x + obstacle.width,
+                        obstacle.y + obstacle.height)) {
+                        totalAttenuation += obstacle.attenuation;
+                    }
+                }
+
+                return totalAttenuation;
+            }
+
+            function updateMeshExtenderPosition(x, y) {
+                if (!meshExtender || !routerPlacement) return;
+
+                // Ensure coordinates are numbers and within bounds
+                x = Math.round(Math.max(0, Math.min(x, routerPlacement.offsetWidth - meshExtenderDimensions.width)));
+                y = Math.round(Math.max(0, Math.min(y, routerPlacement.offsetHeight - meshExtenderDimensions.height)));
+
+                // Update position state
+                meshExtenderLastPosition = { x, y };
+
+                // Update position
+                meshExtender.style.left = x + 'px';
+                meshExtender.style.top = y + 'px';
+
+                // Schedule signal update
+                requestAnimationFrame(() => {
+                    updateSignalStrength();
+                    updateSignalInfo();
+                });
+            }
+
+            // Mesh extender drag handlers
+            if (meshExtender) {
+                meshExtender.setAttribute('draggable', 'false');
+
+                function startMeshExtenderDrag(e) {
+                    if (!meshExtenderPlaced) return;
+                    e.preventDefault();
+                    isMeshExtenderDragging = true;
+                    const rect = meshExtender.getBoundingClientRect();
+                    if (e.type === 'mousedown') {
+                        currentX = e.clientX - rect.left;
+                        currentY = e.clientY - rect.top;
+                    } else {
+                        currentX = e.touches[0].clientX - rect.left;
+                        currentY = e.touches[0].clientY - rect.top;
+                    }
+                    meshExtender.style.cursor = 'grabbing';
+                }
+
+                function moveMeshExtender(e) {
+                    if (!isMeshExtenderDragging || !meshExtender || !routerPlacement) return;
+                    e.preventDefault();
+
+                    const rect = routerPlacement.getBoundingClientRect();
+                    const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX;
+                    const clientY = e.type === 'mousemove' ? e.clientY : e.touches[0].clientY;
+
+                    const newX = clientX - rect.left - currentX;
+                    const newY = clientY - rect.top - currentY;
+
+                    updateMeshExtenderPosition(newX, newY);
+                }
+
+                function stopMeshExtenderDrag() {
+                    isMeshExtenderDragging = false;
+                    if (meshExtender) {
+                        meshExtender.style.cursor = 'grab';
+                    }
+                }
+
+                // Mouse events for mesh extender
+                meshExtender.addEventListener('mousedown', startMeshExtenderDrag);
+                meshExtender.addEventListener('mouseenter', () => {
+                    if (meshExtenderPlaced && !isMeshExtenderDragging) {
+                        meshExtender.style.cursor = 'grab';
+                    }
+                });
+                meshExtender.addEventListener('mouseleave', () => {
+                    if (meshExtenderPlaced && !isMeshExtenderDragging) {
+                        meshExtender.style.cursor = 'default';
+                    }
+                });
+
+                // Touch events for mesh extender
+                meshExtender.addEventListener('touchstart', startMeshExtenderDrag, { passive: false });
+                document.addEventListener('touchmove', moveMeshExtender, { passive: false });
+                document.addEventListener('touchend', stopMeshExtenderDrag);
+                document.addEventListener('touchcancel', stopMeshExtenderDrag);
+
+                // Mouse events for mesh extender global handlers (needed for drag outside element)
+                document.addEventListener('mousemove', moveMeshExtender);
+                document.addEventListener('mouseup', stopMeshExtenderDrag);
+            }
+
+            // Add mesh extender button click handler
+            if (meshExtenderButton) {
+                meshExtenderButton.addEventListener('click', toggleMeshExtender);
+            }
 
             // Router state management
             let lastKnownPosition = { x: 0, y: 0 };
-            let routerDimensions = { width: 40, height: 40 };
+            let routerDimensions = { width: 60, height: 60 }; // Updated default size
 
-            // Initialize Floorplan and Interference Elements
+            // Initialize Floorplan, Walls, and Interference Elements
             function initializeFloorplan() {
                 const floorplanContainer = document.getElementById("floorplan");
+                const wallContainer = document.getElementById("wallContainer"); // Get the new wall container
                 const fixedObstaclesContainer = document.getElementById("fixedObstacles");
                 const interferenceContainer = document.getElementById("interferenceSources");
+                const wallThickness = 2; // Define wall thickness
+                const wallColor = "#666"; // Define wall color
 
                 // Clear previous elements if any (important for re-initialization if needed)
                 if (floorplanContainer) floorplanContainer.innerHTML = '';
+                if (wallContainer) wallContainer.innerHTML = ''; // Clear previous walls
                 if (fixedObstaclesContainer) fixedObstaclesContainer.innerHTML = '';
                 if (interferenceContainer) interferenceContainer.innerHTML = '';
                 // Clear the interferenceElements object
@@ -530,9 +815,26 @@
                     delete interferenceElements[key];
                 }
 
-                // Add rooms
-                if (floorplanContainer) {
-                    floorplanData.rooms.forEach(room => {
+                const uniqueWallSegments = new Set();
+
+                // --- Calculate Unique Wall Segments ---
+                floorplanData.rooms.forEach(room => {
+                    const x1 = room.x;
+                    const y1 = room.y;
+                    const x2 = room.x + room.width;
+                    const y2 = room.y + room.height;
+
+                    // Top wall: (x1, y1) to (x2, y1)
+                    uniqueWallSegments.add(`h-${x1}-${x2}-${y1}`);
+                    // Bottom wall: (x1, y2) to (x2, y2)
+                    uniqueWallSegments.add(`h-${x1}-${x2}-${y2}`);
+                    // Left wall: (x1, y1) to (x1, y2)
+                    uniqueWallSegments.add(`v-${x1}-${y1}-${y2}`);
+                    // Right wall: (x2, y1) to (x2, y2)
+                    uniqueWallSegments.add(`v-${x2}-${y1}-${y2}`);
+
+                    // Add room background and label (without border)
+                    if (floorplanContainer) {
                         const roomElement = document.createElement("div");
                         roomElement.className = "room";
                         roomElement.style.left = room.x + "px";
@@ -543,15 +845,81 @@
                         const label = document.createElement("div");
                         label.className = "room-label";
                         label.textContent = room.name;
-                        label.style.left = (room.x + 5) + "px";
-                        label.style.top = (room.y + 5) + "px";
+                        // Default label position
+                        let labelLeft = room.x + 5;
+                        let labelTop = room.y + 5;
+
+                        // Adjust Kitchen label position to avoid obstacles
+                        if (room.name === "Kitchen") {
+                            labelLeft = room.x + 55; // Move further right
+                            labelTop = room.y + 5;
+                        }
+
+                        label.style.left = labelLeft + "px";
+                        label.style.top = labelTop + "px";
 
                         floorplanContainer.appendChild(roomElement);
                         floorplanContainer.appendChild(label);
+                    }
+                });
+
+                // --- Add Laundry Room Label ---
+                const diningRoom = floorplanData.rooms.find(r => r.name === "Dining Room");
+                const bedroom2 = floorplanData.rooms.find(r => r.name === "Bedroom 2");
+                if (diningRoom && bedroom2 && floorplanContainer) {
+                    const overlapX = Math.max(diningRoom.x, bedroom2.x);
+                    const overlapY = Math.max(diningRoom.y, bedroom2.y);
+                    const overlapEndX = Math.min(diningRoom.x + diningRoom.width, bedroom2.x + bedroom2.width);
+                    const overlapEndY = Math.min(diningRoom.y + diningRoom.height, bedroom2.y + bedroom2.height);
+                    const overlapWidth = overlapEndX - overlapX;
+                    const overlapHeight = overlapEndY - overlapY;
+
+                    if (overlapWidth > 0 && overlapHeight > 0) {
+                        const laundryLabel = document.createElement("div");
+                        laundryLabel.className = "room-label"; // Reuse style
+                        laundryLabel.textContent = "Laundry";
+                        laundryLabel.style.left = (overlapX + 5) + "px"; // Position top-left like other labels
+                        laundryLabel.style.top = (overlapY + 5) + "px"; // Position top-left like other labels
+                        // Removed specific background color to use default .room-label style
+                        floorplanContainer.appendChild(laundryLabel); // Add to floorplan container
+                    }
+                }
+
+                // --- Draw Unique Walls ---
+                if (wallContainer) {
+                    uniqueWallSegments.forEach(segmentKey => {
+                        const parts = segmentKey.split('-');
+                        const type = parts[0];
+                        const x1 = parseInt(parts[1]);
+                        const y1_or_x2 = parseInt(parts[2]);
+                        const y2_or_y1 = parseInt(parts[3]);
+
+                        const wallElement = document.createElement("div");
+                        wallElement.style.position = "absolute";
+                        wallElement.style.backgroundColor = wallColor;
+
+                        if (type === 'h') { // Horizontal wall
+                            const x2 = y1_or_x2;
+                            const y = y2_or_y1;
+                            wallElement.style.left = x1 + "px";
+                            wallElement.style.top = (y - wallThickness / 2) + "px"; // Center vertically
+                            wallElement.style.width = (x2 - x1) + "px";
+                            wallElement.style.height = wallThickness + "px";
+                        } else { // Vertical wall (type === 'v')
+                            const y1 = y1_or_x2;
+                            const y2 = y2_or_y1;
+                            const x = x1;
+                            wallElement.style.left = (x - wallThickness / 2) + "px"; // Center horizontally
+                            wallElement.style.top = y1 + "px";
+                            wallElement.style.width = wallThickness + "px";
+                            wallElement.style.height = (y2 - y1) + "px";
+                        }
+                        wallContainer.appendChild(wallElement);
                     });
                 }
 
-                // Add fixed obstacles
+
+                // Add fixed obstacles (Keep this logic)
                 if (fixedObstaclesContainer) {
                     floorplanData.fixedObstacles.forEach(obstacle => {
                         const element = document.createElement("div");
@@ -562,6 +930,16 @@
                         element.style.height = obstacle.height + "px";
                         element.style.backgroundColor = getObstacleColor(obstacle.type);
                         element.title = obstacle.type;
+                        // Add W/D labels
+                        if (obstacle.type === 'washer') {
+                            element.textContent = 'W';
+                        } else if (obstacle.type === 'dryer') {
+                            element.textContent = 'D';
+                        }
+                        // Ensure fridge renders on top of cabinet
+                        if (obstacle.type === 'refrigerator') {
+                            element.style.zIndex = '5'; // Higher z-index than default fixed-obstacle
+                        }
                         fixedObstaclesContainer.appendChild(element);
                     });
                 }
@@ -577,7 +955,7 @@
                         element.style.width = (source.radius * 2) + "px";
                         element.style.height = (source.radius * 2) + "px";
                         element.style.borderRadius = "50%";
-                        element.style.backgroundColor = source.name === "bluetooth" ? "rgba(33, 150, 243, 0.2)" : "rgba(244, 67, 54, 0.2)";
+                        // Removed initial background color setting
                         // Set initial visibility based on 'active' status in data
                         if (source.active) {
                             element.classList.add("active");
@@ -616,10 +994,82 @@
                  return (minX <= centerX && maxX >= centerX && minY <= centerY && maxY >= centerY);
             }
 
+            // Helper function to get color based on signal strength (0-1)
+            function getColorForStrength(strength) {
+                const green = { r: 76, g: 175, b: 80 };
+                const blue = { r: 33, g: 150, b: 243 };
+                const yellow = { r: 255, g: 193, b: 7 };
+                const red = { r: 244, g: 67, b: 54 };
 
-            function calculateSignalAtPoint(x, y, routerX, routerY) {
-                // Input validation
-                if (!Number.isFinite(x) || !Number.isFinite(y) || 
+                let r, g, b;
+
+                // Adjusted thresholds for larger green/blue areas
+                if (strength >= 0.6) { // Interpolate Green to Blue (1.0 -> 0.6)
+                    const t = (strength - 0.6) / (1.0 - 0.6);
+                    r = Math.round(blue.r + (green.r - blue.r) * t);
+                    g = Math.round(blue.g + (green.g - blue.g) * t);
+                    b = Math.round(blue.b + (green.b - blue.b) * t);
+                } else if (strength >= 0.3) { // Interpolate Blue to Yellow (0.6 -> 0.3)
+                    const t = (strength - 0.3) / (0.6 - 0.3);
+                    r = Math.round(yellow.r + (blue.r - yellow.r) * t);
+                    g = Math.round(yellow.g + (blue.g - yellow.g) * t);
+                    b = Math.round(yellow.b + (blue.b - yellow.b) * t);
+                } else { // Interpolate Yellow to Red (0.3 -> 0.0)
+                    const t = strength / 0.3;
+                    r = Math.round(red.r + (yellow.r - red.r) * t);
+                    g = Math.round(red.g + (yellow.g - red.g) * t);
+                    b = Math.round(red.b + (yellow.b - red.b) * t);
+                }
+                // Ensure values are within 0-255 range
+                r = Math.max(0, Math.min(255, r));
+                g = Math.max(0, Math.min(255, g));
+                b = Math.max(0, Math.min(255, b));
+                 return { r, g, b };
+            }
+
+            // Helper function: Check if a line segment intersects a circle
+            function lineSegmentIntersectsCircle(x1, y1, x2, y2, cx, cy, r) {
+                // Vector d = (x2-x1, y2-y1)
+                const dx = x2 - x1;
+                const dy = y2 - y1;
+                // Vector f = (x1-cx, y1-cy)
+                const fx = x1 - cx;
+                const fy = y1 - cy;
+
+                const a = dx * dx + dy * dy;
+                const b = 2 * (fx * dx + fy * dy);
+                const c = (fx * fx + fy * fy) - r * r;
+
+                let discriminant = b * b - 4 * a * c;
+                if (discriminant < 0) {
+                    // No intersection
+                    return false;
+                } else {
+                    // Ray intersects circle, check if intersection is within segment
+                    discriminant = Math.sqrt(discriminant);
+                    const t1 = (-b - discriminant) / (2 * a);
+                    const t2 = (-b + discriminant) / (2 * a);
+
+                    // Check if either intersection point falls within the line segment (0 <= t <= 1)
+                    if ((t1 >= 0 && t1 <= 1) || (t2 >= 0 && t2 <= 1)) {
+                        return true; // Segment intersects circle
+                    }
+
+                    // Check if the segment is entirely within the circle (both endpoints inside)
+                    const distSq1 = (x1 - cx) * (x1 - cx) + (y1 - cy) * (y1 - cy);
+                    const distSq2 = (x2 - cx) * (x2 - cx) + (y2 - cy) * (y2 - cy);
+                    if (distSq1 <= r * r && distSq2 <= r * r) {
+                        return true; // Segment is fully inside
+                    }
+
+                    return false; // No intersection within the segment bounds
+                }
+            }
+
+            // Original function restored for accurate text display calculation
+             function calculateSignalAtPoint(x, y, routerX, routerY) {
+                 // Input validation
+                 if (!Number.isFinite(x) || !Number.isFinite(y) ||
                     !Number.isFinite(routerX) || !Number.isFinite(routerY)) {
                     return 0;
                 }
@@ -629,16 +1079,20 @@
                 for (const source of floorplanData.interferenceSources) {
                     if (source.active) {
                         const routerToInterferenceDistance = Math.sqrt(
-                            Math.pow(routerX - source.x, 2) + 
+                            Math.pow(routerX - source.x, 2) +
                             Math.pow(routerY - source.y, 2)
                         );
-                        
+
                         if (routerToInterferenceDistance <= source.radius) {
                             // Router is within interference radius
-                            // Calculate penalty (0 at center, increasing to 1 at edge)
+                            // Calculate proximityFactor (0 at center, 1 at edge)
                             const proximityFactor = routerToInterferenceDistance / source.radius;
-                            const penalty = Math.pow(proximityFactor, 1.5); // Steeper falloff
-                            routerInterferencePenalty *= penalty;
+                            // Calculate base penalty (0 at center, 1 at edge, steeper falloff)
+                            const basePenaltyFactor = Math.pow(proximityFactor, 1.5);
+                            // Calculate signal multiplier: 0.25 at center (75% reduction), 1.0 at edge (0% reduction)
+                            const signalMultiplier = 0.25 + (1 - 0.25) * basePenaltyFactor;
+                            // Apply the multiplier to the overall penalty
+                            routerInterferencePenalty *= signalMultiplier;
                         }
                     }
                 }
@@ -646,8 +1100,11 @@
                 const dx = x - routerX;
                 const dy = y - routerY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                const maxRadius = Math.min(signalStrengthCanvas.width, signalStrengthCanvas.height) * 0.5 * 3;
-                
+                // Use canvas dimensions for maxRadius to ensure it covers the area
+                 // Note: Using smaller radius here for more realistic falloff in detailed calc
+                const maxRadius = Math.min(signalStrengthCanvas.width, signalStrengthCanvas.height) * 0.5 * 5; // Increased multiplier from 3 to 5
+
+
                 // Base signal strength calculation using quadratic decay
                 // Apply router interference penalty to base strength
                 let strength = Math.pow(Math.max(0, 1 - (distance / maxRadius)), 2) * routerInterferencePenalty;
@@ -656,28 +1113,35 @@
                 let wallsCrossed = 0;
                 let totalAttenuation = 0;
 
-                // Check room boundaries for wall crossings
+                // Check for external wall crossings first
+                if (checkExternalWallsInPath(routerX, routerY, x, y, floorplanData.rooms)) {
+                    totalAttenuation += 0.65; // High attenuation for external walls
+                }
+
+                // Check room boundaries for internal wall crossings
                 for (const room of floorplanData.rooms) {
-                    const pointInRoom = x >= room.x && x <= room.x + room.width && 
+                    const pointInRoom = x >= room.x && x <= room.x + room.width &&
                                      y >= room.y && y <= room.y + room.height;
-                    const routerInRoom = routerX >= room.x && routerX <= room.x + room.width && 
+                    const routerInRoom = routerX >= room.x && routerX <= room.x + room.width &&
                                        routerY >= room.y && routerY <= room.y + room.height;
-                    
+
                     if (pointInRoom !== routerInRoom) {
                         wallsCrossed++;
-                        totalAttenuation += 0.2; // Base wall attenuation
+                        totalAttenuation += 0.08; // Normal attenuation for internal walls
                     }
 
+                    // Apply zone attenuation if the point is inside the room
                     if (pointInRoom) {
                         totalAttenuation += room.zoneAttenuation;
                     }
                 }
 
+
                 // Apply obstacles
                 for (const obstacle of floorplanData.fixedObstacles) {
-                    if (lineIntersectsRect(routerX, routerY, x, y, 
-                        obstacle.x, obstacle.y, 
-                        obstacle.x + obstacle.width, 
+                    if (lineIntersectsRect(routerX, routerY, x, y,
+                        obstacle.x, obstacle.y,
+                        obstacle.x + obstacle.width,
                         obstacle.y + obstacle.height)) {
                         totalAttenuation += obstacle.attenuation;
                     }
@@ -686,12 +1150,20 @@
                 for (const source of floorplanData.interferenceSources) {
                     if (source.active) {
                         const distToSource = Math.sqrt(
-                            Math.pow(x - source.x, 2) + 
+                            Math.pow(x - source.x, 2) +
                             Math.pow(y - source.y, 2)
                         );
                         if (distToSource <= source.radius) {
                             const interferenceStrength = 1 - (distToSource / source.radius);
                             totalAttenuation += source.attenuation * interferenceStrength;
+                        }
+
+                        // ADDED: Check if the line of sight passes through the interference zone,
+                        // but only apply attenuation if the point itself isn't already inside (avoid double counting)
+                        if (distToSource > source.radius && lineSegmentIntersectsCircle(routerX, routerY, x, y, source.x, source.y, source.radius)) {
+                            // Apply attenuation if the line passes through.
+                            // Using a slightly reduced factor for pass-through compared to being inside.
+                            totalAttenuation += source.attenuation * 0.75; // Example: 75% of the full attenuation
                         }
                     }
                 }
@@ -699,8 +1171,12 @@
                 // Apply total attenuation to base strength
                 strength *= Math.max(0, 1 - totalAttenuation);
 
-                return Math.max(0, Math.min(1, strength));
-            }
+                 return Math.max(0, Math.min(1, strength));
+             }
+
+
+            // Removed the simplified calculateBaseSignalAtPoint function
+
 
             function updateSignalStrength() {
                 if (!routerPlacement || !signalCtx || !signalStrengthCanvas || !router) {
@@ -709,17 +1185,23 @@
                 }
 
                 try {
-                    // Get router position in canvas coordinates
+                    // Get router and mesh extender positions
                     const routerX = parseFloat(router.style.left) || 0;
                     const routerY = parseFloat(router.style.top) || 0;
+                    const meshX = parseFloat(meshExtender.style.left) || 0;
+                    const meshY = parseFloat(meshExtender.style.top) || 0;
                     
-                    // Add validation for router dimensions
-                    const routerWidth = router.offsetWidth || 40;
-                    const routerHeight = router.offsetHeight || 40;
+                    // Add validation for dimensions
+                    const routerWidth = router.offsetWidth || 60;
+                    const routerHeight = router.offsetHeight || 60;
+                    const meshWidth = meshExtender.offsetWidth || 60;
+                    const meshHeight = meshExtender.offsetHeight || 60;
 
-                    // Calculate center with validation
+                    // Calculate centers with validation
                     const routerCenterX = Math.floor(routerX + (routerWidth / 2));
                     const routerCenterY = Math.floor(routerY + (routerHeight / 2));
+                    const meshCenterX = Math.floor(meshX + (meshWidth / 2));
+                    const meshCenterY = Math.floor(meshY + (meshHeight / 2));
 
                     // Validate coordinates
                     if (!Number.isFinite(routerCenterX) || !Number.isFinite(routerCenterY)) {
@@ -738,50 +1220,48 @@
                     // Clear canvas
                     signalCtx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-                    // Create multi-color gradient for signal visualization
-                    const maxRadius = Math.min(canvasWidth, canvasHeight) * 0.5 * 3; // Increased radius by 3x
-                    const gradient = signalCtx.createRadialGradient(
-                        routerCenterX, routerCenterY, 0,
-                        routerCenterX, routerCenterY, maxRadius
-                    );
-
-                    if (!gradient) {
-                        console.warn('Failed to create gradient');
-                        return;
-                    }
-
-                    // Define gradient stops for better visualization
-                    gradient.addColorStop(0, 'rgba(76, 175, 80, 0.6)');    // Strong signal (green)
-                    gradient.addColorStop(0.3, 'rgba(33, 150, 243, 0.5)'); // Good signal (blue)
-                    gradient.addColorStop(0.6, 'rgba(255, 193, 7, 0.4)');  // Fair signal (yellow)
-                    gradient.addColorStop(1, 'rgba(244, 67, 54, 0.2)');    // Weak signal (red)
-
-                    // Draw initial signal gradient
-                    signalCtx.fillStyle = gradient;
-                    signalCtx.fillRect(0, 0, canvasWidth, canvasHeight);
-
-                    // Create pixel-perfect data for obstacles and interference
-                    const imageData = signalCtx.getImageData(0, 0, canvasWidth, canvasHeight);
+                    // Create pixel data for the base signal (distance only)
+                    const imageData = signalCtx.createImageData(canvasWidth, canvasHeight);
                     const data = imageData.data;
-                    const step = 2; // Balance between performance and quality
 
-                    for (let y = 0; y < canvasHeight; y += step) {
-                        for (let x = 0; x < canvasWidth; x += step) {
-                            const strength = calculateSignalAtPoint(x, y, routerCenterX, routerCenterY);
-                            const baseAlpha = data[((y * canvasWidth + x) * 4) + 3];
-                            const newAlpha = Math.floor(baseAlpha * strength);
+                    for (let y = 0; y < canvasHeight; y++) {
+                        for (let x = 0; x < canvasWidth; x++) {
+                            // Calculate combined signal strength
+                            const strength = meshExtenderPlaced ? 
+                                calculateCombinedSignalStrength(x, y, routerCenterX, routerCenterY, meshCenterX, meshCenterY) : 
+                                calculateSignalAtPoint(x, y, routerCenterX, routerCenterY);
+                            const color = getColorForStrength(strength);
+                            // Base alpha on strength, maybe slightly less intense overall
+                            const alpha = Math.floor(strength * 0.6 * 255);
 
-                            // Fill the step x step pixel block
-                            for (let sy = 0; sy < step && y + sy < canvasHeight; sy++) {
-                                for (let sx = 0; sx < step && x + sx < canvasWidth; sx++) {
-                                    const i = ((y + sy) * canvasWidth + (x + sx)) * 4;
-                                    data[i + 3] = newAlpha;
-                                }
-                            }
+                            const i = (y * canvasWidth + x) * 4;
+                            data[i] = color.r;     // Red
+                            data[i + 1] = color.g; // Green
+                            data[i + 2] = color.b; // Blue
+                            data[i + 3] = alpha;   // Alpha
                         }
                     }
-
+                    // Draw the calculated signal map directly
                     signalCtx.putImageData(imageData, 0, 0);
+
+                    // No need for separate shadow drawing now
+
+                    // --- Apply Final Blur ---
+                    signalCtx.filter = 'blur(16px)';
+                    // Draw the modified canvas onto itself to apply the blur
+                    // Use a temporary canvas to avoid feedback loop issues with drawImage on self
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = canvasWidth;
+                    tempCanvas.height = canvasHeight;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.drawImage(signalStrengthCanvas, 0, 0); // Copy current state
+                    signalCtx.clearRect(0, 0, canvasWidth, canvasHeight); // Clear original
+                    signalCtx.drawImage(tempCanvas, 0, 0); // Draw blurred image back
+
+                    // Reset the filter so other drawing isn't affected
+                    // Reset the filter so other drawing isn't affected
+                    signalCtx.filter = 'none';
+
                 } catch (error) {
                     console.error('Error updating signal strength:', error);
                 }
@@ -803,18 +1283,92 @@
                 if (isNaN(routerLeft) || isNaN(routerTop)) {
                     return; // Silently return if positions aren't valid
                 }
-                
+
                 const routerX = routerLeft + (router.offsetWidth / 2);
                 const routerY = routerTop + (router.offsetHeight / 2);
-                
-                const strengthAtRouter = calculateSignalAtPoint(routerX, routerY, routerX, routerY);
+
+                // Use the original detailed calculation for the text display
+                const strengthAtRouter = calculateSignalAtPoint(routerX, routerY, routerX, routerY); // Need original function back for this
                 const signalInfo = document.getElementById("signalInfo");
                 if (signalInfo) {
                     const signalPercent = Math.round(Math.max(0, Math.min(1, strengthAtRouter)) * 100);
-                    signalInfo.textContent = `Signal Strength at Router: ${signalPercent}%`;
+                    let infoText = `Signal Strength at Router: ${signalPercent}%`;
+                    
+                    if (meshExtenderPlaced && meshExtender) {
+                        const meshLeft = parseFloat(meshExtender.style.left) || 0;
+                        const meshTop = parseFloat(meshExtender.style.top) || 0;
+                        const meshX = meshLeft + (meshExtender.offsetWidth / 2);
+                        const meshY = meshTop + (meshExtender.offsetHeight / 2);
+                        
+                        // Calculate mesh extender's received and output signals
+                        meshExtenderStrength = calculateSignalAtPoint(meshX, meshY, routerX, routerY);
+                        const meshInputPercent = Math.round(meshExtenderStrength * 100);
+                        
+                        // Get output based on new tier system
+                        const boostFactor = getMeshBoostFactor(meshExtenderStrength);
+                        const outputPercent = Math.round(boostFactor * 100);
+                        
+                        infoText += ` | Mesh Extender Input: ${meshInputPercent}% | Output: ${outputPercent}%`;
+                    } else {
+                        infoText += " | Mesh Extender: Not Placed";
+                    }
+                    
+                    signalInfo.textContent = infoText;
                 }
             }
 
+
+            // Helper function to determine if two line segments intersect
+            function doLinesIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+                const denom = (x4 - x3) * (y1 - y2) - (x1 - x2) * (y4 - y3);
+                if (denom === 0) return false;
+                const ua = ((x4 - x3) * (y1 - y3) - (x1 - x3) * (y4 - y3)) / denom;
+                const ub = ((x2 - x1) * (y1 - y3) - (x1 - x3) * (y2 - y1)) / denom;
+                return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
+            }
+
+            // Helper function to check if a line segment intersects with any room's external walls
+            function checkExternalWallsInPath(x1, y1, x2, y2, rooms) {
+                for (const room of rooms) {
+                    if (room.externalWalls && isExternalWall(x1, y1, x2, y2, room)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            // Helper function to determine if a wall crossing is through an external wall
+            function isExternalWall(x1, y1, x2, y2, room) {
+                if (!room || !room.externalWalls) return false;
+
+                for (const wall of room.externalWalls) {
+                    let wallStart, wallEnd;
+                    switch (wall) {
+                        case "north":
+                            wallStart = { x: room.x, y: room.y };
+                            wallEnd = { x: room.x + room.width, y: room.y };
+                            break;
+                        case "south":
+                            wallStart = { x: room.x, y: room.y + room.height };
+                            wallEnd = { x: room.x + room.width, y: room.y + room.height };
+                            break;
+                        case "west":
+                            wallStart = { x: room.x, y: room.y };
+                            wallEnd = { x: room.x, y: room.y + room.height };
+                            break;
+                        case "east":
+                            wallStart = { x: room.x + room.width, y: room.y };
+                            wallEnd = { x: room.x + room.width, y: room.y + room.height };
+                            break;
+                        default:
+                            continue;
+                    }
+                    if (doLinesIntersect(x1, y1, x2, y2, wallStart.x, wallStart.y, wallEnd.x, wallEnd.y)) {
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             function updateCanvasDimensions() {
                 if (!routerPlacement || !signalStrengthCanvas) {
@@ -1084,8 +1638,8 @@
 
                 // Get initial router dimensions
                 const rect = router.getBoundingClientRect();
-                routerDimensions.width = rect.width || 40;
-                routerDimensions.height = rect.height || 40;
+                routerDimensions.width = rect.width || 60; // Updated default size
+                routerDimensions.height = rect.height || 60; // Updated default size
 
                 // Initialize canvas with correct dimensions and clear any previous state
                 updateCanvasDimensions();
@@ -1134,34 +1688,3 @@
     </script>
 </body>
 </html>
-</final_file_content>
-
-IMPORTANT: For any future changes to this file, use the final_file_content shown above as your reference. This content reflects the current state of the file, including any auto-formatting (e.g., if you used single quotes but the formatter converted them to double quotes). Always base your SEARCH/REPLACE operations on this final version to ensure accuracy.
-
-<environment_details>
-# VSCode Visible Files
-StudyGuide/troubleshooting_techniques.html
-
-# VSCode Open Tabs
-Quiz/questions.js
-Dashboard/charts.js
-Quiz/quiz.html
-Quiz/quiz.js
-Dashboard/dashboard.js
-Dashboard/index.html
-Dashboard/styles.css
-StudyGuide/styles.css
-Quiz/index.html
-StudyGuide/index.html
-Quiz/styles.css
-v2/.env
-StudyGuide/fiber_optic_technology.html
-v2/src/pages/admin/components/StudyGuideEditor/index.jsx
-StudyGuide/troubleshooting_techniques.html
-
-# Current Time
-3/29/2025, 2:58:00 PM (America/Chicago, UTC-5:00)
-
-# Current Mode
-ACT MODE
-</environment_details>
