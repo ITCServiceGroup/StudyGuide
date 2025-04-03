@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Troubleshooting Flowchart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            color: #2196F3;
+            border-bottom: 2px solid #2196F3;
+            padding-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+            display: block; /* Make buttons stack vertically */
+            width: calc(100% - 10px); /* Adjust width considering margin */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+
+        button:hover {
+            background-color: #1976D2;
+        }
+
+        .flowchart {
+            width: 100%;
+            max-width: 600px; /* Adjusted max-width for better centering */
+            margin: 15px auto;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .decision-node {
+            margin: 10px 0;
+            padding: 15px; /* Increased padding */
+            border: 1px solid #2196F3;
+            border-radius: 5px;
+            background-color: #f8f9fa; /* Light background for the node */
+        }
+
+        .decision-node h4 {
+            margin-top: 0;
+            margin-bottom: 15px; /* Add space below question */
+            color: #1976D2;
+        }
+
+        #restartButton {
+            background-color: #6c757d; /* Grey color */
+            display: block;
+            margin: 20px auto; /* Center the button below flowchart */
+            width: auto; /* Auto width based on content */
+            padding: 10px 20px;
+        }
+
+        #restartButton:hover {
+            background-color: #5a6268;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Interactive Troubleshooting Flowchart</h1>
+
+    <div class="flowchart" id="troubleshootingFlow">
+        <!-- Flowchart nodes will be added by JavaScript -->
+    </div>
+    <button id="restartButton">Restart Flowchart</button>
+
+    <script>
+        // --- Troubleshooting Flowchart ---
+        const flowchart = document.getElementById("troubleshootingFlow");
+        const restartButton = document.getElementById("restartButton");
+        const steps = [
+            // --- Initial Triage ---
+            { question: "What is the primary issue?", options: ["No Internet", "Slow Internet", "Intermittent Connection", "Specific Device Issue", "GFiber Phone Issue"], next: { "No Internet": "NO_INTERNET_START", "Slow Internet": "SLOW_START", "Intermittent Connection": "INTERMITTENT_START", "Specific Device Issue": "SPECIFIC_DEVICE_START", "GFiber Phone Issue": "PHONE_START" } },
+
+            // --- No Internet Path ---
+            { question: "NO_INTERNET_START", options: ["Check Fiber Jack (ONT) Lights (Power, Optical, Network, Alarm)"], next: { "Check Fiber Jack (ONT) Lights (Power, Optical, Network, Alarm)": "ONT_LIGHTS_CHECK" } },
+            { question: "ONT_LIGHTS_CHECK", options: ["All Normal (Power/Optical Solid Green, Network Flashing Green, Alarm Off)", "Optical Flashing Green", "Alarm Red (No Optical Signal)", "Power Off/Abnormal"], next: { "All Normal (Power/Optical Solid Green, Network Flashing Green, Alarm Off)": "ROUTER_CHECK_TYPE", "Optical Flashing Green": "ONT_LIGHT_LEVEL_CHECK", "Alarm Red (No Optical Signal)": "ONT_LIGHT_LEVEL_CHECK", "Power Off/Abnormal": "ONT_POWER_CHECK" } },
+            { question: "ONT_PROVISIONING_ISSUE", options: ["Suspect Provisioning Issue (Try Reset Circuit Button)", "Other Issue (Try Power Cycle/Reset)"], next: { "Suspect Provisioning Issue (Try Reset Circuit Button)": "USE_RESET_CIRCUIT_BUTTON", "Other Issue (Try Power Cycle/Reset)": "ONT_POWER_CYCLE" } }, // Simplified provisioning check
+            { question: "ONT_LIGHT_LEVEL_CHECK", options: ["Check Light Level (BSS - Use correct wavelength: 1490nm GPON, 1550nm GFLT300, 1577nm XGS)", "Skip Light Level Check"], next: { "Check Light Level (BSS - Use correct wavelength: 1490nm GPON, 1550nm GFLT300, 1577nm XGS)": "ONT_LIGHT_LEVEL_RESULT", "Skip Light Level Check": "ONT_FIBER_CONNECTION_CHECK" } },
+            { question: "ONT_LIGHT_LEVEL_RESULT", options: ["Light Level OK", "Light Level Bad"], next: { "Light Level OK": "ONT_FIBER_CONNECTION_CHECK", "Light Level Bad": "PHYSICAL_FIBER_ISSUE" } },
+            { question: "ONT_FIBER_CONNECTION_CHECK", options: ["Check Fiber Patch Cable (Clean, Seated)", "Check Fiber Fittings (Wall plates, Barrels, Compression)"], next: { "Check Fiber Patch Cable (Clean, Seated)": "ONT_FIBER_CONNECTION_RESULT", "Check Fiber Fittings (Wall plates, Barrels, Compression)": "PHYSICAL_FITTING_CHECK" } },
+            { question: "ONT_FIBER_CONNECTION_RESULT", options: ["Connection OK", "Connection Issue Found/Fixed"], next: { "Connection OK": "ONT_POWER_CYCLE", "Connection Issue Found/Fixed": "ONT_RECHECK_LIGHTS" } },
+            { question: "ONT_POWER_CHECK", options: ["Check Power Source (Not switched outlet?)", "Check Power Cable/Injector/Splitter", "Check PoE Ethernet (if applicable)"], next: { "Check Power Source (Not switched outlet?)": "ONT_POWER_RESULT", "Check Power Cable/Injector/Splitter": "ONT_POWER_RESULT", "Check PoE Ethernet (if applicable)": "ETHERNET_CABLE_TEST" } },
+            { question: "ONT_POWER_RESULT", options: ["Power OK", "Power Issue Found/Fixed"], next: { "Power OK": "ONT_HARDWARE_ISSUE", "Power Issue Found/Fixed": "ONT_RECHECK_LIGHTS" } },
+            { question: "ONT_RECHECK_LIGHTS", options: ["Re-Check Fiber Jack Lights"], next: { "Re-Check Fiber Jack Lights": "ONT_LIGHTS_CHECK" } },
+            { question: "ONT_POWER_CYCLE", options: ["Power Cycle Fiber Jack (Wait 15s)"], next: { "Power Cycle Fiber Jack (Wait 15s)": "ONT_RECHECK_LIGHTS_AFTER_POWER_CYCLE" } },
+            { question: "ONT_RECHECK_LIGHTS_AFTER_POWER_CYCLE", options: ["Lights Now Normal (All Green)", "Lights Still Abnormal after Power Cycle"], next: { "Lights Now Normal (All Green)": "ROUTER_CHECK_TYPE", "Lights Still Abnormal after Power Cycle": "ONT_SOFT_RESET_OPTION" } }, // If Power Cycle fails, try Soft Reset
+            { question: "ONT_SOFT_RESET_OPTION", options: ["Try Soft Reset (Quick press)"], next: { "Try Soft Reset (Quick press)": "ONT_RECHECK_LIGHTS_AFTER_SOFT_RESET" } },
+            { question: "ONT_RECHECK_LIGHTS_AFTER_SOFT_RESET", options: ["Lights Now Normal (All Green)", "Lights Still Abnormal after Soft Reset"], next: { "Lights Now Normal (All Green)": "ROUTER_CHECK_TYPE", "Lights Still Abnormal after Soft Reset": "ONT_HARD_RESET_OPTION" } }, // If Soft Reset fails, try Hard Reset
+            { question: "ONT_HARD_RESET_OPTION", options: ["Try Hard Reset (Hold till light off)"], next: { "Try Hard Reset (Hold till light off)": "ONT_RECHECK_LIGHTS_AFTER_HARD_RESET" } },
+            { question: "ONT_RECHECK_LIGHTS_AFTER_HARD_RESET", options: ["Lights Now Normal (All Green)", "Lights Still Abnormal after Hard Reset"], next: { "Lights Now Normal (All Green)": "ROUTER_CHECK_TYPE", "Lights Still Abnormal after Hard Reset": "ONT_SERIAL_CHECK_OPTION" } }, // If Hard Reset fails, check Serial
+            { question: "ONT_SERIAL_CHECK_OPTION", options: ["Check Serial Number in BSS"], next: { "Check Serial Number in BSS": "ONT_SERIAL_CHECK_RESULT" } },
+            { question: "ONT_SERIAL_CHECK_RESULT", options: ["Serial Correct", "Serial Incorrect"], next: { "Serial Correct": "ONT_HARDWARE_ISSUE", "Serial Incorrect": "CORRECT_SERIAL_IN_BSS" } }, // If Serial correct & resets failed, suspect HW
+            { question: "CORRECT_SERIAL_IN_BSS", options: ["Correct Serial Number in BSS"], next: { "Correct Serial Number in BSS": "ONT_RECHECK_LIGHTS_AFTER_POWER_CYCLE" } }, // Recheck lights after correcting serial (start checks again)
+            { question: "ONT_HARDWARE_ISSUE", options: ["Swap Fiber Jack (Ensure correct model: GFLT110/132/GOGP220/GOXP330 for GPON, GFLT300 for Go-Long, GOXP330 for XGS)", "Escalate to GFSD/IST"], next: { "Swap Fiber Jack (Ensure correct model: GFLT110/132/GOGP220/GOXP330 for GPON, GFLT300 for Go-Long, GOXP330 for XGS)": "ONT_RECHECK_LIGHTS_AFTER_RESET", "Escalate to GFSD/IST": "ESCALATE_GFSD_IST" } },
+
+            // --- Router Checks (Called from multiple paths) ---
+            { question: "ROUTER_CHECK_TYPE", options: ["GFiber Router (GFRG300)", "Bring Your Own Router (BYOR)"], next: { "GFiber Router (GFRG300)": "GFIBER_ROUTER_LIGHTS_CHECK", "Bring Your Own Router (BYOR)": "BYOR_START_VERIFICATION" } },
+            { question: "GFIBER_ROUTER_LIGHTS_CHECK", options: ["Check Router Lights"], next: { "Check Router Lights": "GFIBER_ROUTER_LIGHTS_RESULT" } },
+            { question: "GFIBER_ROUTER_LIGHTS_RESULT", options: ["Lights Normal (Solid Blue)", "Lights Abnormal"], next: { "Lights Normal (Solid Blue)": "ETHERNET_CHECK_ONT_TO_ROUTER", "Lights Abnormal": "GFIBER_ROUTER_POWER_CHECK" } },
+            { question: "GFIBER_ROUTER_POWER_CHECK", options: ["Check Power Source (Not switched outlet?)", "Check Power Button On", "Check Power Cable"], next: { "Check Power Source (Not switched outlet?)": "GFIBER_ROUTER_POWER_RESULT", "Check Power Button On": "GFIBER_ROUTER_POWER_RESULT", "Check Power Cable": "GFIBER_ROUTER_POWER_RESULT" } },
+            { question: "GFIBER_ROUTER_POWER_RESULT", options: ["Power OK", "Power Issue Found/Fixed"], next: { "Power OK": "GFIBER_ROUTER_POWER_CYCLE", "Power Issue Found/Fixed": "GFIBER_ROUTER_RECHECK_LIGHTS" } },
+            { question: "GFIBER_ROUTER_RECHECK_LIGHTS", options: ["Re-Check Router Lights"], next: { "Re-Check Router Lights": "GFIBER_ROUTER_LIGHTS_RESULT" } },
+            { question: "GFIBER_ROUTER_POWER_CYCLE", options: ["Power Cycle Router (Wait 15s - DO NOT powercycle Network/Network+ Box until system is back up!)"], next: { "Power Cycle Router (Wait 15s - DO NOT powercycle Network/Network+ Box until system is back up!)": "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_POWER_CYCLE" } },
+            { question: "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_POWER_CYCLE", options: ["Lights Now Normal", "Lights Still Abnormal after Power Cycle"], next: { "Lights Now Normal": "ETHERNET_CHECK_ONT_TO_ROUTER", "Lights Still Abnormal after Power Cycle": "GFIBER_ROUTER_SOFT_RESET_OPTION" } }, // If Power Cycle fails, try Soft Reset
+            { question: "GFIBER_ROUTER_SOFT_RESET_OPTION", options: ["Try Soft Reset (Quick press)"], next: { "Try Soft Reset (Quick press)": "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_SOFT_RESET" } },
+            { question: "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_SOFT_RESET", options: ["Lights Now Normal", "Lights Still Abnormal after Soft Reset"], next: { "Lights Now Normal": "ETHERNET_CHECK_ONT_TO_ROUTER", "Lights Still Abnormal after Soft Reset": "GFIBER_ROUTER_HARD_RESET_OPTION" } }, // If Soft Reset fails, try Hard Reset
+            { question: "GFIBER_ROUTER_HARD_RESET_OPTION", options: ["Try Hard Reset (Hold till light off - Check button not stuck!)"], next: { "Try Hard Reset (Hold till light off - Check button not stuck!)": "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_HARD_RESET" } },
+            { question: "GFIBER_ROUTER_RECHECK_LIGHTS_AFTER_HARD_RESET", options: ["Lights Now Normal", "Lights Still Abnormal after Hard Reset"], next: { "Lights Now Normal": "ETHERNET_CHECK_ONT_TO_ROUTER", "Lights Still Abnormal after Hard Reset": "GFIBER_ROUTER_HARDWARE_ISSUE" } }, // If Hard Reset fails, suspect HW
+            { question: "ETHERNET_CHECK_ONT_TO_ROUTER", options: ["Check Ethernet Cable (ONT to Router WAN)", "Verify Cable Type (CAT5e+, CAT6A+ for 5/8 Gig)"], next: { "Check Ethernet Cable (ONT to Router WAN)": "ETHERNET_CHECK_ONT_TO_ROUTER_RESULT", "Verify Cable Type (CAT5e+, CAT6A+ for 5/8 Gig)": "ETHERNET_CHECK_ONT_TO_ROUTER_RESULT" } },
+            { question: "ETHERNET_CHECK_ONT_TO_ROUTER_RESULT", options: ["Cable OK & Correct Type", "Cable Issue Found/Fixed"], next: { "Cable OK & Correct Type": "TEST_WIRED_CONNECTION_ROUTER", "Cable Issue Found/Fixed": "GFIBER_ROUTER_RECHECK_LIGHTS" } },
+            { question: "TEST_WIRED_CONNECTION_ROUTER", options: ["Test Wired Connection to Router LAN Port"], next: { "Test Wired Connection to Router LAN Port": "TEST_WIRED_CONNECTION_ROUTER_RESULT" } },
+            { question: "TEST_WIRED_CONNECTION_ROUTER_RESULT", options: ["Wired Connection Works", "Wired Connection Fails"], next: { "Wired Connection Works": "WIFI_ISSUE_START", "Wired Connection Fails": "GFIBER_ROUTER_HARDWARE_ISSUE" } }, // If wired fails after router checks, suspect router HW
+            { question: "GFIBER_ROUTER_HARDWARE_ISSUE", options: ["Replace Router", "Escalate"], next: { "Replace Router": "ISSUE_RESOLVED_MONITOR", "Escalate": "ESCALATE_GFSD_IST" } }, // Removed reset option as it was tried
+
+            // --- Slow Internet Path ---
+            { question: "SLOW_START", options: ["Confirm Customer Plan Type", "Is Customer using BYOR?"], next: { "Confirm Customer Plan Type": "SLOW_RUN_SPEED_TEST", "Is Customer using BYOR?": "BYOR_START_VERIFICATION" } },
+            { question: "SLOW_RUN_SPEED_TEST", options: ["Run Speed Test (Ookla App for Install/Upgrade, fiber.google.com for Repair)", "Check if using VPN", "Check if using Antivirus"], next: { "Run Speed Test (Ookla App for Install/Upgrade, fiber.google.com for Repair)": "SLOW_SPEED_TEST_RESULT", "Check if using VPN": "SLOW_VPN_CHECK", "Check if using Antivirus": "SLOW_ANTIVIRUS_CHECK" } },
+            { question: "SLOW_SPEED_TEST_RESULT", options: ["Speeds Expected for Plan/Connection (Wired/Wireless)", "Speeds Significantly Slow"], next: { "Speeds Expected for Plan/Connection (Wired/Wireless)": "EDUCATE_CUSTOMER_SPEEDS", "Speeds Significantly Slow": "SLOW_CHECK_DEVICE_LIMITS" } },
+            { question: "EDUCATE_CUSTOMER_SPEEDS", options: ["Educate customer on expected speeds (wired vs wireless, plan limits, refer to Help Center)", "Start Over?"], next: { "Educate customer on expected speeds (wired vs wireless, plan limits, refer to Help Center)": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "SLOW_VPN_CHECK", options: ["VPN Active", "VPN Not Active"], next: { "VPN Active": "SLOW_DISABLE_VPN", "VPN Not Active": "SLOW_ANTIVIRUS_CHECK" } },
+            { question: "SLOW_DISABLE_VPN", options: ["Temporarily Disable VPN and Retest Speed"], next: { "Temporarily Disable VPN and Retest Speed": "SLOW_VPN_RETEST_RESULT" } },
+            { question: "SLOW_VPN_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_VPN_IMPACT", "Speed Still Slow": "SLOW_ANTIVIRUS_CHECK" } },
+            { question: "INFORM_CUSTOMER_VPN_IMPACT", options: ["Inform customer VPN is impacting speed (Note in Worklog)", "Start Over?"], next: { "Inform customer VPN is impacting speed (Note in Worklog)": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "SLOW_ANTIVIRUS_CHECK", options: ["Antivirus Active", "Antivirus Not Active"], next: { "Antivirus Active": "SLOW_DISABLE_ANTIVIRUS", "Antivirus Not Active": "SLOW_BROWSER_CHECK" } },
+            { question: "SLOW_DISABLE_ANTIVIRUS", options: ["Temporarily Disable Antivirus and Retest Speed"], next: { "Temporarily Disable Antivirus and Retest Speed": "SLOW_ANTIVIRUS_RETEST_RESULT" } },
+            { question: "SLOW_ANTIVIRUS_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_ANTIVIRUS_IMPACT", "Speed Still Slow": "SLOW_BROWSER_CHECK" } },
+            { question: "INFORM_CUSTOMER_ANTIVIRUS_IMPACT", options: ["Inform customer Antivirus is impacting speed (Advise re-enable, Note in Worklog)", "Start Over?"], next: { "Inform customer Antivirus is impacting speed (Advise re-enable, Note in Worklog)": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "SLOW_BROWSER_CHECK", options: ["Test Speed in Incognito/Private Window"], next: { "Test Speed in Incognito/Private Window": "SLOW_BROWSER_RETEST_RESULT" } },
+            { question: "SLOW_BROWSER_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_BROWSER_EXT_IMPACT", "Speed Still Slow": "SLOW_CHECK_DEVICE_LIMITS" } },
+            { question: "INFORM_CUSTOMER_BROWSER_EXT_IMPACT", options: ["Inform customer Browser/Extensions impacting speed (Have them disable extensions)", "Start Over?"], next: { "Inform customer Browser/Extensions impacting speed (Have them disable extensions)": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "SLOW_CHECK_DEVICE_LIMITS", options: ["Check Device CPU Usage During Speed Test (Task Mgr/Activity Monitor)", "Check Device Ethernet Card Capability (Gigabit?)"], next: { "Check Device CPU Usage During Speed Test (Task Mgr/Activity Monitor)": "SLOW_CPU_USAGE_RESULT", "Check Device Ethernet Card Capability (Gigabit?)": "SLOW_NIC_CAPABILITY_RESULT" } },
+            { question: "SLOW_CPU_USAGE_RESULT", options: ["CPU Maxing Out", "CPU Usage Normal"], next: { "CPU Maxing Out": "INFORM_CUSTOMER_DEVICE_HW_LIMIT", "CPU Usage Normal": "SLOW_POWER_CYCLE_ALL" } },
+            { question: "SLOW_NIC_CAPABILITY_RESULT", options: ["NIC is Gigabit Capable", "NIC is 100 Mbps or less"], next: { "NIC is Gigabit Capable": "SLOW_POWER_CYCLE_ALL", "NIC is 100 Mbps or less": "INFORM_CUSTOMER_DEVICE_HW_LIMIT" } },
+            { question: "INFORM_CUSTOMER_DEVICE_HW_LIMIT", options: ["Inform customer their device hardware is limiting speed", "Start Over?"], next: { "Inform customer their device hardware is limiting speed": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "SLOW_POWER_CYCLE_ALL", options: ["Power Cycle Fiber Jack (ONT) and Router (Wait 15s each)"], next: { "Power Cycle Fiber Jack (ONT) and Router (Wait 15s each)": "SLOW_RETEST_AFTER_POWER_CYCLE" } },
+            { question: "SLOW_RETEST_AFTER_POWER_CYCLE", options: ["Retest Speed"], next: { "Retest Speed": "SLOW_RETEST_RESULT_POST_CYCLE" } },
+            { question: "SLOW_RETEST_RESULT_POST_CYCLE", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "ISSUE_RESOLVED_MONITOR", "Speed Still Slow": "SLOW_TEST_DIRECT_TO_ONT" } },
+            { question: "SLOW_TEST_DIRECT_TO_ONT", options: ["Test Speed Directly Connected to Fiber Jack (ONT)"], next: { "Test Speed Directly Connected to Fiber Jack (ONT)": "SLOW_DIRECT_TEST_RESULT" } },
+            { question: "SLOW_DIRECT_TEST_RESULT", options: ["Speed OK at ONT", "Speed Still Slow at ONT"], next: { "Speed OK at ONT": "ROUTER_ISSUE_SLOW", "Speed Still Slow at ONT": "SLOW_CHECK_PHYSICAL_LINES" } },
+            { question: "SLOW_CHECK_PHYSICAL_LINES", options: ["Check Ethernet Cable (ONT to Router)", "Check Fiber Line/Fittings"], next: { "Check Ethernet Cable (ONT to Router)": "SLOW_ETHERNET_CHECK_RESULT", "Check Fiber Line/Fittings": "PHYSICAL_FIBER_ISSUE" } },
+            { question: "SLOW_ETHERNET_CHECK_RESULT", options: ["Cable OK", "Cable Issue Found/Fixed"], next: { "Cable OK": "CONTACT_ISP_SLOW", "Cable Issue Found/Fixed": "SLOW_RETEST_AFTER_POWER_CYCLE" } },
+            { question: "ROUTER_ISSUE_SLOW", options: ["Check Router QoS Settings (Disable if enabled)", "Consider Router Factory Reset", "BYOR: Recommend Different Router/GFiber Router Plan"], next: { "Check Router QoS Settings (Disable if enabled)": "SLOW_RETEST_AFTER_QOS", "Consider Router Factory Reset": "GFIBER_ROUTER_HARD_RESET_OPTION", "BYOR: Recommend Different Router/GFiber Router Plan": "BYOR_RECOMMEND_OPTIONS" } }, // Go to hard reset path
+            { question: "SLOW_RETEST_AFTER_QOS", options: ["Retest Speed"], next: { "Retest Speed": "SLOW_RETEST_RESULT_POST_QOS" } },
+            { question: "SLOW_RETEST_RESULT_POST_QOS", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "ISSUE_RESOLVED_MONITOR", "Speed Still Slow": "GFIBER_ROUTER_HARDWARE_ISSUE" } }, // If QoS didn't fix, suspect HW
+            { question: "CONTACT_ISP_SLOW", options: ["Contact ISP regarding slow speeds after checks", "Start Over?"], next: { "Contact ISP regarding slow speeds after checks": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+
+            // --- Intermittent Connection Path ---
+            { question: "INTERMITTENT_START", options: ["Check for Pattern (Time of day, weather, specific activity?)", "Is Customer using BYOR?"], next: { "Check for Pattern (Time of day, weather, specific activity?)": "INTERMITTENT_PATTERN_RESULT", "Is Customer using BYOR?": "BYOR_START_VERIFICATION" } },
+            { question: "INTERMITTENT_PATTERN_RESULT", options: ["Pattern Found", "No Clear Pattern"], next: { "Pattern Found": "INTERMITTENT_INVESTIGATE_PATTERN", "No Clear Pattern": "INTERMITTENT_CHECK_PHYSICAL" } },
+            { question: "INTERMITTENT_INVESTIGATE_PATTERN", options: ["Weather Related?", "Activity Related (Microwave, etc)?", "Time Related?"], next: { "Weather Related?": "INTERMITTENT_WEATHER_CHECK", "Activity Related (Microwave, etc)?": "WIFI_INTERFERENCE_CHECK", "Time Related?": "INTERMITTENT_CHECK_PHYSICAL" } }, // Add more pattern investigations
+            { question: "INTERMITTENT_WEATHER_CHECK", options: ["Check NIU Box/Seals for Water Ingress", "Check Outdoor Ethernet Connectors/Cabling for Damage/Corrosion"], next: { "Check NIU Box/Seals for Water Ingress": "INTERMITTENT_PHYSICAL_RESULT", "Check Outdoor Ethernet Connectors/Cabling for Damage/Corrosion": "INTERMITTENT_PHYSICAL_RESULT" } },
+            { question: "INTERMITTENT_CHECK_PHYSICAL", options: ["Check Fiber Jack Connections (Fiber clean/seated, Ethernet seated)", "Check Router Connections (Ethernet WAN/LAN)", "Check All Cable Fittings (Compression, Damage, Code B)", "Check Fiber Bend Radius"], next: { "Check Fiber Jack Connections (Fiber clean/seated, Ethernet seated)": "INTERMITTENT_PHYSICAL_RESULT", "Check Router Connections (Ethernet WAN/LAN)": "INTERMITTENT_PHYSICAL_RESULT", "Check All Cable Fittings (Compression, Damage, Code B)": "INTERMITTENT_PHYSICAL_RESULT", "Check Fiber Bend Radius": "INTERMITTENT_PHYSICAL_RESULT" } },
+            { question: "INTERMITTENT_PHYSICAL_RESULT", options: ["Physical Issue Found/Fixed", "No Physical Issues Found"], next: { "Physical Issue Found/Fixed": "ISSUE_RESOLVED_MONITOR", "No Physical Issues Found": "INTERMITTENT_CHECK_WIFI" } },
+            { question: "INTERMITTENT_CHECK_WIFI", options: ["Check WiFi Interference (Analyzer Tool)", "Check Signal Strength (Especially at disconnect locations)"], next: { "Check WiFi Interference (Analyzer Tool)": "WIFI_INTERFERENCE_RESULT", "Check Signal Strength (Especially at disconnect locations)": "WIFI_SIGNAL_STRENGTH_RESULT" } }, // Reuse WiFi checks
+            { question: "INTERMITTENT_POWER_CYCLE", options: ["Power Cycle Fiber Jack (ONT) and Router"], next: { "Power Cycle Fiber Jack (ONT) and Router": "INTERMITTENT_MONITOR" } },
+            { question: "INTERMITTENT_CHECK_LOGS", options: ["Check Router Logs for Errors/Disconnects"], next: { "Check Router Logs for Errors/Disconnects": "INTERMITTENT_LOG_RESULT" } },
+            { question: "INTERMITTENT_LOG_RESULT", options: ["Errors Found", "No Errors Found"], next: { "Errors Found": "TROUBLESHOOT_ROUTER_ERROR", "No Errors Found": "INTERMITTENT_TEST_WIRED_STABILITY" } },
+            { question: "INTERMITTENT_TEST_WIRED_STABILITY", options: ["Test Wired Connection Stability (Extended Ping Test)"], next: { "Test Wired Connection Stability (Extended Ping Test)": "INTERMITTENT_WIRED_STABILITY_RESULT" } },
+            { question: "INTERMITTENT_WIRED_STABILITY_RESULT", options: ["Wired Stable", "Wired Also Intermittent"], next: { "Wired Stable": "WIFI_ISSUE_INTERMITTENT", "Wired Also Intermittent": "INTERMITTENT_TEST_ONT_STABILITY" } },
+            { question: "INTERMITTENT_TEST_ONT_STABILITY", options: ["Test Wired Stability Direct to ONT"], next: { "Test Wired Stability Direct to ONT": "INTERMITTENT_ONT_STABILITY_RESULT" } },
+            { question: "INTERMITTENT_ONT_STABILITY_RESULT", options: ["Stable at ONT", "Still Intermittent at ONT"], next: { "Stable at ONT": "ROUTER_ISSUE_INTERMITTENT", "Still Intermittent at ONT": "INTERMITTENT_HARD_TO_SOLVE" } },
+            { question: "ROUTER_ISSUE_INTERMITTENT", options: ["Consider Router Factory Reset", "Replace Router"], next: { "Consider Router Factory Reset": "GFIBER_ROUTER_HARD_RESET_OPTION", "Replace Router": "ISSUE_RESOLVED_MONITOR" } }, // Go to hard reset path
+            { question: "INTERMITTENT_HARD_TO_SOLVE", options: ["Issue is intermittent and hard to pinpoint?", "Consider Replacing Lines/Equipment", "Escalate to GFSD/IST"], next: { "Issue is intermittent and hard to pinpoint?": "EDUCATE_CUSTOMER_INTERMITTENT", "Consider Replacing Lines/Equipment": "REPLACE_LINES_EQUIPMENT", "Escalate to GFSD/IST": "ESCALATE_GFSD_IST" } },
+            { question: "EDUCATE_CUSTOMER_INTERMITTENT", options: ["Educate customer on intermittent issues, monitor, follow up", "Start Over?"], next: { "Educate customer on intermittent issues, monitor, follow up": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "REPLACE_LINES_EQUIPMENT", options: ["Replace lines or equipment as last resort", "Start Over?"], next: { "Replace lines or equipment as last resort": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "INTERMITTENT_MONITOR", options: ["Monitor for further disconnects", "Start Over?"], next: { "Monitor for further disconnects": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+
+
+            // --- Specific Device Issue Path ---
+            { question: "SPECIFIC_DEVICE_START", options: ["Is it a GFiber Phone?", "Is it a Mesh Extender?", "Is it a customer device (PC, phone, smart device)?", "Is it related to BYOR?"], next: { "Is it a GFiber Phone?": "PHONE_START", "Is it a Mesh Extender?": "MESH_EXTENDER_START", "Is it a customer device (PC, phone, smart device)?": "CUSTOMER_DEVICE_START", "Is it related to BYOR?": "BYOR_START_VERIFICATION" } },
+            { question: "CUSTOMER_DEVICE_START", options: ["Check Device WiFi/Ethernet Connection", "Power Cycle Device", "Forget Network & Reconnect"], next: { "Check Device WiFi/Ethernet Connection": "CUSTOMER_DEVICE_CONN_RESULT", "Power Cycle Device": "CUSTOMER_DEVICE_RETEST", "Forget Network & Reconnect": "CUSTOMER_DEVICE_RETEST" } },
+            { question: "CUSTOMER_DEVICE_CONN_RESULT", options: ["Device Connected", "Device Not Connected"], next: { "Device Connected": "CUSTOMER_DEVICE_FUNCTIONALITY", "Device Not Connected": "CUSTOMER_DEVICE_RETEST" } },
+            { question: "CUSTOMER_DEVICE_FUNCTIONALITY", options: ["Can access internet?", "Can access local network?", "Slow performance on this device?"], next: { "Can access internet?": "CUSTOMER_DEVICE_INTERNET_OK", "Can access local network?": "CUSTOMER_DEVICE_LOCAL_OK", "Slow performance on this device?": "CUSTOMER_DEVICE_SLOW" } },
+            { question: "CUSTOMER_DEVICE_INTERNET_OK", options: ["Internet works on this device", "Internet does NOT work on this device"], next: { "Internet works on this device": "ISSUE_RESOLVED_MONITOR", "Internet does NOT work on this device": "CUSTOMER_DEVICE_CHECK_DNS_FIREWALL" } },
+            { question: "CUSTOMER_DEVICE_LOCAL_OK", options: ["Local network access works", "Local network access fails"], next: { "Local network access works": "ISSUE_RESOLVED_MONITOR", "Local network access fails": "CUSTOMER_DEVICE_CHECK_IP" } },
+            { question: "CUSTOMER_DEVICE_SLOW", options: ["Check Signal Strength to Device", "Check for Device-Specific Limits/Issues (Old HW, Background Apps)"], next: { "Check Signal Strength to Device": "WIFI_SIGNAL_STRENGTH_RESULT", "Check for Device-Specific Limits/Issues (Old HW, Background Apps)": "EDUCATE_CUSTOMER_DEVICE_LIMITS" } },
+            { question: "CUSTOMER_DEVICE_CHECK_DNS_FIREWALL", options: ["Check Device DNS Settings", "Check Device Firewall/Antivirus Settings"], next: { "Check Device DNS Settings": "CUSTOMER_DEVICE_RETEST", "Check Device Firewall/Antivirus Settings": "CUSTOMER_DEVICE_RETEST" } },
+            { question: "CUSTOMER_DEVICE_CHECK_IP", options: ["Check if device has valid IP address", "Check Router's DHCP Pool/Static Assignments"], next: { "Check if device has valid IP address": "CUSTOMER_DEVICE_RETEST", "Check Router's DHCP Pool/Static Assignments": "CUSTOMER_DEVICE_RETEST" } },
+            { question: "CUSTOMER_DEVICE_RETEST", options: ["Test Device Connection Again"], next: { "Test Device Connection Again": "CUSTOMER_DEVICE_RETEST_RESULT" } },
+            { question: "CUSTOMER_DEVICE_RETEST_RESULT", options: ["Device Now Working", "Device Still Not Working"], next: { "Device Now Working": "ISSUE_RESOLVED_MONITOR", "Device Still Not Working": "CUSTOMER_DEVICE_ISOLATE" } },
+            { question: "CUSTOMER_DEVICE_ISOLATE", options: ["Test another similar device", "Test this device on another network"], next: { "Test another similar device": "CUSTOMER_DEVICE_ISOLATE_RESULT", "Test this device on another network": "CUSTOMER_DEVICE_ISOLATE_RESULT" } },
+            { question: "CUSTOMER_DEVICE_ISOLATE_RESULT", options: ["Issue follows device", "Issue specific to this network/location"], next: { "Issue follows device": "EDUCATE_CUSTOMER_DEVICE_ISSUE", "Issue specific to this network/location": "What is the primary issue?" } }, // Loop back if network issue
+            { question: "EDUCATE_CUSTOMER_DEVICE_ISSUE", options: ["Educate customer: Issue likely with their device (Hardware fault, config, etc.)", "Start Over?"], next: { "Educate customer: Issue likely with their device (Hardware fault, config, etc.)": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "EDUCATE_CUSTOMER_DEVICE_LIMITS", options: ["Educate customer on potential device limitations affecting performance", "Start Over?"], next: { "Educate customer on potential device limitations affecting performance": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+
+            // --- Mesh Extender Path ---
+            { question: "MESH_EXTENDER_START", options: ["Check Extender Power (Source, Cable, Button)", "Check Extender Connection Type"], next: { "Check Extender Power (Source, Cable, Button)": "MESH_POWER_RESULT", "Check Extender Connection Type": "MESH_CONNECTION_TYPE" } },
+            { question: "MESH_POWER_RESULT", options: ["Power OK", "Power Issue Found/Fixed"], next: { "Power OK": "MESH_CONNECTION_TYPE", "Power Issue Found/Fixed": "MESH_EXTENDER_START" } },
+            { question: "MESH_CONNECTION_TYPE", options: ["Connected via Ethernet", "Connected Wirelessly"], next: { "Connected via Ethernet": "MESH_ETHERNET_CHECK", "Connected Wirelessly": "MESH_WIRELESS_CHECK" } },
+            { question: "MESH_ETHERNET_CHECK", options: ["Test Ethernet Cable to Extender"], next: { "Test Ethernet Cable to Extender": "MESH_ETHERNET_RESULT" } },
+            { question: "MESH_ETHERNET_RESULT", options: ["Cable OK", "Cable Issue Found/Fixed"], next: { "Cable OK": "MESH_CHECK_WEB_UI", "Cable Issue Found/Fixed": "MESH_EXTENDER_START" } },
+            { question: "MESH_WIRELESS_CHECK", options: ["Check Extender is connected to correct SSID", "Check WPS Button Status (Red/Flashing Yellow?)", "Check Signal Strength to Router"], next: { "Check Extender is connected to correct SSID": "MESH_WIRELESS_RESULT", "Check WPS Button Status (Red/Flashing Yellow?)": "MESH_PAIRING_ISSUE", "Check Signal Strength to Router": "MESH_SIGNAL_RESULT" } },
+            { question: "MESH_WIRELESS_RESULT", options: ["Connected to Correct SSID", "Not Connected / Wrong SSID"], next: { "Connected to Correct SSID": "MESH_CHECK_WEB_UI", "Not Connected / Wrong SSID": "MESH_PAIRING_ISSUE" } },
+            { question: "MESH_PAIRING_ISSUE", options: ["Follow Pairing Process", "Move Extender Closer to Router"], next: { "Follow Pairing Process": "MESH_CHECK_WEB_UI", "Move Extender Closer to Router": "MESH_WIRELESS_CHECK" } },
+            { question: "MESH_SIGNAL_RESULT", options: ["Signal Strong", "Signal Weak"], next: { "Signal Strong": "MESH_CHECK_WEB_UI", "Signal Weak": "MESH_RELOCATE" } },
+            { question: "MESH_RELOCATE", options: ["Consider relocating Extender closer to Router"], next: { "Consider relocating Extender closer to Router": "MESH_WIRELESS_CHECK" } },
+            { question: "MESH_CHECK_WEB_UI", options: ["Check Extender Status in Router Web Interface (192.168.1.1)"], next: { "Check Extender Status in Router Web Interface (192.168.1.1)": "MESH_STATUS_RESULT" } },
+            { question: "MESH_STATUS_RESULT", options: ["Extender Connected & Healthy", "Extender Shows Issue"], next: { "Extender Connected & Healthy": "ISSUE_RESOLVED_MONITOR", "Extender Shows Issue": "MESH_RESET" } },
+            { question: "MESH_RESET", options: ["Power Cycle Extender", "Factory Reset Extender"], next: { "Power Cycle Extender": "MESH_CHECK_WEB_UI", "Factory Reset Extender": "MESH_PAIRING_ISSUE" } },
+
+            // --- WiFi Specific Issues (Called from multiple paths) ---
+            { question: "WIFI_ISSUE_START", options: ["Weak Signal/Coverage Issue", "Speed Issue over WiFi", "Interference Suspected", "Connection Drops on WiFi"], next: { "Weak Signal/Coverage Issue": "WIFI_SIGNAL_STRENGTH_CHECK", "Speed Issue over WiFi": "WIFI_SPEED_CHECK", "Interference Suspected": "WIFI_INTERFERENCE_CHECK", "Connection Drops on WiFi": "WIFI_DROPS_CHECK" } },
+            { question: "WIFI_SIGNAL_STRENGTH_CHECK", options: ["Check Signal Strength (Analyzer Tool)", "Optimize Router Placement (Central, Elevated, Away from Obstacles/Interference)"], next: { "Check Signal Strength (Analyzer Tool)": "WIFI_SIGNAL_STRENGTH_RESULT", "Optimize Router Placement (Central, Elevated, Away from Obstacles/Interference)": "WIFI_PLACEMENT_RESULT" } },
+            { question: "WIFI_SIGNAL_STRENGTH_RESULT", options: ["Signal Adequate", "Signal Weak in Areas"], next: { "Signal Adequate": "WIFI_CHANNEL_CHECK", "Signal Weak in Areas": "WIFI_PLACEMENT_CHECK" } },
+            { question: "WIFI_PLACEMENT_CHECK", options: ["Optimize Router Placement", "Consider Mesh Extender (GFEX310)"], next: { "Optimize Router Placement": "WIFI_PLACEMENT_RESULT", "Consider Mesh Extender (GFEX310)": "MESH_EXTENDER_START" } },
+            { question: "WIFI_PLACEMENT_RESULT", options: ["Placement Optimized, Retest Signal"], next: { "Placement Optimized, Retest Signal": "WIFI_SIGNAL_STRENGTH_RESULT" } },
+            { question: "WIFI_SPEED_CHECK", options: ["Run Speed Test on WiFi Device", "Compare WiFi Speed to Wired Speed"], next: { "Run Speed Test on WiFi Device": "WIFI_SPEED_TEST_RESULT", "Compare WiFi Speed to Wired Speed": "WIFI_COMPARE_SPEEDS_RESULT" } },
+            { question: "WIFI_SPEED_TEST_RESULT", options: ["WiFi Speed Expected (Lower than wired)", "WiFi Speed Unusually Slow"], next: { "WiFi Speed Expected (Lower than wired)": "EDUCATE_CUSTOMER_WIFI_SPEEDS", "WiFi Speed Unusually Slow": "WIFI_CHANNEL_CHECK" } },
+            { question: "WIFI_COMPARE_SPEEDS_RESULT", options: ["WiFi much slower than Wired", "WiFi speed reasonable compared to Wired"], next: { "WiFi much slower than Wired": "WIFI_CHANNEL_CHECK", "WiFi speed reasonable compared to Wired": "EDUCATE_CUSTOMER_WIFI_SPEEDS" } },
+            { question: "EDUCATE_CUSTOMER_WIFI_SPEEDS", options: ["Educate customer on expected WiFi speeds vs Wired", "Start Over?"], next: { "Educate customer on expected WiFi speeds vs Wired": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "WIFI_INTERFERENCE_CHECK", options: ["Use WiFi Analyzer to Check Interference", "Identify Potential Sources (Microwave, Bluetooth, Monitors, Phones, Materials)"], next: { "Use WiFi Analyzer to Check Interference": "WIFI_INTERFERENCE_RESULT", "Identify Potential Sources (Microwave, Bluetooth, Monitors, Phones, Materials)": "WIFI_INTERFERENCE_RESULT" } },
+            { question: "WIFI_INTERFERENCE_RESULT", options: ["High Interference Found", "Low Interference Found"], next: { "High Interference Found": "WIFI_MITIGATE_INTERFERENCE", "Low Interference Found": "WIFI_CHANNEL_CHECK" } },
+            { question: "WIFI_MITIGATE_INTERFERENCE", options: ["Change WiFi Channel (Try 1, 6, 11 for 2.4GHz)", "Relocate Router/Interfering Device", "Use 5GHz Band if possible"], next: { "Change WiFi Channel (Try 1, 6, 11 for 2.4GHz)": "WIFI_RETEST", "Relocate Router/Interfering Device": "WIFI_RETEST", "Use 5GHz Band if possible": "WIFI_RETEST" } },
+            { question: "WIFI_CHANNEL_CHECK", options: ["Check Current WiFi Channel Congestion (Analyzer)"], next: { "Check Current WiFi Channel Congestion (Analyzer)": "WIFI_CHANNEL_RESULT" } },
+            { question: "WIFI_CHANNEL_RESULT", options: ["Channel Congested", "Channel Clear"], next: { "Channel Congested": "WIFI_CHANGE_CHANNEL", "Channel Clear": "WIFI_CHECK_CONNECTED_DEVICES" } },
+            { question: "WIFI_CHANGE_CHANNEL", options: ["Change WiFi Channel (Try 1, 6, 11 for 2.4GHz, less congested 5GHz)"], next: { "Change WiFi Channel (Try 1, 6, 11 for 2.4GHz, less congested 5GHz)": "WIFI_RETEST" } },
+            { question: "WIFI_CHECK_CONNECTED_DEVICES", options: ["Check Number of Connected Devices", "Check for Bandwidth-Heavy Devices/Activities"], next: { "Check Number of Connected Devices": "WIFI_DEVICE_LOAD_RESULT", "Check for Bandwidth-Heavy Devices/Activities": "WIFI_DEVICE_LOAD_RESULT" } },
+            { question: "WIFI_DEVICE_LOAD_RESULT", options: ["High Load / Bandwidth Hog Found", "Normal Load"], next: { "High Load / Bandwidth Hog Found": "WIFI_MANAGE_BANDWIDTH", "Normal Load": "WIFI_CHECK_ROUTER_FIRMWARE" } },
+            { question: "WIFI_MANAGE_BANDWIDTH", options: ["Advise Customer on Managing Bandwidth (QoS if available, limit usage)", "Start Over?"], next: { "Advise Customer on Managing Bandwidth (QoS if available, limit usage)": "ISSUE_RESOLVED_MONITOR", "Start Over?": "What is the primary issue?" } },
+            { question: "WIFI_CHECK_ROUTER_FIRMWARE", options: ["Check Router Firmware Version"], next: { "Check Router Firmware Version": "WIFI_FIRMWARE_RESULT" } },
+            { question: "WIFI_FIRMWARE_RESULT", options: ["Update Available", "Firmware Up-to-Date"], next: { "Update Available": "WIFI_UPDATE_FIRMWARE", "Firmware Up-to-Date": "WIFI_CONSIDER_ROUTER_RESET" } },
+            { question: "WIFI_UPDATE_FIRMWARE", options: ["Update Router Firmware"], next: { "Update Router Firmware": "WIFI_RETEST" } },
+            { question: "WIFI_CONSIDER_ROUTER_RESET", options: ["Consider Router Factory Reset"], next: { "Consider Router Factory Reset": "GFIBER_ROUTER_HARD_RESET_OPTION" } }, // Go to hard reset path
+            { question: "WIFI_DROPS_CHECK", options: ["Check Intermittent Pattern (WiFi specific)", "Check Signal Strength at Drop Location"], next: { "Check Intermittent Pattern (WiFi specific)": "INTERMITTENT_PATTERN_RESULT", "Check Signal Strength at Drop Location": "WIFI_SIGNAL_STRENGTH_CHECK" } }, // Loop back to intermittent/signal checks
+            { question: "WIFI_RETEST", options: ["Retest WiFi Performance/Connection"], next: { "Retest WiFi Performance/Connection": "WIFI_RETEST_RESULT" } },
+            { question: "WIFI_RETEST_RESULT", options: ["Issue Resolved", "Issue Persists"], next: { "Issue Resolved": "ISSUE_RESOLVED_MONITOR", "Issue Persists": "WIFI_CONSIDER_ROUTER_RESET" } }, // Example next step, might need more specific path
+
+            // --- BYOR Path ---
+            { question: "BYOR_START_VERIFICATION", options: ["Verify GFiber Service to ONT (Light Level, Direct Connect Test, Speed Test)", "Update Router Manufacturer in BSS/Salesforce"], next: { "Verify GFiber Service to ONT (Light Level, Direct Connect Test, Speed Test)": "BYOR_VERIFICATION_RESULT", "Update Router Manufacturer in BSS/Salesforce": "BYOR_START_VERIFICATION" } },
+            { question: "BYOR_VERIFICATION_RESULT", options: ["GFiber Service Verified OK at ONT", "Issue Found with GFiber Service Before Router"], next: { "GFiber Service Verified OK at ONT": "BYOR_INFORM_CUSTOMER_GFIBER_OK", "Issue Found with GFiber Service Before Router": "What is the primary issue?" } }, // Go back to main triage if GFiber issue
+            { question: "BYOR_INFORM_CUSTOMER_GFIBER_OK", options: ["Inform Customer: GFiber service OK, issue likely with BYOR setup. Offer best effort support."], next: { "Inform Customer: GFiber service OK, issue likely with BYOR setup. Offer best effort support.": "BYOR_CHECK_SPECS" } },
+            { question: "BYOR_CHECK_SPECS", options: ["Check if Router Specs Meet Recommended Requirements"], next: { "Check if Router Specs Meet Recommended Requirements": "BYOR_SPEC_RESULT" } },
+            { question: "BYOR_SPEC_RESULT", options: ["Specs Meet Requirements", "Specs Do Not Meet Requirements"], next: { "Specs Meet Requirements": "BYOR_IDENTIFY_ISSUE_TYPE", "Specs Do Not Meet Requirements": "BYOR_RECOMMEND_DIFFERENT_ROUTER" } },
+            { question: "BYOR_IDENTIFY_ISSUE_TYPE", options: ["Unable to Connect to Internet", "Slow Speeds / Frequent Disconnects", "Can't Connect to Specific Website"], next: { "Unable to Connect to Internet": "BYOR_NO_CONNECT_START", "Slow Speeds / Frequent Disconnects": "BYOR_SLOW_DISCONNECT_START", "Can't Connect to Specific Website": "BYOR_SITE_ISSUE_START" } },
+
+            // BYOR - No Connection
+            { question: "BYOR_NO_CONNECT_START", options: ["Check Router Power", "Check Ethernet Cable (ONT to WAN Port, Type, Damage)", "Check WAN Port Link Light"], next: { "Check Router Power": "BYOR_NO_CONNECT_POWER_RESULT", "Check Ethernet Cable (ONT to WAN Port, Type, Damage)": "BYOR_NO_CONNECT_CABLE_RESULT", "Check WAN Port Link Light": "BYOR_NO_CONNECT_LINK_LIGHT_RESULT" } },
+            { question: "BYOR_NO_CONNECT_POWER_RESULT", options: ["Power OK", "Power Issue Fixed"], next: { "Power OK": "BYOR_NO_CONNECT_START", "Power Issue Fixed": "BYOR_NO_CONNECT_RETEST" } },
+            { question: "BYOR_NO_CONNECT_CABLE_RESULT", options: ["Cable OK & Connected to WAN", "Cable Issue Fixed / Replaced"], next: { "Cable OK & Connected to WAN": "BYOR_NO_CONNECT_LINK_LIGHT_RESULT", "Cable Issue Fixed / Replaced": "BYOR_NO_CONNECT_RETEST" } },
+            { question: "BYOR_NO_CONNECT_LINK_LIGHT_RESULT", options: ["Link Light Active", "No Link Light"], next: { "Link Light Active": "BYOR_NO_CONNECT_POWER_CYCLE", "No Link Light": "BYOR_FAULTY_CABLE_PORT" } },
+            { question: "BYOR_FAULTY_CABLE_PORT", options: ["Try Different Ethernet Cable", "Suspect Faulty Router WAN Port"], next: { "Try Different Ethernet Cable": "BYOR_NO_CONNECT_CABLE_RESULT", "Suspect Faulty Router WAN Port": "BYOR_CONTACT_MANUFACTURER" } },
+            { question: "BYOR_NO_CONNECT_POWER_CYCLE", options: ["Have Customer Power Cycle BYOR Router"], next: { "Have Customer Power Cycle BYOR Router": "BYOR_NO_CONNECT_RETEST" } },
+            { question: "BYOR_NO_CONNECT_RETEST", options: ["Test Internet Connection"], next: { "Test Internet Connection": "BYOR_NO_CONNECT_RETEST_RESULT" } },
+            { question: "BYOR_NO_CONNECT_RETEST_RESULT", options: ["Connection Working", "Still No Connection"], next: { "Connection Working": "ISSUE_RESOLVED_MONITOR", "Still No Connection": "BYOR_NO_CONNECT_CHECK_SETTINGS" } },
+            { question: "BYOR_NO_CONNECT_CHECK_SETTINGS", options: ["Check Browser Extensions (Disable Temporarily)", "Check Firewall/Antivirus/Malware Settings (Disable Temporarily)", "Check Router LAN IP Pool Capacity", "Access Router Settings Page (e.g., 192.168.1.1)"], next: { "Check Browser Extensions (Disable Temporarily)": "BYOR_NO_CONNECT_RETEST", "Check Firewall/Antivirus/Malware Settings (Disable Temporarily)": "BYOR_NO_CONNECT_RETEST", "Check Router LAN IP Pool Capacity": "BYOR_NO_CONNECT_RETEST", "Access Router Settings Page (e.g., 192.168.1.1)": "BYOR_NO_CONNECT_ROUTER_UI" } },
+            { question: "BYOR_NO_CONNECT_ROUTER_UI", options: ["Check Router UI for Alerts/WAN Status (Customer assistance needed)", "Unable to Access Router UI"], next: { "Check Router UI for Alerts/WAN Status (Customer assistance needed)": "BYOR_NO_CONNECT_ROUTER_UI_RESULT", "Unable to Access Router UI": "BYOR_CONTACT_MANUFACTURER" } },
+            { question: "BYOR_NO_CONNECT_ROUTER_UI_RESULT", options: ["Router UI Indicates Issue (WAN Down, etc)", "Router UI Looks Normal"], next: { "Router UI Indicates Issue (WAN Down, etc)": "BYOR_CONTACT_MANUFACTURER", "Router UI Looks Normal": "BYOR_NO_CONNECT_FINAL_OPTIONS" } },
+            { question: "BYOR_NO_CONNECT_FINAL_OPTIONS", options: ["Recommend Contacting Manufacturer", "Recommend Different Router", "Recommend Connecting Direct to ONT", "Offer GFiber Router Plan"], next: { "Recommend Contacting Manufacturer": "BYOR_CONTACT_MANUFACTURER", "Recommend Different Router": "BYOR_RECOMMEND_DIFFERENT_ROUTER", "Recommend Connecting Direct to ONT": "BYOR_CONNECT_DIRECT", "Offer GFiber Router Plan": "BYOR_OFFER_GFIBER_PLAN" } },
+
+            // BYOR - Slow / Disconnects
+            { question: "BYOR_SLOW_DISCONNECT_START", options: ["Run Speed Test (Wired if possible)", "Check VPN Usage", "Check Antivirus Usage"], next: { "Run Speed Test (Wired if possible)": "BYOR_SLOW_SPEED_TEST_RESULT", "Check VPN Usage": "BYOR_SLOW_VPN_CHECK", "Check Antivirus Usage": "BYOR_SLOW_ANTIVIRUS_CHECK" } },
+            { question: "BYOR_SLOW_SPEED_TEST_RESULT", options: ["Speeds Expected", "Speeds Slow"], next: { "Speeds Expected": "EDUCATE_CUSTOMER_SPEEDS", "Speeds Slow": "BYOR_SLOW_VPN_CHECK" } },
+            { question: "BYOR_SLOW_VPN_CHECK", options: ["VPN Active", "VPN Not Active"], next: { "VPN Active": "BYOR_SLOW_DISABLE_VPN", "VPN Not Active": "BYOR_SLOW_ANTIVIRUS_CHECK" } },
+            { question: "BYOR_SLOW_DISABLE_VPN", options: ["Temporarily Disable VPN and Retest Speed"], next: { "Temporarily Disable VPN and Retest Speed": "BYOR_SLOW_VPN_RETEST_RESULT" } },
+            { question: "BYOR_SLOW_VPN_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_VPN_IMPACT", "Speed Still Slow": "BYOR_SLOW_ANTIVIRUS_CHECK" } },
+            { question: "BYOR_SLOW_ANTIVIRUS_CHECK", options: ["Antivirus Active", "Antivirus Not Active"], next: { "Antivirus Active": "BYOR_SLOW_DISABLE_ANTIVIRUS", "Antivirus Not Active": "BYOR_SLOW_BROWSER_CHECK" } },
+            { question: "BYOR_SLOW_DISABLE_ANTIVIRUS", options: ["Temporarily Disable Antivirus and Retest Speed"], next: { "Temporarily Disable Antivirus and Retest Speed": "BYOR_SLOW_ANTIVIRUS_RETEST_RESULT" } },
+            { question: "BYOR_SLOW_ANTIVIRUS_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_ANTIVIRUS_IMPACT", "Speed Still Slow": "BYOR_SLOW_BROWSER_CHECK" } },
+            { question: "BYOR_SLOW_BROWSER_CHECK", options: ["Test Speed in Incognito/Private Window"], next: { "Test Speed in Incognito/Private Window": "BYOR_SLOW_BROWSER_RETEST_RESULT" } },
+            { question: "BYOR_SLOW_BROWSER_RETEST_RESULT", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "INFORM_CUSTOMER_BROWSER_EXT_IMPACT", "Speed Still Slow": "BYOR_SLOW_CHECK_DEVICE_CPU" } },
+            { question: "BYOR_SLOW_CHECK_DEVICE_CPU", options: ["Check Device CPU Usage During Speed Test"], next: { "Check Device CPU Usage During Speed Test": "BYOR_SLOW_CPU_USAGE_RESULT" } },
+            { question: "BYOR_SLOW_CPU_USAGE_RESULT", options: ["CPU Maxing Out", "CPU Usage Normal"], next: { "CPU Maxing Out": "INFORM_CUSTOMER_DEVICE_HW_LIMIT", "CPU Usage Normal": "BYOR_SLOW_POWER_CYCLE" } },
+            { question: "BYOR_SLOW_POWER_CYCLE", options: ["Power Cycle Fiber Jack (ONT) and BYOR Router"], next: { "Power Cycle Fiber Jack (ONT) and BYOR Router": "BYOR_SLOW_RETEST_POST_CYCLE" } },
+            { question: "BYOR_SLOW_RETEST_POST_CYCLE", options: ["Retest Speed"], next: { "Retest Speed": "BYOR_SLOW_RETEST_RESULT_POST_CYCLE" } },
+            { question: "BYOR_SLOW_RETEST_RESULT_POST_CYCLE", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "ISSUE_RESOLVED_MONITOR", "Speed Still Slow": "BYOR_SLOW_CHECK_QOS" } },
+            { question: "BYOR_SLOW_CHECK_QOS", options: ["Check if Router Supports QoS (Disable if enabled)"], next: { "Check if Router Supports QoS (Disable if enabled)": "BYOR_SLOW_RETEST_POST_QOS" } },
+            { question: "BYOR_SLOW_RETEST_POST_QOS", options: ["Retest Speed"], next: { "Retest Speed": "BYOR_SLOW_RETEST_RESULT_POST_QOS" } },
+            { question: "BYOR_SLOW_RETEST_RESULT_POST_QOS", options: ["Speed Improved", "Speed Still Slow"], next: { "Speed Improved": "ISSUE_RESOLVED_MONITOR", "Speed Still Slow": "BYOR_SLOW_DISCONNECT_FINAL_OPTIONS" } },
+            { question: "BYOR_SLOW_DISCONNECT_FINAL_OPTIONS", options: ["Recommend Contacting Manufacturer", "Recommend Different Router", "Recommend Connecting Direct to ONT", "Offer GFiber Router Plan"], next: { "Recommend Contacting Manufacturer": "BYOR_CONTACT_MANUFACTURER", "Recommend Different Router": "BYOR_RECOMMEND_DIFFERENT_ROUTER", "Recommend Connecting Direct to ONT": "BYOR_CONNECT_DIRECT", "Offer GFiber Router Plan": "BYOR_OFFER_GFIBER_PLAN" } },
+
+            // BYOR - Specific Site Issue
+            { question: "BYOR_SITE_ISSUE_START", options: ["Can Customer Access Site on Non-Fiber Network (e.g., Mobile Data)?", "Flush DNS on Device (PC/Mac)"], next: { "Can Customer Access Site on Non-Fiber Network (e.g., Mobile Data)?": "BYOR_SITE_NON_FIBER_TEST", "Flush DNS on Device (PC/Mac)": "BYOR_SITE_RETEST_POST_FLUSH" } },
+            { question: "BYOR_SITE_NON_FIBER_TEST", options: ["Yes, Works on Other Networks", "No, Fails on Other Networks Too"], next: { "Yes, Works on Other Networks": "BYOR_SITE_FLUSH_DNS", "No, Fails on Other Networks Too": "BYOR_SITE_NOT_FIBER_ISSUE" } },
+            { question: "BYOR_SITE_NOT_FIBER_ISSUE", options: ["Advise Customer: Issue likely with the website/service itself, contact site admin.", "Start Over?"], next: { "Advise Customer: Issue likely with the website/service itself, contact site admin.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "BYOR_SITE_FLUSH_DNS", options: ["Flush DNS on Device (PC/Mac)"], next: { "Flush DNS on Device (PC/Mac)": "BYOR_SITE_RETEST_POST_FLUSH" } },
+            { question: "BYOR_SITE_RETEST_POST_FLUSH", options: ["Retest Access to Specific Site"], next: { "Retest Access to Specific Site": "BYOR_SITE_RETEST_RESULT" } },
+            { question: "BYOR_SITE_RETEST_RESULT", options: ["Site Now Accessible", "Still Cannot Access Site"], next: { "Site Now Accessible": "ISSUE_RESOLVED_MONITOR", "Still Cannot Access Site": "BYOR_SITE_POWER_CYCLE" } },
+            { question: "BYOR_SITE_POWER_CYCLE", options: ["Power Cycle Fiber Jack (ONT) and BYOR Router"], next: { "Power Cycle Fiber Jack (ONT) and BYOR Router": "BYOR_SITE_RETEST_POST_CYCLE" } },
+            { question: "BYOR_SITE_RETEST_POST_CYCLE", options: ["Retest Access to Specific Site"], next: { "Retest Access to Specific Site": "BYOR_SITE_RETEST_RESULT_POST_CYCLE" } },
+            { question: "BYOR_SITE_RETEST_RESULT_POST_CYCLE", options: ["Site Now Accessible", "Still Cannot Access Site"], next: { "Site Now Accessible": "ISSUE_RESOLVED_MONITOR", "Still Cannot Access Site": "BYOR_SITE_CHECK_PARENTAL_CONTROLS" } },
+            { question: "BYOR_SITE_CHECK_PARENTAL_CONTROLS", options: ["Check Router Parental Control/Website Blocking Settings"], next: { "Check Router Parental Control/Website Blocking Settings": "BYOR_SITE_RETEST_POST_PARENTAL" } },
+            { question: "BYOR_SITE_RETEST_POST_PARENTAL", options: ["Retest Access to Specific Site"], next: { "Retest Access to Specific Site": "BYOR_SITE_RETEST_RESULT_POST_PARENTAL" } },
+            { question: "BYOR_SITE_RETEST_RESULT_POST_PARENTAL", options: ["Site Now Accessible", "Still Cannot Access Site"], next: { "Site Now Accessible": "ISSUE_RESOLVED_MONITOR", "Still Cannot Access Site": "BYOR_SITE_FINAL_OPTIONS" } },
+            { question: "BYOR_SITE_FINAL_OPTIONS", options: ["Recommend Contacting Manufacturer", "Recommend Different Router", "Recommend Connecting Direct to ONT", "Offer GFiber Router Plan"], next: { "Recommend Contacting Manufacturer": "BYOR_CONTACT_MANUFACTURER", "Recommend Different Router": "BYOR_RECOMMEND_DIFFERENT_ROUTER", "Recommend Connecting Direct to ONT": "BYOR_CONNECT_DIRECT", "Offer GFiber Router Plan": "BYOR_OFFER_GFIBER_PLAN" } },
+
+            // BYOR - End Paths
+            { question: "BYOR_CONTACT_MANUFACTURER", options: ["Advise customer to contact router manufacturer for further assistance.", "Start Over?"], next: { "Advise customer to contact router manufacturer for further assistance.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "BYOR_RECOMMEND_DIFFERENT_ROUTER", options: ["Recommend a different router meeting requirements.", "Start Over?"], next: { "Recommend a different router meeting requirements.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "BYOR_CONNECT_DIRECT", options: ["Recommend connecting laptop directly to Fiber Jack temporarily.", "Start Over?"], next: { "Recommend connecting laptop directly to Fiber Jack temporarily.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "BYOR_OFFER_GFIBER_PLAN", options: ["Ask if customer is interested in changing to a plan with a GFiber router.", "Start Over?"], next: { "Ask if customer is interested in changing to a plan with a GFiber router.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+
+            // --- GFiber Phone Path ---
+            { question: "PHONE_START", options: ["E911 Verification Failure", "No Inbound/Outbound Calls", "No Inbound Calls Only", "No Outbound Calls Only", "No Dial Tone"], next: { "E911 Verification Failure": "PHONE_E911_START", "No Inbound/Outbound Calls": "PHONE_NO_CALLS_START", "No Inbound Calls Only": "PHONE_NO_INBOUND_START", "No Outbound Calls Only": "PHONE_NO_OUTBOUND_START", "No Dial Tone": "PHONE_NO_DIAL_TONE_START" } },
+            // E911
+            { question: "PHONE_E911_START", options: ["Verify All CPEs Have Normal Green LEDs", "Verify Good Speeds", "Verify Inbound/Outbound Calls Work"], next: { "Verify All CPEs Have Normal Green LEDs": "PHONE_E911_SPEED_CHECK", "Verify Good Speeds": "PHONE_E911_CALL_CHECK", "Verify Inbound/Outbound Calls Work": "PHONE_E911_WAIT" } },
+            { question: "PHONE_E911_SPEED_CHECK", options: ["Speeds Good?", "Speeds Bad?"], next: { "Speeds Good?": "PHONE_E911_CALL_CHECK", "Speeds Bad?": "SLOW_START" } }, // Go to slow path if speeds bad
+            { question: "PHONE_E911_CALL_CHECK", options: ["Calls Work?", "Calls Don't Work?"], next: { "Calls Work?": "PHONE_E911_WAIT", "Calls Don't Work?": "PHONE_NO_CALLS_START" } }, // Go to no calls path
+            { question: "PHONE_E911_WAIT", options: ["Wait 5-10 minutes and try dialing 933 again"], next: { "Wait 5-10 minutes and try dialing 933 again": "PHONE_E911_RETEST_RESULT" } },
+            { question: "PHONE_E911_RETEST_RESULT", options: ["933 Verification Works", "Still Fails"], next: { "933 Verification Works": "ISSUE_RESOLVED_MONITOR", "Still Fails": "PHONE_E911_ESCALATE_INFO" } },
+            { question: "PHONE_E911_ESCALATE_INFO", options: ["Gather Escalation Info (What heard dialing 933? Timestamp?)"], next: { "Gather Escalation Info (What heard dialing 933? Timestamp?)": "PHONE_ESCALATE" } },
+            // No Calls (In/Out)
+            { question: "PHONE_NO_CALLS_START", options: ["Verify Phone Box Has Normal Green LEDs & Dial Tone", "Remove 3rd Party Equipment"], next: { "Verify Phone Box Has Normal Green LEDs & Dial Tone": "PHONE_NO_CALLS_LED_RESULT", "Remove 3rd Party Equipment": "PHONE_NO_CALLS_START" } },
+            { question: "PHONE_NO_CALLS_LED_RESULT", options: ["LEDs Normal & Dial Tone OK", "LEDs Abnormal or No Dial Tone"], next: { "LEDs Normal & Dial Tone OK": "PHONE_NO_CALLS_FACTORY_RESET", "LEDs Abnormal or No Dial Tone": "PHONE_NO_DIAL_TONE_START" } }, // Go to No Dial Tone if LED/Tone bad
+            { question: "PHONE_NO_CALLS_FACTORY_RESET", options: ["Perform Hard Factory Reset on Phone Box"], next: { "Perform Hard Factory Reset on Phone Box": "PHONE_NO_CALLS_BUTT_SET_TEST" } },
+            { question: "PHONE_NO_CALLS_BUTT_SET_TEST", options: ["Test with Butt Set"], next: { "Test with Butt Set": "PHONE_NO_CALLS_BUTT_SET_RESULT" } },
+            { question: "PHONE_NO_CALLS_BUTT_SET_RESULT", options: ["Works with Butt Set", "Does Not Work with Butt Set"], next: { "Works with Butt Set": "PHONE_CUSTOMER_HANDSET_ISSUE", "Does Not Work with Butt Set": "PHONE_NO_CALLS_VERIFY_NUMBERS" } },
+            { question: "PHONE_CUSTOMER_HANDSET_ISSUE", options: ["Advise customer: Issue likely with their handset/wiring", "Start Over?"], next: { "Advise customer: Issue likely with their handset/wiring": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "PHONE_NO_CALLS_VERIFY_NUMBERS", options: ["Verify calls to multiple numbers/carriers"], next: { "Verify calls to multiple numbers/carriers": "PHONE_NO_CALLS_ESCALATE_INFO" } },
+            { question: "PHONE_NO_CALLS_ESCALATE_INFO", options: ["Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)"], next: { "Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)": "PHONE_NO_CALLS_SWAP" } },
+            { question: "PHONE_NO_CALLS_SWAP", options: ["Swap Phone Box"], next: { "Swap Phone Box": "PHONE_NO_CALLS_RETEST_SWAP" } },
+            { question: "PHONE_NO_CALLS_RETEST_SWAP", options: ["Retest Calls"], next: { "Retest Calls": "PHONE_NO_CALLS_RETEST_SWAP_RESULT" } },
+            { question: "PHONE_NO_CALLS_RETEST_SWAP_RESULT", options: ["Calls Now Work", "Still No Calls"], next: { "Calls Now Work": "ISSUE_RESOLVED_MONITOR", "Still No Calls": "PHONE_ESCALATE" } },
+            // No Inbound Only
+            { question: "PHONE_NO_INBOUND_START", options: ["Reset Phone Settings in CSA (Phone Tab)", "Check Voice Settings (Forwarding, DND, Spam Filter)"], next: { "Reset Phone Settings in CSA (Phone Tab)": "PHONE_NO_INBOUND_CHECK_VOICE", "Check Voice Settings (Forwarding, DND, Spam Filter)": "PHONE_NO_INBOUND_VOICE_RESULT" } },
+            { question: "PHONE_NO_INBOUND_CHECK_VOICE", options: ["Check Voice Settings (Forwarding, DND, Spam Filter)"], next: { "Check Voice Settings (Forwarding, DND, Spam Filter)": "PHONE_NO_INBOUND_VOICE_RESULT" } },
+            { question: "PHONE_NO_INBOUND_VOICE_RESULT", options: ["Settings Correct (No Forwarding/DND/Spam)", "Settings Issue Found/Fixed (Wait few mins, reboot Phone Box)"], next: { "Settings Correct (No Forwarding/DND/Spam)": "PHONE_NO_INBOUND_TEST_VOICE_APP", "Settings Issue Found/Fixed (Wait few mins, reboot Phone Box)": "PHONE_NO_INBOUND_RETEST" } },
+            { question: "PHONE_NO_INBOUND_TEST_VOICE_APP", options: ["Test Inbound Call via voice.google.com or Voice App"], next: { "Test Inbound Call via voice.google.com or Voice App": "PHONE_NO_INBOUND_VOICE_APP_RESULT" } },
+            { question: "PHONE_NO_INBOUND_VOICE_APP_RESULT", options: ["Call Comes Through on App/Web", "Call Fails on App/Web"], next: { "Call Comes Through on App/Web": "PHONE_CUSTOMER_HANDSET_ISSUE", "Call Fails on App/Web": "PHONE_NO_INBOUND_ESCALATE_INFO" } },
+            { question: "PHONE_NO_INBOUND_ESCALATE_INFO", options: ["Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)"], next: { "Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)": "PHONE_NO_INBOUND_SWAP" } },
+            { question: "PHONE_NO_INBOUND_SWAP", options: ["Swap Phone Box"], next: { "Swap Phone Box": "PHONE_NO_INBOUND_RETEST" } },
+            { question: "PHONE_NO_INBOUND_RETEST", options: ["Retest Inbound Calls"], next: { "Retest Inbound Calls": "PHONE_NO_INBOUND_RETEST_RESULT" } },
+            { question: "PHONE_NO_INBOUND_RETEST_RESULT", options: ["Inbound Calls Work", "Still No Inbound Calls"], next: { "Inbound Calls Work": "ISSUE_RESOLVED_MONITOR", "Still No Inbound Calls": "PHONE_ESCALATE" } },
+            // No Outbound Only
+            { question: "PHONE_NO_OUTBOUND_START", options: ["Reset Phone Settings in BSS (Phone Tab)", "Test Outbound Call via voice.google.com or Voice App"], next: { "Reset Phone Settings in BSS (Phone Tab)": "PHONE_NO_OUTBOUND_TEST_VOICE_APP", "Test Outbound Call via voice.google.com or Voice App": "PHONE_NO_OUTBOUND_VOICE_APP_RESULT" } },
+            { question: "PHONE_NO_OUTBOUND_TEST_VOICE_APP", options: ["Test Outbound Call via voice.google.com or Voice App (Multiple numbers/carriers)"], next: { "Test Outbound Call via voice.google.com or Voice App (Multiple numbers/carriers)": "PHONE_NO_OUTBOUND_VOICE_APP_RESULT" } },
+            { question: "PHONE_NO_OUTBOUND_VOICE_APP_RESULT", options: ["Calls Work via App/Web", "Some/All Calls Fail via App/Web"], next: { "Calls Work via App/Web": "PHONE_CUSTOMER_HANDSET_ISSUE", "Some/All Calls Fail via App/Web": "PHONE_NO_OUTBOUND_CARRIER_BLOCK" } },
+            { question: "PHONE_NO_OUTBOUND_CARRIER_BLOCK", options: ["If some fail, advise customer to contact carrier to unblock number", "If all fail, proceed to Escalation Info"], next: { "If some fail, advise customer to contact carrier to unblock number": "FINAL_NOTE_CUSTOMER", "If all fail, proceed to Escalation Info": "PHONE_NO_OUTBOUND_ESCALATE_INFO" } },
+            { question: "PHONE_NO_OUTBOUND_ESCALATE_INFO", options: ["Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)"], next: { "Gather Escalation Info (In/Out #, Timestamps, Behavior, Voice Settings Screenshots)": "PHONE_NO_OUTBOUND_SWAP" } },
+            { question: "PHONE_NO_OUTBOUND_SWAP", options: ["Swap Phone Box"], next: { "Swap Phone Box": "PHONE_NO_OUTBOUND_RETEST" } },
+            { question: "PHONE_NO_OUTBOUND_RETEST", options: ["Retest Outbound Calls"], next: { "Retest Outbound Calls": "PHONE_NO_OUTBOUND_RETEST_RESULT" } },
+            { question: "PHONE_NO_OUTBOUND_RETEST_RESULT", options: ["Outbound Calls Work", "Still No Outbound Calls"], next: { "Outbound Calls Work": "ISSUE_RESOLVED_MONITOR", "Still No Outbound Calls": "PHONE_ESCALATE" } },
+            // No Dial Tone
+            { question: "PHONE_NO_DIAL_TONE_START", options: ["Verify Phone Box Has Normal Green LEDs", "Test with Butt Set"], next: { "Verify Phone Box Has Normal Green LEDs": "PHONE_NO_DIAL_TONE_LED_RESULT", "Test with Butt Set": "PHONE_NO_DIAL_TONE_BUTT_SET_RESULT" } },
+            { question: "PHONE_NO_DIAL_TONE_LED_RESULT", options: ["LEDs Normal", "LEDs Abnormal"], next: { "LEDs Normal": "PHONE_NO_DIAL_TONE_BUTT_SET_TEST", "LEDs Abnormal": "PHONE_NO_DIAL_TONE_CHECK_CONNECTION" } }, // If LED bad, check connection first
+            { question: "PHONE_NO_DIAL_TONE_BUTT_SET_TEST", options: ["Test with Butt Set"], next: { "Test with Butt Set": "PHONE_NO_DIAL_TONE_BUTT_SET_RESULT" } },
+            { question: "PHONE_NO_DIAL_TONE_BUTT_SET_RESULT", options: ["Dial Tone Heard on Butt Set", "No Dial Tone on Butt Set"], next: { "Dial Tone Heard on Butt Set": "PHONE_CUSTOMER_HANDSET_ISSUE", "No Dial Tone on Butt Set": "PHONE_NO_DIAL_TONE_CHECK_CONNECTION" } },
+            { question: "PHONE_NO_DIAL_TONE_CHECK_CONNECTION", options: ["Verify Phone Box connected directly to Network Box (New CAT5e)", "Verify Phone Port Order Completed / Temp Number Assigned"], next: { "Verify Phone Box connected directly to Network Box (New CAT5e)": "PHONE_NO_DIAL_TONE_REMOVE_3RDPARTY", "Verify Phone Port Order Completed / Temp Number Assigned": "PHONE_NO_DIAL_TONE_REMOVE_3RDPARTY" } },
+            { question: "PHONE_NO_DIAL_TONE_REMOVE_3RDPARTY", options: ["Remove 3rd Party Equipment from Network"], next: { "Remove 3rd Party Equipment from Network": "PHONE_NO_DIAL_TONE_RESETS" } },
+            { question: "PHONE_NO_DIAL_TONE_RESETS", options: ["Factory Reset / Power Cycle Network Box and Phone Box"], next: { "Factory Reset / Power Cycle Network Box and Phone Box": "PHONE_NO_DIAL_TONE_RETEST" } },
+            { question: "PHONE_NO_DIAL_TONE_RETEST", options: ["Retest for Dial Tone"], next: { "Retest for Dial Tone": "PHONE_NO_DIAL_TONE_RETEST_RESULT" } },
+            { question: "PHONE_NO_DIAL_TONE_RETEST_RESULT", options: ["Dial Tone Present", "Still No Dial Tone"], next: { "Dial Tone Present": "ISSUE_RESOLVED_MONITOR", "Still No Dial Tone": "PHONE_NO_DIAL_TONE_SWAP" } },
+            { question: "PHONE_NO_DIAL_TONE_SWAP", options: ["Swap Phone Box"], next: { "Swap Phone Box": "PHONE_NO_DIAL_TONE_RETEST_SWAP" } },
+            { question: "PHONE_NO_DIAL_TONE_RETEST_SWAP", options: ["Retest for Dial Tone"], next: { "Retest for Dial Tone": "PHONE_NO_DIAL_TONE_RETEST_SWAP_RESULT" } },
+            { question: "PHONE_NO_DIAL_TONE_RETEST_SWAP_RESULT", options: ["Dial Tone Present", "Still No Dial Tone"], next: { "Dial Tone Present": "ISSUE_RESOLVED_MONITOR", "Still No Dial Tone": "PHONE_ESCALATE" } },
+            { question: "PHONE_ESCALATE", options: ["Escalate Phone Issue (Provide gathered info)", "Start Over?"], next: { "Escalate Phone Issue (Provide gathered info)": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+
+
+            // --- Physical Checks (Called from multiple paths) ---
+            { question: "PHYSICAL_FIBER_ISSUE", options: ["Check Fiber Patch Cable (Clean, Seated, No Damage/Kinks)", "Check Fiber Run (Bend Radius, Damage)", "Check Fiber Fittings (Wall plates, Barrels, Compression)"], next: { "Check Fiber Patch Cable (Clean, Seated, No Damage/Kinks)": "PHYSICAL_CHECK_RESULT", "Check Fiber Run (Bend Radius, Damage)": "PHYSICAL_CHECK_RESULT", "Check Fiber Fittings (Wall plates, Barrels, Compression)": "PHYSICAL_FITTING_CHECK" } },
+            { question: "PHYSICAL_FITTING_CHECK", options: ["Check Fittings (Compression type? Painted? Damaged? Code B?)"], next: { "Check Fittings (Compression type? Painted? Damaged? Code B?)": "PHYSICAL_FITTING_RESULT" } },
+            { question: "PHYSICAL_FITTING_RESULT", options: ["Fittings OK", "Fitting Issue Found/Fixed (Replace non-compression, damaged plates/fittings)"], next: { "Fittings OK": "PHYSICAL_CHECK_RESULT", "Fitting Issue Found/Fixed (Replace non-compression, damaged plates/fittings)": "RETEST_AFTER_PHYSICAL_FIX" } },
+            { question: "PHYSICAL_CHECK_RESULT", options: ["Physical Issue Found/Fixed", "No Physical Issues Found"], next: { "Physical Issue Found/Fixed": "RETEST_AFTER_PHYSICAL_FIX", "No Physical Issues Found": "ESCALATE_PHYSICAL_UNCLEAR" } }, // Need context for where to go if no issue found
+            { question: "RETEST_AFTER_PHYSICAL_FIX", options: ["Retest Original Issue (Connectivity/Speed/Intermittence)"], next: { "Retest Original Issue (Connectivity/Speed/Intermittence)": "RETEST_PHYSICAL_FIX_RESULT" } },
+            { question: "RETEST_PHYSICAL_FIX_RESULT", options: ["Issue Resolved", "Issue Persists"], next: { "Issue Resolved": "ISSUE_RESOLVED_MONITOR", "Issue Persists": "ESCALATE_PHYSICAL_UNCLEAR" } }, // Need context
+            { question: "ESCALATE_PHYSICAL_UNCLEAR", options: ["Physical checks complete, issue persists. Escalate or consider other paths.", "Start Over?"], next: { "Physical checks complete, issue persists. Escalate or consider other paths.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } }, // Generic end for physical checks if unclear next step
+            { question: "ETHERNET_CABLE_TEST", options: ["Test Ethernet Cable (e.g., with cable tester)"], next: { "Test Ethernet Cable (e.g., with cable tester)": "ETHERNET_CABLE_TEST_RESULT" } },
+            { question: "ETHERNET_CABLE_TEST_RESULT", options: ["Cable Passes", "Cable Fails"], next: { "Cable Passes": "RETEST_AFTER_PHYSICAL_FIX", "Cable Fails": "REPLACE_ETHERNET_CABLE" } }, // Need context
+            { question: "REPLACE_ETHERNET_CABLE", options: ["Replace Ethernet Cable (Ensure correct type: CAT5e+, CAT6A+ for 5/8 Gig)"], next: { "Replace Ethernet Cable (Ensure correct type: CAT5e+, CAT6A+ for 5/8 Gig)": "RETEST_AFTER_PHYSICAL_FIX" } }, // Need context
+
+            // --- Advanced Procedures ---
+            { question: "USE_RESET_CIRCUIT_BUTTON", options: ["Use Reset Circuit Button in BSS (Account View > Devices > Options)"], next: { "Use Reset Circuit Button in BSS (Account View > Devices > Options)": "RESET_CIRCUIT_PROCESS" } },
+            { question: "RESET_CIRCUIT_PROCESS", options: ["Wait ~5 mins for re-provisioning (ONT lights cycle, should end Normal Green)"], next: { "Wait ~5 mins for re-provisioning (ONT lights cycle, should end Normal Green)": "RESET_CIRCUIT_RESULT" } },
+            { question: "RESET_CIRCUIT_RESULT", options: ["Service Restored (ONT/Router Normal Green LEDs)", "Reset Unsuccessful"], next: { "Service Restored (ONT/Router Normal Green LEDs)": "ISSUE_RESOLVED_MONITOR", "Reset Unsuccessful": "ESCALATE_GFSD_IST" } },
+
+            // --- General WiFi Checks (Called from multiple paths) ---
+            // Reusing steps defined earlier like WIFI_SIGNAL_STRENGTH_CHECK, WIFI_INTERFERENCE_CHECK, WIFI_CHANNEL_CHECK etc.
+
+            // --- Terminal/Concluding Steps ---
+            { question: "ISSUE_RESOLVED_MONITOR", options: ["Issue appears resolved. Monitor performance.", "Start Over?"], next: { "Issue appears resolved. Monitor performance.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "FINAL_NOTE_CUSTOMER", options: ["Remember to update customer and follow up if needed.", "Start Over?"], next: { "Remember to update customer and follow up if needed.": "END", "Start Over?": "What is the primary issue?" } },
+            { question: "ESCALATE_GFSD_IST", options: ["Escalate issue to GFSD/IST with detailed notes.", "Start Over?"], next: { "Escalate issue to GFSD/IST with detailed notes.": "FINAL_NOTE_CUSTOMER", "Start Over?": "What is the primary issue?" } },
+            { question: "END", options: ["Troubleshooting Complete"], next: {} } // Final node
+        ];
+        const initialStep = steps.find(s => s.question === "What is the primary issue?");
+        let currentStep = initialStep; // Start at the beginning
+
+        function updateFlowchart() {
+            if (!flowchart || !currentStep) return; // Guard clause
+            flowchart.innerHTML = `
+                <div class="decision-node">
+                    <h4>${currentStep.question}</h4>
+                    ${currentStep.options.map(opt =>
+                        `<button onclick="selectFlowchartOption('${opt}')">${opt}</button>`
+                    ).join('')}
+                </div>
+            `;
+        }
+
+        // Make function globally accessible for onclick handlers
+        window.selectFlowchartOption = function(option) {
+            const nextStepQuestion = currentStep.next[option];
+            // Find step by question text (ensure questions are unique identifiers in this context)
+            const nextStep = steps.find(s => s.question === nextStepQuestion);
+            if (nextStep) {
+                currentStep = nextStep;
+                updateFlowchart();
+            } else {
+                console.error("Next step not found for option:", option, "from step:", currentStep.question);
+                // Optional: Reset or show error message
+                // currentStep = steps[0]; // Reset to start
+                // updateFlowchart();
+            }
+        };
+
+        // Restart button functionality
+        restartButton.addEventListener('click', function() {
+            currentStep = initialStep;
+            updateFlowchart();
+        });
+
+        // Initialize Flowchart on DOMContentLoaded
+        document.addEventListener('DOMContentLoaded', function() {
+            updateFlowchart(); // Initial call to display the first step
+        });
+    </script>
+</body>
+</html>

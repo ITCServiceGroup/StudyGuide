@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Fundamentals Study Guide (v2)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --bg-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .overview {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            margin: 0 0 30px;
+            padding: 30px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .overview p {
+            margin: 0;
+            text-align: justify;
+            max-width: 1000px;
+            color: #1b5e20;
+        }
+
+        .overview p::first-letter {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin: 25px 0 15px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .example {
+            background-color: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Styles for interactive elements are now within their components */
+        /* Removed .interactive-element, .mac-address-container, .mac-byte, etc. */
+        /* Removed .wifi-bands, .band-selector, .wifi-channels, .channel-container, etc. */
+        /* Removed packet loss specific styles */
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        th {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+
+        .tip {
+            background-color: var(--bg-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--warning-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        button, select { /* Keep basic button/select styles if used elsewhere */
+            padding: 10px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background-color: white;
+            color: var(--text-color);
+            font-family: 'Roboto', sans-serif;
+            font-size: 0.9em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button:hover, select:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        button:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .info-list li {
+            position: relative;
+            padding: 12px 15px 12px 35px;
+            margin: 8px 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .info-list li:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-list li::before {
+            content: "";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .material-impact li {
+            background-color: var(--bg-color);
+        }
+
+        .material-impact li::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%232196F3"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/><path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/></svg>');
+        }
+
+        .common-mistakes li {
+            background-color: #fff5f5;
+            border-color: #feb2b2;
+        }
+
+        .common-mistakes li::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23f56565"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>');
+        }
+
+        .security-considerations li {
+            background-color: #f0fff4;
+            border-color: #9ae6b4;
+        }
+
+        .security-considerations li::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2348bb78"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>');
+        }
+
+        .common-causes li {
+            background-color: #ebf8ff;
+        }
+
+        .common-causes li::before {
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%230d9488"><path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>');
+        }
+
+        .percentage-bar {
+            display: inline-block;
+            vertical-align: middle;
+            width: 60px;
+            height: 8px;
+            margin-left: 10px;
+            background-color: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .percentage-bar .fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        #ndp-diagram {
+            max-width: 800px;
+            height: 400px;
+            margin: 25px auto;
+            display: block;
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+    </style>
+</head>
+<body>
+    <h1>Network Fundamentals Study Guide</h1>
+
+    <div class="section overview">
+        <p>Network fundamentals form the backbone of modern digital communications, encompassing the essential concepts, protocols, and technologies that enable data exchange across local and global networks. Understanding these fundamentals is crucial for network administrators, technicians, and IT professionals who maintain and troubleshoot network infrastructure. This guide covers key networking concepts including diagnostic tools, addressing schemes, wireless technologies, and critical network services. By mastering these fundamentals, you'll be better equipped to design robust networks, identify and resolve connectivity issues, and implement effective network security measures. Each section provides both theoretical knowledge and practical applications, with interactive elements to reinforce learning.</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Understanding Traceroute</h2>
+        <p>Traceroute is a vital diagnostic tool that helps network technicians understand the path data takes through a network and identify potential connectivity issues.</p>
+
+        <div class="key-point">
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li>Traceroute maps the entire path between your device and a destination</li>
+                <li>Each "hop" represents a router the data passes through</li>
+                <li>Response times indicate network performance at each hop</li>
+                <li>Timeouts or high latency can help identify problem areas</li>
+            </ul>
+        </div>
+
+        <div class="example">
+            <h3>How Traceroute Works:</h3>
+            <ol>
+                <li>Sends packets with increasing Time To Live (TTL) values</li>
+                <li>Each router decrements the TTL by 1</li>
+                <li>When TTL reaches 0, router sends ICMP Time Exceeded message</li>
+                <li>This process reveals each hop in the path</li>
+            </ol>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> Use traceroute when experiencing connectivity issues to identify where exactly in the network path the problem occurs.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. MAC Addresses</h2>
+        <p>A MAC (Media Access Control) address is a unique identifier assigned to network interfaces. It's a crucial component in local network communications.</p>
+
+        <div class="key-point">
+            <h3>MAC Address Structure:</h3>
+            <ul>
+                <li>48 bits long (6 bytes)</li>
+                <li>First 3 bytes: Organizationally Unique Identifier (OUI)</li>
+                <li>Last 3 bytes: Network Interface Controller (NIC) specific</li>
+                <li>Written in hexadecimal format (e.g., 00:1A:2B:3C:4D:5E)</li>
+            </ul>
+        </div>
+
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="mac-address-explorer"]
+
+    </div>
+
+    <div class="section">
+        <h2>3. IP Addressing</h2>
+        <p>Understanding the difference between internal (private) and external (public) IP addresses is essential for network troubleshooting.</p>
+
+        <table>
+            <tr>
+                <th>Feature</th>
+                <th>Internal (Private) IP</th>
+                <th>External (Public) IP</th>
+            </tr>
+            <tr>
+                <td>Assigned By</td>
+                <td>Local router/DHCP server</td>
+                <td>Internet Service Provider</td>
+            </tr>
+            <tr>
+                <td>Visibility</td>
+                <td>Only within local network</td>
+                <td>Visible on the internet</td>
+            </tr>
+            <tr>
+                <td>Common Ranges</td>
+                <td>192.168.0.0/16<br>10.0.0.0/8<br>172.16.0.0/12</td>
+                <td>Any valid IP outside private ranges</td>
+            </tr>
+            <tr>
+                <td>Purpose</td>
+                <td>Local network identification</td>
+                <td>Internet communication</td>
+            </tr>
+        </table>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> When troubleshooting connectivity issues, check both internal and external IP configurations to isolate whether the problem is local or internet-related.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>4. Network Demarcation Point (NDP)</h2>
+        <p>The Network Demarcation Point marks the boundary between service provider responsibility and customer responsibility in a network installation.</p>
+
+        <div class="key-point">
+            <h3>NDP Importance:</h3>
+            <ul>
+                <li>Clearly defines responsibility boundaries</li>
+                <li>Helps isolate issues during troubleshooting</li>
+                <li>Often contains the ONT or modem</li>
+                <li>Critical reference point for service calls</li>
+            </ul>
+        </div>
+
+        <canvas id="ndp-diagram"></canvas> <!-- Keep NDP canvas as it's separate JS -->
+    </div>
+
+    <div class="section">
+        <h2>5. WiFi Channels and Interference</h2>
+        <p>WiFi channel selection and understanding overlap is crucial for optimal wireless network performance.</p>
+
+        <div class="key-point">
+            <h3>Channel Basics:</h3>
+            <ul>
+                <li>2.4 GHz band has 11 channels in North America</li>
+                <li>Each channel is 20 MHz wide</li>
+                <li>Adjacent channels overlap and can cause interference</li>
+                <li>Channels 1, 6, and 11 are recommended as they don't overlap</li>
+                <li>5 GHz band offers more channels with less interference</li>
+            </ul>
+        </div>
+
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="channel-overlap-visualizer"]
+
+        <div class="technical-note">
+            <h3>Interference Sources and Impact Analysis:</h3>
+            <table>
+                <tr>
+                    <th>Source</th>
+                    <th>Frequency Range</th>
+                    <th>Impact Level</th>
+                    <th>Mitigation Strategy</th>
+                </tr>
+                <tr>
+                    <td>Microwave Ovens</td>
+                    <td>2.4 GHz (primarily channel 6-11)</td>
+                    <td>Severe but temporary</td>
+                    <td>
+                        <ul>
+                            <li>Switch to 5 GHz</li>
+                            <li>Move router away from kitchen</li>
+                            <li>Use channels 1-5</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Bluetooth Devices</td>
+                    <td>2.4 GHz (frequency hopping)</td>
+                    <td>Moderate</td>
+                    <td>
+                        <ul>
+                            <li>Use 5 GHz WiFi</li>
+                            <li>Bluetooth 5.0+ coexistence</li>
+                            <li>Physical separation</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Baby Monitors/Cameras</td>
+                    <td>2.4 GHz (continuous)</td>
+                    <td>High (constant)</td>
+                    <td>
+                        <ul>
+                            <li>Use DECT monitors</li>
+                            <li>Channel planning</li>
+                            <li>Separate frequencies</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Physical Barriers</td>
+                    <td>All frequencies</td>
+                    <td>Varies by material</td>
+                    <td>
+                        <ul>
+                            <li>Strategic AP placement</li>
+                            <li>Multiple access points</li>
+                            <li>Mesh networking</li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Cordless Phones</td>
+                    <td>2.4/5 GHz (model dependent)</td>
+                    <td>Moderate to High</td>
+                    <td>
+                        <ul>
+                            <li>Use DECT 6.0</li>
+                            <li>Separate frequency bands</li>
+                            <li>Physical separation</li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="warning" style="margin-top: 15px;">
+                <h4>Material Impact on WiFi Signals:</h4>
+                <ul class="info-list material-impact">
+                    <li>Metal: 100% signal blockage</li>
+                    <li>Concrete: 60-90% reduction</li>
+                    <li>Brick: 30-60% reduction</li>
+                    <li>Glass: 20-30% reduction</li>
+                    <li>Wood: 10-30% reduction</li>
+                    <li>Drywall: 5-10% reduction</li>
+                </ul>
+            </div>
+
+            <div class="tip" style="margin-top: 15px;">
+                <h4>Best Practices for Interference Management:</h4>
+                <ol>
+                    <li>Regular site surveys to identify interference sources</li>
+                    <li>Use spectrum analyzers to detect non-WiFi interference</li>
+                    <li>Document persistent interference patterns</li>
+                    <li>Implement band steering for dual-band devices</li>
+                    <li>Consider interference sources when planning AP placement</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="key-point">
+            <h3>Channel Selection Process:</h3>
+            <ol>
+                <li>Scan Environment
+                    <ul>
+                        <li>Use WiFi analyzer tool</li>
+                        <li>Identify neighboring networks</li>
+                        <li>Note their channel usage</li>
+                    </ul>
+                </li>
+                <li>Evaluate Channel Congestion
+                    <ul>
+                        <li>Check signal strength of other networks</li>
+                        <li>Look for overlapping channels</li>
+                        <li>Identify least congested channels</li>
+                    </ul>
+                </li>
+                <li>Select Optimal Channel
+                    <ul>
+                        <li>Choose from channels 1, 6, or 11 for 2.4 GHz</li>
+                        <li>Consider signal strength requirements</li>
+                        <li>Account for physical barriers</li>
+                    </ul>
+                </li>
+                <li>Monitor Performance
+                    <ul>
+                        <li>Test speeds after changes</li>
+                        <li>Check for interference</li>
+                        <li>Adjust if needed</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+            <div class="warning">
+                <h3>Common Channel Selection Mistakes:</h3>
+                <ul class="info-list common-mistakes">
+                <li>Using channels between 1, 6, and 11 (causes overlap)</li>
+                <li>Not accounting for neighboring networks</li>
+                <li>Ignoring physical obstacles</li>
+                <li>Not retesting after changes</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> When experiencing WiFi interference, check neighboring networks' channel usage and select the least congested non-overlapping channel (1, 6, or 11). Consider using 5 GHz band if available, as it has more non-overlapping channels.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Understanding Packet Loss</h2>
+        <p>Packet loss occurs when data packets fail to reach their destination, indicating potential network issues that require attention.</p>
+
+        <div class="key-point">
+            <h3>What is Packet Loss?</h3>
+            <ul>
+                <li>Definition: Data packets failing to reach their destination</li>
+                <li>Indicates potential network issues like congestion or hardware failures</li>
+                <li>Affects network performance and user experience</li>
+                <li>Can cause dropped connections and communication problems</li>
+            </ul>
+        </div>
+
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="packet-loss-analyzer"]
+
+        <div class="technical-note">
+            <h3>Common Causes:</h3>
+            <ul class="info-list common-causes">
+                <li>Network congestion</li>
+                <li>Hardware failures</li>
+                <li>Signal interference</li>
+                <li>Software bugs</li>
+                <li>Overloaded devices</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>Testing for Packet Loss:</h3>
+            <ol>
+                <li>Run Extended Ping Tests
+                    <ul>
+                        <li>Windows: ping -n 50 [destination]</li>
+                        <li>Mac/Linux: ping -c 50 [destination]</li>
+                        <li>Chrome OS: ping -c 50 [destination]</li>
+                    </ul>
+                </li>
+                <li>Analyze Results
+                    <ul>
+                        <li>Calculate loss percentage</li>
+                        <li>Check response time patterns</li>
+                        <li>Look for timeout clusters</li>
+                    </ul>
+                </li>
+                <li>Interpret Findings
+                    <ul>
+                        <li>0-1% loss: Normal operation</li>
+                        <li>1-2.5% loss: Minor concern</li>
+                        <li>2.5-5% loss: Investigate</li>
+                        <li>>5% loss: Critical issue</li>
+                    </ul>
+                </li>
+                <li>Document Test Parameters
+                    <ul>
+                        <li>Time of test</li>
+                        <li>Network conditions</li>
+                        <li>Device locations</li>
+                        <li>Test duration</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <h3>Common Testing Mistakes:</h3>
+            <ul class="info-list common-mistakes">
+                <li>Using too few packets (< 50)</li>
+                <li>Testing during low usage periods only</li>
+                <li>Not testing multiple destinations</li>
+                <li>Ignoring latency patterns</li>
+                <li>Not considering network load</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>7. DNS Management</h2>
+        <p>The Domain Name System (DNS) is crucial for network connectivity, acting as the internet's phone book by translating domain names to IP addresses.</p>
+
+        <div class="key-point">
+            <h3>DNS Functionality:</h3>
+            <ul>
+                <li>Translates domain names to IP addresses</li>
+                <li>Hierarchical distributed database</li>
+                <li>Critical for internet connectivity</li>
+                <li>Can affect browsing speed and security</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>Website Loading Issues and DNS:</h3>
+            <div class="troubleshooting">
+                <h4>Common Symptoms:</h4>
+                <ul>
+                    <li>Some websites work while others don't</li>
+                    <li>Error messages like "DNS_PROBE_FINISHED_NXDOMAIN"</li>
+                    <li>Slow initial page loads but fast subsequent loads</li>
+                    <li>"Server not found" errors</li>
+                </ul>
+            </div>
+
+            <div class="diagnostic-steps">
+                <h4>Troubleshooting Steps:</h4>
+                <ol>
+                    <li>Verify DNS Settings
+                        <ul>
+                            <li>Check current DNS server configuration</li>
+                            <li>Compare against ISP-provided servers</li>
+                            <li>Test with alternative DNS (e.g., 8.8.8.8)</li>
+                        </ul>
+                    </li>
+                    <li>Clear DNS Cache
+                        <ul>
+                            <li>Use appropriate OS command</li>
+                            <li>Restart DNS resolver service</li>
+                            <li>Test website access again</li>
+                        </ul>
+                    </li>
+                    <li>Check Other Devices
+                        <ul>
+                            <li>Test same websites on different devices</li>
+                            <li>Compare results across network</li>
+                            <li>Isolate device vs. network issues</li>
+                        </ul>
+                    </li>
+                    <li>Monitor Resolution Time
+                        <ul>
+                            <li>Use ping to test response time</li>
+                            <li>Check for timeout patterns</li>
+                            <li>Document consistent issues</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="warning">
+            <h3>DNS Security Considerations:</h3>
+            <ul class="info-list security-considerations">
+                <li>DNS hijacking can redirect to malicious sites</li>
+                <li>Compromised DNS can expose browsing history</li>
+                <li>Unencrypted DNS queries can be intercepted</li>
+                <li>Regular security audits recommended</li>
+            </ul>
+        </div>
+
+        <div class="troubleshooting">
+            <h3>Advanced DNS Troubleshooting:</h3>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>Symptoms</th>
+                    <th>Resolution</th>
+                </tr>
+                <tr>
+                    <td>DNS Cache Poisoning</td>
+                    <td>Wrong IP for known sites</td>
+                    <td>Clear cache, verify DNS security</td>
+                </tr>
+                <tr>
+                    <td>Slow Resolution</td>
+                    <td>Long initial load times</td>
+                    <td>Switch to faster DNS servers</td>
+                </tr>
+                <tr>
+                    <td>Intermittent Failures</td>
+                    <td>Random DNS errors</td>
+                    <td>Check DNS server health</td>
+                </tr>
+                <tr>
+                    <td>Resolution Loops</td>
+                    <td>Endless loading</td>
+                    <td>Check DNS forwarding settings</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="interactive-element"> <!-- Keep this DNS section as it's not a custom component -->
+            <h3>Public DNS Server Options:</h3>
+            <p>When choosing a DNS provider, consider factors like speed, security, privacy, and reliability. Here are popular options:</p>
+
+            <table>
+                <tr>
+                    <th>Provider</th>
+                    <th>Primary DNS</th>
+                    <th>Secondary DNS</th>
+                    <th>Features</th>
+                    <th>Best For</th>
+                </tr>
+                <tr>
+                    <td>Google Public DNS</td>
+                    <td>8.8.8.8</td>
+                    <td>8.8.4.4</td>
+                    <td>
+                        <ul>
+                            <li>High reliability</li>
+                            <li>DDoS protection</li>
+                            <li>Global presence</li>
+                            <li>DNSSEC support</li>
+                        </ul>
+                    </td>
+                    <td>General use, reliability focus</td>
+                </tr>
+                <tr>
+                    <td>Cloudflare</td>
+                    <td>1.1.1.1</td>
+                    <td>1.0.0.1</td>
+                    <td>
+                        <ul>
+                            <li>Fastest DNS resolver</li>
+                            <li>Strong privacy focus</li>
+                            <li>No query logging</li>
+                            <li>Malware blocking (optional)</li>
+                        </ul>
+                    </td>
+                    <td>Speed and privacy focus</td>
+                </tr>
+                <tr>
+                    <td>Quad9</td>
+                    <td>9.9.9.9</td>
+                    <td>149.112.112.112</td>
+                    <td>
+                        <ul>
+                            <li>Security focused</li>
+                            <li>Malware blocking</li>
+                            <li>No data collection</li>
+                            <li>DNSSEC enabled</li>
+                        </ul>
+                    </td>
+                    <td>Security-conscious users</td>
+                </tr>
+                <tr>
+                    <td>OpenDNS</td>
+                    <td>208.67.222.222</td>
+                    <td>208.67.220.220</td>
+                    <td>
+                        <ul>
+                            <li>Content filtering</li>
+                            <li>Phishing protection</li>
+                            <li>Customizable blocking</li>
+                            <li>Family shield option</li>
+                        </ul>
+                    </td>
+                    <td>Parental controls, content filtering</td>
+                </tr>
+            </table>
+
+            <div class="tip" style="margin-top: 15px;">
+                <h4>DNS Configuration Tips:</h4>
+                <ul>
+                    <li>Always configure both primary and secondary DNS for redundancy</li>
+                    <li>Test DNS resolution speed before committing to a provider</li>
+                    <li>Consider using DNS-over-HTTPS (DoH) for additional security</li>
+                    <li>Document DNS settings for all network devices</li>
+                </ul>
+            </div>
+
+            <div class="warning" style="margin-top: 15px;">
+                <h4>Common DNS Configuration Mistakes:</h4>
+                <ul class="info-list common-mistakes">
+                    <li>Using only one DNS server</li>
+                    <li>Mixing DNS providers (can cause inconsistent results)</li>
+                    <li>Not documenting DNS changes</li>
+                    <li>Ignoring DNS security features</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Removed original script block -->
+    
+</body>
+</html>
