@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Network Fundamentals Study Guide</title>
+    <title>Network Fundamentals Study Guide (v2)</title>
     <style>
-        @import url('/fonts/inter.css');
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 
         :root {
             --primary-color: #2196F3;
@@ -23,7 +23,7 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             max-width: 1200px;
             margin: 0 auto;
@@ -42,7 +42,7 @@
             border-radius: var(--radius-md);
             box-shadow: var(--shadow-sm);
         }
-        
+
         .overview p {
             margin: 0;
             text-align: justify;
@@ -111,163 +111,10 @@
             box-shadow: var(--shadow-sm);
         }
 
-        .interactive-element {
-            background-color: white;
-            padding: 25px;
-            margin: 20px 0;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-sm);
-            transition: box-shadow 0.3s ease;
-        }
-
-        .interactive-element:hover {
-            box-shadow: var(--shadow-md);
-        }
-
-        .mac-address-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 20px 0;
-        }
-
-        .mac-byte {
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Inter', monospace;
-            font-weight: 500;
-            background-color: var(--bg-color);
-        }
-
-        .mac-byte:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-sm);
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .wifi-bands {
-            margin: 25px 0;
-            background-color: white;
-            border-radius: var(--radius-md);
-            padding: 20px;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .band-selector {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .band-button {
-            padding: 10px 20px;
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.2s ease;
-        }
-
-        .band-button:hover {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            transform: translateY(-1px);
-        }
-
-        .band-button.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .wifi-channels {
-            position: relative;
-            height: 280px;
-            background-color: var(--bg-color);
-            padding: 25px;
-            border-radius: var(--radius-sm);
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-        }
-
-        .channel-container {
-            display: flex;
-            height: 220px;
-            align-items: flex-end;
-            gap: 3px;
-            position: relative;
-            padding: 0 10px;
-        }
-
-        .channel {
-            flex: 1;
-            background-color: var(--primary-color);
-            opacity: 0.7;
-            transition: all 0.3s ease;
-            position: relative;
-            cursor: pointer;
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-        }
-
-        .channel:hover {
-            opacity: 1;
-            transform: translateY(-3px);
-        }
-
-        .channel-info {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: var(--bg-color);
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border-color);
-            font-size: 0.95em;
-            line-height: 1.6;
-        }
-
-        .channel::before {
-            content: attr(data-freq);
-            position: absolute;
-            top: -35px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            white-space: pre-line;
-            text-align: center;
-            line-height: 1.2;
-        }
-
-        .channel-label {
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 12px;
-            color: #333;
-        }
-
-        .freq-axis {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .channel-info {
-            margin-top: 15px;
-            padding: 10px;
-            background-color: #e3f2fd;
-            border-radius: 4px;
-        }
+        /* Styles for interactive elements are now within their components */
+        /* Removed .interactive-element, .mac-address-container, .mac-byte, etc. */
+        /* Removed .wifi-bands, .band-selector, .wifi-channels, .channel-container, etc. */
+        /* Removed packet loss specific styles */
 
         table {
             width: 100%;
@@ -317,13 +164,13 @@
             box-shadow: var(--shadow-md);
         }
 
-        button, select {
+        button, select { /* Keep basic button/select styles if used elsewhere */
             padding: 10px 20px;
             border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             background-color: white;
             color: var(--text-color);
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roboto', sans-serif;
             font-size: 0.9em;
             font-weight: 500;
             cursor: pointer;
@@ -447,7 +294,7 @@
     <div class="section">
         <h2>1. Understanding Traceroute</h2>
         <p>Traceroute is a vital diagnostic tool that helps network technicians understand the path data takes through a network and identify potential connectivity issues.</p>
-        
+
         <div class="key-point">
             <h3>Key Concepts:</h3>
             <ul>
@@ -468,6 +315,9 @@
             </ol>
         </div>
 
+        <!-- Interactive Traceroute Simulator -->
+        [interactive name="traceroute-simulator"]
+
         <div class="tip">
             <strong>Pro Tip:</strong> Use traceroute when experiencing connectivity issues to identify where exactly in the network path the problem occurs.
         </div>
@@ -487,14 +337,9 @@
             </ul>
         </div>
 
-        <div class="interactive-element">
-            <h3>Interactive MAC Address Explorer</h3>
-            <p>Click on each byte to learn its purpose:</p>
-            <div id="macAddress" class="mac-address-container">
-                <!-- MAC bytes will be added by JavaScript -->
-            </div>
-            <p id="macExplanation">Hover over each byte to learn more about its purpose.</p>
-        </div>
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="mac-address-explorer"]
+
     </div>
 
     <div class="section">
@@ -548,7 +393,7 @@
             </ul>
         </div>
 
-        <canvas id="ndp-diagram"></canvas>
+        <img src="https://scmwpoowjhzawvmiyohz.supabase.co/storage/v1/object/public/media-library/19782d02-d744-488e-849f-154696da81a7/1744115626038-wl8c91tv43m.jpeg" alt="Network Demarcation Point Diagram" style="display: block; height: auto; margin: 25px auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
     </div>
 
     <div class="section">
@@ -566,24 +411,8 @@
             </ul>
         </div>
 
-        <div class="interactive-element">
-            <h3>Channel Overlap Visualization</h3>
-            <div class="wifi-bands">
-                <div class="band-selector">
-                    <button class="band-button active" onclick="switchBand('2.4')">2.4 GHz</button>
-                    <button class="band-button" onclick="switchBand('5')">5 GHz</button>
-                </div>
-                <div id="wifiChannels" class="wifi-channels">
-                    <div class="freq-axis"></div>
-                    <div class="channel-container">
-                        <!-- Channels will be added by JavaScript -->
-                    </div>
-                </div>
-                <div class="channel-info" id="channelInfo">
-                    Select a channel to see overlap and frequency information
-                </div>
-            </div>
-        </div>
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="channel-overlap-visualizer"]
 
         <div class="technical-note">
             <h3>Interference Sources and Impact Analysis:</h3>
@@ -655,7 +484,7 @@
                     </td>
                 </tr>
             </table>
-            
+
             <div class="warning" style="margin-top: 15px;">
                 <h4>Material Impact on WiFi Signals:</h4>
                 <ul class="info-list material-impact">
@@ -743,185 +572,8 @@
             </ul>
         </div>
 
-        <div class="interactive-element">
-            <h3>Packet Loss Analysis Tool</h3>
-            <div class="calculator">
-                <div class="simulation-controls">
-                    <div class="control-group">
-                        <label for="packetCount">Number of Packets:</label>
-                        <select id="packetCount">
-                            <option value="50">50 packets</option>
-                            <option value="100" selected>100 packets</option>
-                            <option value="200">200 packets</option>
-                            <option value="500">500 packets</option>
-                        </select>
-                    </div>
-                    <div class="control-group">
-                        <label for="networkLoad">Network Load:</label>
-                        <select id="networkLoad">
-                            <option value="low">Low (0-2% loss)</option>
-                            <option value="medium" selected>Medium (2-5% loss)</option>
-                            <option value="high">High (5-10% loss)</option>
-                            <option value="severe">Severe (>10% loss)</option>
-                        </select>
-                    </div>
-                    <button onclick="simulatePacketLoss()" class="primary-button">Run Test</button>
-                </div>
-                
-                <div class="results-container">
-                    <div class="statistics">
-                        <h4>Test Results:</h4>
-                        <ul>
-                            <li>Total Packets: <span id="packetsSent">100</span></li>
-                            <li>Packets Lost: <span id="packetsLost">5</span></li>
-                            <li>Loss Percentage: <span id="lossPercentage">5%</span></li>
-                            <li>Average Latency: <span id="avgLatency">--</span> ms</li>
-                            <li>Jitter: <span id="jitter">--</span> ms</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="visualization" id="packetVisual">
-                        <!-- Packet visualization will be added by JavaScript -->
-                    </div>
-                </div>
-
-                <div class="diagnosis" id="diagnosis">
-                    <!-- Diagnosis will be added by JavaScript -->
-                </div>
-            </div>
-            
-            <style>
-                .simulation-controls {
-                    display: flex;
-                    gap: 20px;
-                    margin-bottom: 25px;
-                    background-color: var(--bg-color);
-                    padding: 20px;
-                    border-radius: var(--radius-sm);
-                    border: 1px solid var(--border-color);
-                }
-                
-                .control-group {
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                }
-
-                .control-group label {
-                    font-weight: 500;
-                    color: var(--text-color);
-                }
-                
-                .results-container {
-                    display: grid;
-                    grid-template-columns: 1fr 2fr;
-                    gap: 25px;
-                    margin: 25px 0;
-                }
-                
-                .statistics {
-                    background-color: var(--bg-color);
-                    padding: 20px;
-                    border-radius: var(--radius-sm);
-                    border: 1px solid var(--border-color);
-                    box-shadow: var(--shadow-sm);
-                }
-
-                .statistics h4 {
-                    margin-top: 0;
-                    color: var(--primary-dark);
-                }
-
-                .statistics ul {
-                    list-style: none;
-                    padding: 0;
-                    margin: 0;
-                }
-
-                .statistics li {
-                    padding: 8px 0;
-                    border-bottom: 1px solid var(--border-color);
-                }
-
-                .statistics li:last-child {
-                    border-bottom: none;
-                }
-                
-                .visualization {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 3px;
-                    padding: 20px;
-                    background-color: var(--bg-color);
-                    border-radius: var(--radius-sm);
-                    border: 1px solid var(--border-color);
-                    box-shadow: var(--shadow-sm);
-                }
-                
-                .packet {
-                    width: 22px;
-                    height: 22px;
-                    border-radius: var(--radius-sm);
-                    transition: all 0.3s ease;
-                    cursor: pointer;
-                }
-
-                .packet:hover {
-                    transform: scale(1.1);
-                    box-shadow: var(--shadow-sm);
-                }
-                
-                .packet.success {
-                    background-color: var(--success-color);
-                }
-                
-                .packet.lost {
-                    background-color: var(--error-color);
-                }
-                
-                .packet.delayed {
-                    background-color: var(--warning-color);
-                }
-                
-                .diagnosis {
-                    margin-top: 20px;
-                    padding: 20px;
-                    background-color: var(--bg-color);
-                    border-radius: var(--radius-sm);
-                    border: 1px solid var(--border-color);
-                    box-shadow: var(--shadow-sm);
-                }
-
-                .diagnosis h4 {
-                    margin-top: 0;
-                    color: var(--primary-dark);
-                }
-
-                .diagnosis p {
-                    margin: 10px 0;
-                    padding: 8px;
-                    border-radius: var(--radius-sm);
-                    background-color: white;
-                }
-
-                .primary-button {
-                    background-color: var(--primary-color);
-                    color: white;
-                    padding: 10px 20px;
-                    border: none;
-                    border-radius: var(--radius-sm);
-                    cursor: pointer;
-                    font-weight: 500;
-                    transition: all 0.2s ease;
-                }
-
-                .primary-button:hover {
-                    background-color: var(--primary-dark);
-                    transform: translateY(-1px);
-                    box-shadow: var(--shadow-sm);
-                }
-            </style>
-        </div>
+        <!-- Replaced original interactive element with shortcode -->
+        [interactive name="packet-loss-analyzer"]
 
         <div class="technical-note">
             <h3>Common Causes:</h3>
@@ -1084,10 +736,10 @@
             </table>
         </div>
 
-        <div class="interactive-element">
+        <div class="interactive-element"> <!-- Keep this DNS section as it's not a custom component -->
             <h3>Public DNS Server Options:</h3>
             <p>When choosing a DNS provider, consider factors like speed, security, privacy, and reliability. Here are popular options:</p>
-            
+
             <table>
                 <tr>
                     <th>Provider</th>
@@ -1174,353 +826,6 @@
                 </ul>
             </div>
         </div>
-    </div>
-
-    <script>
-        // Packet Loss Simulation
-        function simulatePacketLoss() {
-            const packetCount = parseInt(document.getElementById('packetCount').value);
-            const networkLoad = document.getElementById('networkLoad').value;
-            
-            // Define loss ranges based on network load
-            const lossRanges = {
-                low: { min: 0, max: 2, latency: { min: 10, max: 50 } },
-                medium: { min: 2, max: 5, latency: { min: 30, max: 100 } },
-                high: { min: 5, max: 10, latency: { min: 50, max: 200 } },
-                severe: { min: 10, max: 20, latency: { min: 100, max: 500 } }
-            };
-
-            const range = lossRanges[networkLoad];
-            const lossRate = (Math.random() * (range.max - range.min) + range.min) / 100;
-            const lostPackets = Math.floor(packetCount * lossRate);
-            const lossPercentage = (lostPackets / packetCount * 100).toFixed(1);
-
-            // Generate latency data
-            const latencies = [];
-            const packetStatuses = [];
-            for (let i = 0; i < packetCount; i++) {
-                if (Math.random() > lossRate) {
-                    // Successful packet
-                    const latency = Math.floor(
-                        Math.random() * (range.latency.max - range.latency.min) + 
-                        range.latency.min
-                    );
-                    latencies.push(latency);
-                    packetStatuses.push({ status: 'success', latency });
-                } else {
-                    // Lost packet
-                    packetStatuses.push({ status: 'lost', latency: 0 });
-                }
-            }
-
-            // Calculate statistics
-            const avgLatency = latencies.length ? 
-                Math.floor(latencies.reduce((a, b) => a + b) / latencies.length) : 0;
-            
-            const jitter = latencies.length > 1 ? 
-                Math.floor(calculateJitter(latencies)) : 0;
-
-            // Update UI
-            document.getElementById('packetsSent').textContent = packetCount;
-            document.getElementById('packetsLost').textContent = lostPackets;
-            document.getElementById('lossPercentage').textContent = `${lossPercentage}%`;
-            document.getElementById('avgLatency').textContent = avgLatency;
-            document.getElementById('jitter').textContent = jitter;
-
-            // Update visualization
-            updateVisualization(packetStatuses);
-
-            // Update diagnosis
-            updateDiagnosis(lossPercentage, avgLatency, jitter);
-        }
-
-        function calculateJitter(latencies) {
-            let totalVariation = 0;
-            for (let i = 1; i < latencies.length; i++) {
-                totalVariation += Math.abs(latencies[i] - latencies[i-1]);
-            }
-            return totalVariation / (latencies.length - 1);
-        }
-
-        function updateVisualization(packetStatuses) {
-            const visual = document.getElementById('packetVisual');
-            visual.innerHTML = '';
-            
-            packetStatuses.forEach(status => {
-                const packet = document.createElement('div');
-                packet.className = `packet ${status.status}`;
-                if (status.status === 'success') {
-                    packet.title = `Latency: ${status.latency}ms`;
-                } else {
-                    packet.title = 'Packet Lost';
-                }
-                visual.appendChild(packet);
-            });
-        }
-
-        function updateDiagnosis(lossPercentage, avgLatency, jitter) {
-            const diagnosis = document.getElementById('diagnosis');
-            const loss = parseFloat(lossPercentage);
-            
-            let message = '<h4>Network Diagnosis:</h4>';
-            
-            if (loss < 1) {
-                message += '<p>✅ Network performing optimally. No significant packet loss detected.</p>';
-            } else if (loss < 2.5) {
-                message += '<p>⚠️ Minor packet loss detected. Monitor for deterioration.</p>';
-            } else if (loss < 5) {
-                message += '<p>🔴 Moderate packet loss detected. Investigation recommended.</p>';
-            } else {
-                message += '<p>⛔ Severe packet loss detected. Immediate investigation required.</p>';
-            }
-
-            if (avgLatency > 100) {
-                message += '<p>⚠️ High latency detected. May impact real-time applications.</p>';
-            }
-            
-            if (jitter > 50) {
-                message += '<p>⚠️ High jitter detected. May cause audio/video quality issues.</p>';
-            }
-
-            diagnosis.innerHTML = message;
-        }
-
-        // MAC Address Interactive Display
-        const macBytes = [
-            { value: "00", color: "#4CAF50", description: "First byte: Unicast (00) vs Multicast/Broadcast (01/FF)", info: "Used in Cisco switches" },
-            { value: "1A", color: "#2196F3", description: "Part of OUI: Cisco Systems manufacturer ID", info: "Commonly found in enterprise networks" },
-            { value: "2B", color: "#2196F3", description: "Last byte of OUI: Completes Cisco's unique identifier", info: "Registered with IEEE" },
-            { value: "3C", color: "#FF9800", description: "First byte of NIC-specific address: Unique to device", info: "Assigned by manufacturer" },
-            { value: "4D", color: "#FF9800", description: "Second byte of NIC-specific address: Device identifier", info: "Ensures uniqueness" },
-            { value: "5E", color: "#FF9800", description: "Final byte: Completes unique device identifier", info: "Forms complete MAC with previous bytes" }
-        ];
-
-        const macContainer = document.getElementById("macAddress");
-        macBytes.forEach((byte, index) => {
-            const byteElement = document.createElement("div");
-            byteElement.className = "mac-byte";
-            byteElement.style.backgroundColor = byte.color;
-            byteElement.style.color = "white";
-            byteElement.textContent = byte.value;
-            if (index > 0) {
-                byteElement.textContent = ":" + byte.value;
-            }
-            byteElement.addEventListener("mouseover", () => {
-                const explanation = document.getElementById("macExplanation");
-                explanation.innerHTML = `<strong>${byte.description}</strong><br>${byte.info}`;
-            });
-            macContainer.appendChild(byteElement);
-        });
-
-        // WiFi Channel Visualization
-        const channelData = {
-            '2.4': {
-                channels: 11,
-                baseFreq: 2412,
-                spacing: 5,
-                width: 20,
-                nonOverlapping: [1, 6, 11]
-            },
-            '5': {
-                channels: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144],
-                baseFreq: 5180,
-                spacing: 20,
-                width: 20
-            }
-        };
-
-        let currentBand = '2.4';
-        const container = document.querySelector('.channel-container');
-        const freqAxis = document.querySelector('.freq-axis');
-
-        function switchBand(band) {
-            document.querySelectorAll('.band-button').forEach(btn => {
-                btn.classList.toggle('active', btn.textContent.includes(band));
-            });
-            currentBand = band;
-            updateChannelDisplay();
-        }
-
-        function updateChannelDisplay() {
-            container.innerHTML = '';
-            const data = channelData[currentBand];
-            
-            if (currentBand === '2.4') {
-                for (let i = 1; i <= data.channels; i++) {
-                    const freq = data.baseFreq + (i - 1) * data.spacing;
-                    const channel = document.createElement('div');
-                    channel.className = 'channel';
-                    channel.setAttribute('data-channel', i);
-                    channel.setAttribute('data-freq', `${freq} MHz`);
-                    channel.style.height = data.nonOverlapping.includes(i) ? '180px' : '140px';
-                    channel.style.backgroundColor = data.nonOverlapping.includes(i) ? '#4CAF50' : '#2196F3';
-                    
-                    const label = document.createElement('div');
-                    label.className = 'channel-label';
-                    label.textContent = i;
-                    channel.appendChild(label);
-                    
-                    channel.addEventListener('click', showChannelInfo);
-                    container.appendChild(channel);
-                }
-            } else {
-                data.channels.forEach(ch => {
-                    const freq = data.baseFreq + (ch - 36) * data.spacing;
-                    const channel = document.createElement('div');
-                    channel.className = 'channel';
-                    channel.setAttribute('data-channel', ch);
-                    channel.setAttribute('data-freq', `${freq}\nMHz`);
-                    channel.style.height = '160px';
-                    
-                    const label = document.createElement('div');
-                    label.className = 'channel-label';
-                    label.textContent = ch;
-                    channel.appendChild(label);
-                    
-                    channel.addEventListener('click', showChannelInfo);
-                    container.appendChild(channel);
-                });
-            }
-        }
-
-        function showChannelInfo(event) {
-            const channel = event.target.getAttribute('data-channel');
-            const freq = event.target.getAttribute('data-freq');
-            const info = document.getElementById('channelInfo');
-            
-            if (currentBand === '2.4') {
-                const overlapping = getOverlappingChannels(channel);
-                info.innerHTML = `Channel ${channel} (${freq})<br>Overlaps with: ${overlapping}<br>` +
-                    (channelData[currentBand].nonOverlapping.includes(parseInt(channel)) ? 
-                    '<strong>Recommended non-overlapping channel</strong>' : 'Not recommended due to overlap');
-            } else {
-                info.innerHTML = `Channel ${channel} (${freq})<br>20/40/80 MHz channel width options available<br>` +
-                    (parseInt(channel) > 48 ? 'DFS channel - requires radar detection' : 'Non-DFS channel');
-            }
-        }
-
-        function getOverlappingChannels(channel) {
-            const channelNum = parseInt(channel);
-            const overlapping = [];
-            for (let i = Math.max(1, channelNum - 4); i <= Math.min(11, channelNum + 4); i++) {
-                if (i !== channelNum) overlapping.push(i);
-            }
-            return overlapping.join(', ');
-        }
-
-        // Initialize channel display
-        updateChannelDisplay();
-
-        // Helper function for rounded rectangles
-        function roundRect(ctx, x, y, width, height, radius) {
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.arcTo(x + width, y, x + width, y + height, radius);
-            ctx.arcTo(x + width, y + height, x, y + height, radius);
-            ctx.arcTo(x, y + height, x, y, radius);
-            ctx.arcTo(x, y, x + width, y, radius);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        // NDP Diagram
-        const canvas = document.getElementById("ndp-diagram");
-        const ctx = canvas.getContext("2d");
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-
-        function drawNDP() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw background grid
-            ctx.strokeStyle = "#e9ecef";
-            ctx.lineWidth = 1;
-            for (let x = 0; x < canvas.width; x += 20) {
-                ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, canvas.height);
-                ctx.stroke();
-            }
-            for (let y = 0; y < canvas.height; y += 20) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(canvas.width, y);
-                ctx.stroke();
-            }
-
-            // Set shadow for all elements
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-            ctx.shadowBlur = 10;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 4;
-
-            // ISP Network
-            const ispGradient = ctx.createLinearGradient(100, 120, 300, 220);
-            ispGradient.addColorStop(0, '#2196F3');
-            ispGradient.addColorStop(1, '#1976D2');
-            ctx.fillStyle = ispGradient;
-            roundRect(ctx, 100, 120, 200, 100, 8);
-
-            // Customer Network
-            const custGradient = ctx.createLinearGradient(500, 120, 700, 220);
-            custGradient.addColorStop(0, '#4CAF50');
-            custGradient.addColorStop(1, '#388E3C');
-            ctx.fillStyle = custGradient;
-            roundRect(ctx, 500, 120, 200, 100, 8);
-
-            // NDP
-            const ndpGradient = ctx.createLinearGradient(350, 140, 450, 200);
-            ndpGradient.addColorStop(0, '#FF5722');
-            ndpGradient.addColorStop(1, '#E64A19');
-            ctx.fillStyle = ndpGradient;
-            roundRect(ctx, 350, 140, 100, 60, 8);
-
-            // Reset shadow for text
-            ctx.shadowColor = 'transparent';
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-
-            // Add text
-            ctx.font = '600 16px Inter';
-            ctx.fillStyle = 'white';
-            ctx.textAlign = 'center';
-            ctx.fillText('ISP Network', 200, 175);
-            ctx.fillText('Customer Network', 600, 175);
-            ctx.fillText('NDP', 400, 175);
-
-            // Add labels
-            ctx.fillStyle = '#2c3e50';
-            ctx.font = '500 14px Inter';
-            ctx.fillText('ISP Responsibility', 200, 240);
-            ctx.fillText('Customer Responsibility', 600, 240);
-            ctx.fillText('Demarcation Point', 400, 240);
-
-            // Add connecting lines
-            ctx.strokeStyle = '#dee2e6';
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 5]);
-            
-            ctx.beginPath();
-            ctx.moveTo(300, 170);
-            ctx.lineTo(350, 170);
-            ctx.stroke();
-
-            ctx.beginPath();
-            ctx.moveTo(450, 170);
-            ctx.lineTo(500, 170);
-            ctx.stroke();
-        }
-
-        // Initial draw
-        drawNDP();
-
-        // Redraw on window resize
-        window.addEventListener('resize', () => {
-            canvas.width = canvas.offsetWidth;
-            canvas.height = canvas.offsetHeight;
-            drawNDP();
-        });
-    </script>
+    </div>  
 </body>
 </html>
