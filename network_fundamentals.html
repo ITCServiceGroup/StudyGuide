@@ -25,7 +25,7 @@
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             color: var(--text-color);
@@ -282,6 +282,77 @@
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border-color);
         }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 15px; /* Reduce padding on smaller screens */
+            }
+            body {
+                padding: 10px; /* Optionally reduce body padding too */
+            }
+            h1 {
+                font-size: 2em; /* Adjust heading sizes */
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+            h3 {
+                font-size: 1.2em;
+            }
+            .overview {
+                padding: 15px;
+            }
+            th, td {
+                padding: 10px; /* Reduce table padding */
+            }
+
+            /* Remove the previous incorrect rule */
+            /* .interactive-component { ... } */
+
+            /* Target specific interactive elements */
+            traceroute-simulator-simulator,
+            mac-address-explorer-simulator,
+            channel-overlap-visualizer-simulator,
+            packet-loss-analyzer-simulator { /* Add others if needed */
+                display: block; /* Ensure block layout */
+                margin-left: -15px;  /* Counteract .section padding */
+                margin-right: -15px; /* Counteract .section padding */
+                width: calc(100% + 30px); /* Fill the expanded width */
+                max-width: none;
+                box-sizing: border-box; /* Include padding in width calculation */
+            }
+
+            /* Allow IP addresses in DNS table (2nd column) to wrap */
+            .interactive-element table td:nth-child(2) {
+                white-space: normal !important; /* Ensure wrapping is allowed */
+                word-break: break-all;  /* Allow breaking anywhere in the IP string */
+                vertical-align: middle; /* Center cell content vertically */
+            }
+            /* Hide Secondary DNS column (3rd column) in DNS table */
+            .interactive-element table th:nth-child(3),
+            .interactive-element table td:nth-child(3) {
+                display: none;
+            }
+
+            /* Reduce font size in specific tables on mobile */
+            .technical-note table th,
+            .technical-note table td,
+            .interactive-element table th,
+            .interactive-element table td {
+                font-size: 0.80em; /* Make text slightly smaller */
+                vertical-align: middle; /* Ensure consistent middle alignment */
+            }
+
+            /* Remove extra space from lists within these table cells */
+            .technical-note table td ul,
+            .interactive-element table td ul {
+                margin-top: 0;
+                margin-bottom: 0;
+                padding-left: 1.5em; /* Adjust default list indentation slightly */
+            }
+        }
     </style>
 </head>
 <body>
@@ -393,7 +464,7 @@
             </ul>
         </div>
 
-        <img src="https://scmwpoowjhzawvmiyohz.supabase.co/storage/v1/object/public/media-library/19782d02-d744-488e-849f-154696da81a7/1744115626038-wl8c91tv43m.jpeg" alt="Network Demarcation Point Diagram" style="display: block; height: auto; margin: 25px auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
+        <img src="https://scmwpoowjhzawvmiyohz.supabase.co/storage/v1/object/public/media-library/19782d02-d744-488e-849f-154696da81a7/1744115626038-wl8c91tv43m.jpeg" alt="Network Demarcation Point Diagram" style="display: block; height: auto; max-width: 100%; margin: 25px auto; border: 1px solid var(--border-color); border-radius: var(--radius-md);">
     </div>
 
     <div class="section">
@@ -448,7 +519,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Baby Monitors/Cameras</td>
+                    <td>Baby Monitors/ Cameras</td>
                     <td>2.4 GHz (continuous)</td>
                     <td>High (constant)</td>
                     <td>
