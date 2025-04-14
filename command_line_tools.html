@@ -13,7 +13,6 @@
             padding: 20px;
             color: #333;
         }
-
         .section {
             margin-bottom: 40px;
             padding: 20px;
@@ -21,18 +20,18 @@
             border-radius: 5px;
             background-color: #fff;
         }
-
         h1 {
             color: #2196F3;
             border-bottom: 2px solid #2196F3;
             padding-bottom: 10px;
         }
-
         h2 {
             color: #1976D2;
             margin-top: 20px;
         }
-
+        h3 {
+            margin-top: 0;
+        }
         .key-point {
             background-color: #e3f2fd;
             padding: 15px;
@@ -40,7 +39,6 @@
             border-left: 4px solid #2196F3;
             border-radius: 4px;
         }
-
         .command-box {
             background-color: #263238;
             color: #fff;
@@ -49,7 +47,6 @@
             border-radius: 4px;
             font-family: 'Courier New', monospace;
         }
-
         .command-example {
             background-color: #f5f5f5;
             padding: 15px;
@@ -57,13 +54,11 @@
             border-radius: 4px;
             font-family: 'Courier New', monospace;
         }
-
         .os-tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 15px;
         }
-
         .os-tab {
             padding: 8px 16px;
             cursor: pointer;
@@ -71,13 +66,11 @@
             border-radius: 4px;
             background-color: #fff;
         }
-
         .os-tab.active {
             background-color: #2196F3;
             color: white;
             border-color: #2196F3;
         }
-
         .terminal {
             background-color: #1e1e1e;
             color: #fff;
@@ -86,24 +79,24 @@
             font-family: 'Courier New', monospace;
             margin: 15px 0;
         }
-
         .command-table {
             width: 100%;
             border-collapse: collapse;
             margin: 15px 0;
+            table-layout: auto;
         }
-
         .command-table th,
         .command-table td {
             padding: 12px;
             border: 1px solid #ddd;
             text-align: left;
+            min-width: 140px;
+            word-wrap: break-word;
         }
-
         .command-table th {
             background-color: #f5f5f5;
+            font-weight: bold;
         }
-
         .note {
             background-color: #fff3e0;
             padding: 15px;
@@ -111,20 +104,17 @@
             border-left: 4px solid #ff9800;
             border-radius: 4px;
         }
-
         .access-methods {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin: 15px 0;
         }
-
         .access-method {
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
         .shortcut {
             display: inline-block;
             padding: 3px 8px;
@@ -133,196 +123,253 @@
             font-family: 'Courier New', monospace;
             margin: 0 2px;
         }
-
         .output {
             color: #4CAF50;
             margin-top: 10px;
+        }
+        .tip {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        /* Responsive styles for OS tabs and command tables */
+        @media (max-width: 700px) {
+            .os-tabs {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .os-tab {
+                width: 100%;
+                font-size: 1.1em;
+            }
+            .os-commands {
+                padding: 0;
+            }
+            .command-table {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                font-size: 0.95em;
+            }
+            .command-table th,
+            .command-table td {
+                white-space: normal;
+                padding: 10px 8px;
+            }
+            /* Create a container for tables that might overflow */
+            .table-container {
+                width: 100%;
+                overflow-x: auto;
+                margin: 15px 0;
+            }
         }
     </style>
 </head>
 <body>
     <h1>Command-Line Tools Study Guide</h1>
 
+    <!-- 1. Accessing Command-Line Interfaces -->
     <div class="section">
         <h2>1. Accessing Command-Line Interfaces</h2>
-        <p>Different operating systems provide various ways to access their command-line interfaces. Understanding these access methods is crucial for network diagnostics.</p>
-
+        <p>Different operating systems provide various ways to access their command-line interfaces. Understanding these access methods is crucial for network diagnostics and troubleshooting.</p>
         <div class="access-methods">
             <div class="access-method">
                 <h3>Windows</h3>
                 <ul>
-                    <li>Press <span class="shortcut">Windows + R</span>, type "cmd", press Enter</li>
+                    <li>Press <span class="shortcut">Windows + R</span>, type <span class="shortcut">cmd</span>, press Enter</li>
                     <li>Search for "Command Prompt" in Start menu</li>
-                    <li>Navigate to C:\Windows\System32 and run cmd.exe</li>
+                    <li>Navigate to <span class="shortcut">C:\Windows\System32</span> and run <span class="shortcut">cmd.exe</span></li>
                 </ul>
             </div>
-
-        <div class="access-method">
-            <h3>macOS</h3>
-            <ul>
-                <li>Open Spotlight (<span class="shortcut">Command + Space</span>), type "Terminal"</li>
-                <li>Find Terminal in Applications > Utilities</li>
-                <li>Use Launchpad to locate Terminal</li>
-                <li>Use Network Utility:
-                    <ul>
-                        <li>Open Spotlight, type "Network Utility"</li>
-                        <li>Find in Applications > Utilities folder</li>
-                        <li>Access comprehensive network tools</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-
+            <div class="access-method">
+                <h3>macOS</h3>
+                <ul>
+                    <li>Open Spotlight (<span class="shortcut">Command + Space</span>), type "Terminal"</li>
+                    <li>Find Terminal in Applications > Utilities</li>
+                    <li>Use Launchpad to locate Terminal</li>
+                </ul>
+            </div>
             <div class="access-method">
                 <h3>Chrome OS</h3>
                 <ul>
                     <li>Press <span class="shortcut">Ctrl + Alt + T</span> to open Crosh shell</li>
-                    <li>Use Linux Terminal (if enabled)</li>
+                    <li>Use Linux Terminal (if enabled) via Settings > Advanced > Developers</li>
+                    <li>Click the Launcher, search for "Terminal", and open the app</li>
                 </ul>
             </div>
         </div>
-
         <div class="note">
-            <strong>Important:</strong> Some commands may require administrator privileges. On Windows, right-click Command Prompt and select "Run as administrator". On macOS/Linux, use "sudo" before commands requiring elevated privileges.
+            <strong>Important:</strong> Some commands may require administrator privileges. On Windows, right-click Command Prompt and select "Run as administrator". On macOS/Linux, use <span class="shortcut">sudo</span> before commands requiring elevated privileges.
         </div>
     </div>
 
+    <!-- 2. Essential Network Diagnostic Commands -->
     <div class="section">
         <h2>2. Essential Network Diagnostic Commands</h2>
         <p>Learn the core commands used for network troubleshooting across different operating systems.</p>
-
-        <div class="os-tabs">
-            <button class="os-tab active" onclick="switchOS('windows')">Windows</button>
-            <button class="os-tab" onclick="switchOS('mac')">Mac</button>
-            <button class="os-tab" onclick="switchOS('chrome')">Chrome OS</button>
+        <div class="os-tabs" role="tablist">
+            <button class="os-tab active" onclick="switchOS('windows')" aria-selected="true" aria-controls="windows-commands" id="tab-windows">Windows</button>
+            <button class="os-tab" onclick="switchOS('mac')" aria-selected="false" aria-controls="mac-commands" id="tab-mac">Mac</button>
+            <button class="os-tab" onclick="switchOS('chrome')" aria-selected="false" aria-controls="chrome-commands" id="tab-chrome">Chrome OS</button>
         </div>
-
-        <table class="command-table" id="commandTable">
-            <tr>
-                <th>Operation</th>
-                <th>Windows</th>
-                <th>macOS</th>
-                <th>Chrome OS</th>
-            </tr>
-            <tr>
-                <td>Trace Route</td>
-                <td>tracert</td>
-                <td>traceroute</td>
-                <td>tracepath</td>
-            </tr>
-            <tr>
-                <td>Check Packet Loss</td>
-                <td>ping -n [count]</td>
-                <td>ping -c [count]</td>
-                <td>ping -c [count]</td>
-            </tr>
-            <tr>
-                <td>Find Internal IP</td>
-                <td>ipconfig</td>
-                <td>ipconfig getifaddr en0</td>
-                <td>ip addr show</td>
-            </tr>
-            <tr>
-                <td>Find External IP</td>
-                <td>nslookup myip.opendns.com resolver1.opendns.com</td>
-                <td>curl ifconfig.me</td>
-                <td>Use browser</td>
-            </tr>
-        </table>
+        <div id="windows-commands" class="os-commands" role="tabpanel" aria-labelledby="tab-windows">
+            <table class="command-table wide-table">
+                <tr><th>Operation</th><th>Command</th></tr>
+                <tr><td>Trace Route</td><td>tracert [destination]</td></tr>
+                <tr><td>Check Packet Loss</td><td>ping -n [count] [IP]</td></tr>
+                <tr><td>Find Internal IP</td><td>ipconfig</td></tr>
+                <tr><td>Find External IP</td><td>nslookup myip.opendns.com resolver1.opendns.com</td></tr>
+                <tr><td>Clear DNS Cache</td><td>ipconfig /flushdns</td></tr>
+            </table>
+        </div>
+        <div id="mac-commands" class="os-commands" role="tabpanel" aria-labelledby="tab-mac" style="display:none;">
+            <table class="command-table wide-table">
+                <tr><th>Operation</th><th>Command</th></tr>
+                <tr><td>Trace Route</td><td>traceroute [destination] <br>sudo mtr -n [destination]</td></tr>
+                <tr><td>Check Packet Loss</td><td>ping -c [count] [IP]</td></tr>
+                <tr><td>Find Internal IP</td><td>ipconfig getifaddr en0 (WiFi) <br>ipconfig getifaddr en1 (Ethernet)</td></tr>
+                <tr><td>Find External IP</td><td>curl ifconfig.me</td></tr>
+                <tr><td>Clear DNS Cache</td><td>sudo killall -HUP mDNSResponder</td></tr>
+            </table>
+        </div>
+        <div id="chrome-commands" class="os-commands" role="tabpanel" aria-labelledby="tab-chrome" style="display:none;">
+            <table class="command-table">
+                <tr><th>Operation</th><th>Command</th></tr>
+                <tr><td>Trace Route</td><td>tracepath [destination]</td></tr>
+                <tr><td>Check Packet Loss</td><td>ping -c [count] [IP]</td></tr>
+                <tr><td>Find Internal IP</td><td>ip addr show (Crosh shell)</td></tr>
+                <tr><td>Find External IP</td><td>Use browser or IP lookup website</td></tr>
+                <tr><td>Clear DNS Cache</td><td>Clear browser cache (DNS managed by Chrome)</td></tr>
+            </table>
+        </div>
     </div>
 
+    <!-- 3. Command Usage and Examples -->
     <div class="section">
         <h2>3. Command Usage and Examples</h2>
-
         <div class="key-point">
-            <h3>Traceroute</h3>
-            <p>Maps the path between your device and a destination:</p>
+            <h3>Traceroute / Tracert / Tracepath</h3>
+            <p>Maps the path between your device and a destination, showing each hop and latency.</p>
             <div class="command-box">
-                Windows: tracert google.com
-                <div class="output">
-                Tracing route to google.com [142.250.xxx.xxx]
-                1    1 ms    1 ms    1 ms  192.168.1.1
-                2    5 ms    5 ms    5 ms  10.0.0.1
-                3   15 ms   14 ms   15 ms  172.16.0.1
-                </div>
+                <strong>Windows:</strong> tracert google.com<br>
+                <span class="output">
+                Tracing route to google.com [142.250.xxx.xxx]<br>
+                1    1 ms    1 ms    1 ms  192.168.1.1<br>
+                2    5 ms    5 ms    5 ms  10.0.0.1<br>
+                3   15 ms   14 ms   15 ms  172.16.0.1<br>
+                </span>
             </div>
-
             <div class="command-box">
-                macOS (Standard): traceroute google.com
-                <div class="output">
-                traceroute to google.com (142.250.xxx.xxx), 64 hops max
-                1  192.168.1.1  1.234 ms  1.123 ms  1.234 ms
-                2  10.0.0.1  5.678 ms  5.567 ms  5.789 ms
-                3  172.16.0.1  15.123 ms  14.567 ms  15.789 ms
-                </div>
+                <strong>Mac:</strong> traceroute google.com<br>
+                <span class="output">
+                traceroute to google.com (142.250.xxx.xxx), 64 hops max<br>
+                1  192.168.1.1  1.234 ms  1.123 ms  1.234 ms<br>
+                2  10.0.0.1  5.678 ms  5.567 ms  5.789 ms<br>
+                3  172.16.0.1  15.123 ms  14.567 ms  15.789 ms<br>
+                </span>
             </div>
-
             <div class="command-box">
-                macOS (MTR): sudo mtr -n google.com
-                <div class="output">
-                My traceroute [v0.95]
-                Host                   Loss%   Snt   Last   Avg  Best  Wrst StDev
-                1. 192.168.1.1         0.0%    10    0.5   0.6   0.4   0.8   0.1
-                2. 10.0.0.1            0.0%    10    5.4   5.5   5.3   5.8   0.2
-                3. 172.16.0.1          0.0%    10   15.3  15.4  15.2  15.9   0.3
-                </div>
+                <strong>Mac (MTR):</strong> sudo mtr -n google.com<br>
+                <span class="output">
+                Host                   Loss%   Snt   Last   Avg  Best  Wrst StDev<br>
+                1. 192.168.1.1         0.0%    10    0.5   0.6   0.4   0.8   0.1<br>
+                2. 10.0.0.1            0.0%    10    5.4   5.5   5.3   5.8   0.2<br>
+                3. 172.16.0.1          0.0%    10   15.3  15.4  15.2  15.9   0.3<br>
+                </span>
             </div>
-        </div>
-
-        <div class="key-point">
-            <h3>Packet Loss Testing</h3>
-            <p>Send multiple pings to test connection stability:</p>
             <div class="command-box">
-                Windows: ping -n 50 8.8.8.8
-                <div class="output">
-                Reply from 8.8.8.8: bytes=32 time=15ms TTL=57
-                Reply from 8.8.8.8: bytes=32 time=14ms TTL=57
-                Packets: Sent = 50, Received = 50, Lost = 0 (0% loss)
-                </div>
+                <strong>Chrome OS:</strong> tracepath google.com<br>
+                <span class="output">
+                1?: [LOCALHOST]                                         pmtu 1500<br>
+                1:  192.168.1.1                                         0.123ms<br>
+                2:  10.0.0.1                                            5.456ms<br>
+                3:  172.16.0.1                                          15.789ms<br>
+                </span>
             </div>
-        </div>
-
-        <div class="key-point">
-            <h3>Finding IP Addresses on Mac</h3>
-            <p>Different network interfaces require different commands:</p>
-            <div class="command-box">
-                WiFi Connection: ipconfig getifaddr en0
-                <div class="output">
-                192.168.1.100
-                </div>
-            </div>
-
-            <div class="command-box">
-                Ethernet Connection: ipconfig getifaddr en1
-                <div class="output">
-                192.168.1.101
-                </div>
-            </div>
-
-            <div class="command-box">
-                All Network Interfaces: ifconfig
-                <div class="output">
-                en0: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST>
-                    inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255
-                en1: flags=8863<UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST>
-                    inet 192.168.1.101 netmask 0xffffff00 broadcast 192.168.1.255
-                </div>
-            </div>
-
             <div class="tip">
-                <strong>Pro Tip:</strong> Use "ifconfig | grep inet" to filter and only show IP addresses.
+                <strong>Pro Tip:</strong> Use traceroute to identify where network slowdowns or failures occur. High latency or timeouts at a specific hop indicate a problem at that point in the network.
             </div>
         </div>
-
-        <div class="note">
-            <strong>Pro Tip:</strong> When testing for packet loss, always send at least 50 packets to get a meaningful sample size. This helps identify intermittent issues that might not show up in a standard ping test.
+        <div class="key-point">
+            <h3>Ping and Packet Loss</h3>
+            <p>Test connectivity and measure packet loss. Always use at least 50 pings for accuracy.</p>
+            <div class="command-box">
+                <strong>Windows:</strong> ping -n 50 8.8.8.8<br>
+                <span class="output">
+                Reply from 8.8.8.8: bytes=32 time=15ms TTL=57<br>
+                ...<br>
+                Packets: Sent = 50, Received = 50, Lost = 0 (0% loss)
+                </span>
+            </div>
+            <div class="command-box">
+                <strong>Mac/Chrome OS:</strong> ping -c 50 8.8.8.8<br>
+                <span class="output">
+                50 packets transmitted, 50 received, 0% packet loss, time 49000ms
+                </span>
+            </div>
+            <div class="tip">
+                <strong>Pro Tip:</strong> Any packet loss above 1% may indicate a network issue. Consistent loss or high latency should be investigated.
+            </div>
+        </div>
+        <div class="key-point">
+            <h3>Finding Internal and External IP Addresses</h3>
+            <div class="command-box">
+                <strong>Windows:</strong> ipconfig<br>
+                <span class="output">IPv4 Address. . . . . . . . . . . : 192.168.1.100</span>
+            </div>
+            <div class="command-box">
+                <strong>Windows (External):</strong> nslookup myip.opendns.com resolver1.opendns.com<br>
+                <span class="output">Name: myip.opendns.com<br>Address: 203.0.113.45</span>
+            </div>
+            <div class="command-box">
+                <strong>Mac:</strong> ipconfig getifaddr en0 (WiFi) / en1 (Ethernet)<br>
+                <span class="output">192.168.1.101</span>
+            </div>
+            <div class="command-box">
+                <strong>Mac (External):</strong> curl ifconfig.me<br>
+                <span class="output">203.0.113.45</span>
+            </div>
+            <div class="command-box">
+                <strong>Chrome OS:</strong> ip addr show (Crosh shell)<br>
+                <span class="output">inet 192.168.1.102/24 brd 192.168.1.255 scope global eth0</span>
+            </div>
+            <div class="command-box">
+                <strong>Chrome OS (External):</strong> Use browser to visit an IP lookup website.
+            </div>
+        </div>
+        <div class="key-point">
+            <h3>DNS Troubleshooting</h3>
+            <div class="command-box">
+                <strong>Windows:</strong> ipconfig /flushdns
+            </div>
+            <div class="command-box">
+                <strong>Mac:</strong> sudo killall -HUP mDNSResponder
+            </div>
+            <div class="command-box">
+                <strong>Chrome OS:</strong> Clear browser cache (DNS managed by Chrome)
+            </div>
+            <div class="tip">
+                <strong>When to clear DNS cache:</strong> After DNS server changes, when websites don't load, or after network config changes.
+            </div>
+        </div>
+        <div class="key-point">
+            <h3>Scenario-Based Troubleshooting</h3>
+            <ul>
+                <li><strong>Slow websites:</strong> Test with ping and traceroute. If DNS is set manually, clear DNS cache and set to automatic.</li>
+                <li><strong>Device-specific WiFi issues:</strong> Forget and reconnect to WiFi, or factory reset router if needed.</li>
+                <li><strong>Intermittent drops:</strong> Check for firmware updates, analyze WiFi channel congestion, and check for interference or overheating.</li>
+                <li><strong>Packet loss:</strong> Use ping with 50+ packets. Investigate high loss with traceroute and check for physical issues.</li>
+            </ul>
         </div>
     </div>
 
+    <!-- 4. DNS Cache Management -->
     <div class="section">
         <h2>4. DNS Cache Management</h2>
         <p>DNS cache can become corrupted or outdated, leading to connectivity issues. Knowing how to clear the DNS cache is essential for troubleshooting.</p>
-
         <div class="key-point">
             <h3>DNS Cache Clearing Commands:</h3>
             <table class="command-table">
@@ -348,7 +395,6 @@
                 </tr>
             </table>
         </div>
-
         <div class="note">
             <strong>When to Clear DNS Cache:</strong>
             <ul>
@@ -360,10 +406,10 @@
         </div>
     </div>
 
+    <!-- 5. Interpreting Command Output -->
     <div class="section">
         <h2>5. Interpreting Command Output</h2>
         <p>Understanding command output is crucial for effective troubleshooting.</p>
-
         <div class="key-point">
             <h3>Common Output Patterns:</h3>
             <ul>
@@ -373,7 +419,6 @@
                 <li><strong>General failure</strong> - Network adapter issues</li>
             </ul>
         </div>
-
         <div class="command-box">
             <h3>Ping Results Interpretation:</h3>
             <pre>
@@ -383,7 +428,6 @@ Request timed out.                                ← Connection issue
 Reply from 192.168.1.1: Destination unreachable   ← Routing problem
 General failure.                                  ← Hardware/driver issue</pre>
         </div>
-
         <div class="key-point">
             <h3>Performance Metrics:</h3>
             <ul>
@@ -395,9 +439,9 @@ General failure.                                  ← Hardware/driver issue</pre
         </div>
     </div>
 
+    <!-- 6. Best Practices -->
     <div class="section">
         <h2>6. Best Practices</h2>
-        
         <div class="key-point">
             <h3>Command-Line Troubleshooting Guidelines:</h3>
             <ol>
@@ -405,10 +449,12 @@ General failure.                                  ← Hardware/driver issue</pre
                 <li>Progress to more detailed tests (traceroute)</li>
                 <li>Document all command outputs</li>
                 <li>Test from multiple locations when possible</li>
-                <li>Use appropriate sample sizes for tests</li>
+                <li>Use appropriate sample sizes for tests (at least 50 pings)</li>
+                <li>Check both internal and external IPs to diagnose local vs. ISP issues</li>
+                <li>Clear DNS cache when facing website loading issues</li>
+                <li>Interpret output carefully and look for patterns (loss, latency, unreachable hops)</li>
             </ol>
         </div>
-
         <div class="note">
             <strong>Documentation Tip:</strong> When documenting command outputs, include:
             <ul>
@@ -420,23 +466,81 @@ General failure.                                  ← Hardware/driver issue</pre
         </div>
     </div>
 
+    <!-- 7. Quick Reference / Cheat Sheet -->
+    <div class="section">
+        <h2>7. Quick Reference: Command Cheat Sheet</h2>
+        <table class="command-table">
+            <tr>
+                <th>Task</th>
+                <th>Windows</th>
+                <th>Mac</th>
+                <th>Chrome OS</th>
+            </tr>
+            <tr>
+                <td>Traceroute</td>
+                <td>tracert [destination]</td>
+                <td>traceroute [destination]; sudo mtr -n [destination]</td>
+                <td>tracepath [destination]</td>
+            </tr>
+            <tr>
+                <td>Ping (Packet Loss)</td>
+                <td>ping -n 50 [IP]</td>
+                <td>ping -c 50 [IP]</td>
+                <td>ping -c 50 [IP]</td>
+            </tr>
+            <tr>
+                <td>Internal IP</td>
+                <td>ipconfig</td>
+                <td>ipconfig getifaddr en0 (WiFi), ipconfig getifaddr en1 (Ethernet)</td>
+                <td>ip addr show</td>
+            </tr>
+            <tr>
+                <td>External IP</td>
+                <td>nslookup myip.opendns.com resolver1.opendns.com</td>
+                <td>curl ifconfig.me</td>
+                <td>Use browser</td>
+            </tr>
+            <tr>
+                <td>Clear DNS Cache</td>
+                <td>ipconfig /flushdns</td>
+                <td>sudo killall -HUP mDNSResponder</td>
+                <td>Clear browser cache</td>
+            </tr>
+        </table>
+    </div>
+
     <script>
         function switchOS(os) {
+            // Tab button logic
             document.querySelectorAll('.os-tab').forEach(tab => {
-                if (tab.textContent.toLowerCase().includes(os)) {
-                    tab.classList.add('active');
-                } else {
-                    tab.classList.remove('active');
-                }
+                const isActive = tab.id === 'tab-' + os;
+                tab.classList.toggle('active', isActive);
+                tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
             });
-
-            // Update command examples based on selected OS
-            const commandBoxes = document.querySelectorAll('.command-box');
-            commandBoxes.forEach(box => {
-                // Update command examples based on OS
-                // This would be expanded in a full implementation
+            // Content panel logic
+            document.querySelectorAll('.os-commands').forEach(panel => {
+                panel.style.display = 'none';
             });
+            document.getElementById(os + '-commands').style.display = '';
+            // Optionally, focus the active tab for accessibility
+            document.getElementById('tab-' + os).focus();
         }
+        // Responsive: allow keyboard navigation for accessibility
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.os-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        let idx = Array.from(tabs).indexOf(document.activeElement);
+                        if (e.key === 'ArrowRight') idx = (idx + 1) % tabs.length;
+                        if (e.key === 'ArrowLeft') idx = (idx - 1 + tabs.length) % tabs.length;
+                        tabs[idx].focus();
+                        tabs[idx].click();
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>
