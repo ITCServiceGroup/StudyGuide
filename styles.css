@@ -177,7 +177,7 @@ body {
   margin-top: 20px;
   padding: 12px 20px;
   font-size: 18px;
-  background-color: #1b4e99;
+  background-color: var(--color-primary, #0f766e);
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -186,20 +186,21 @@ body {
 }
 
 #next-button:disabled {
-  background-color: #64c0f3;
+  background-color: var(--color-primary, #0f766e);
+  opacity: 0.6;
   color: #ffffff;
   cursor: not-allowed;
 }
 
 #next-button:hover:enabled {
-  background-color: #1c447f;
+  background-color: var(--primary-dark, #0c5e57);
 }
 
 #check-button {
   margin-top: 10px;
   padding: 10px 18px;
   font-size: 18px;
-  background-color: #ffc107;
+  background-color: var(--color-secondary, #7e22ce);
   color: #ffffff;
   border: none;
   border-radius: 5px;
@@ -208,12 +209,13 @@ body {
 }
 
 #check-button:hover:not(:disabled) {
-  background-color: #e0a800;
+  background-color: var(--secondary-dark, #6b1f9e);
 }
 
 #check-button:disabled {
-  background-color: #ffecb5;
-  color: #666666;
+  background-color: var(--color-secondary, #7e22ce);
+  opacity: 0.6;
+  color: #ffffff;
   cursor: not-allowed;
 }
 
@@ -490,7 +492,7 @@ body {
   font-size: 24px; /* Increased font size */
   font-weight: bold;
   margin-bottom: 15px;
-  color: #1c447f; 
+  color: #1c447f;
   padding: 10px;
   border-radius: 5px;
   display: block; /* Changed from inline-block to block for consistency */
@@ -707,7 +709,7 @@ body {
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
-  
+
 /* Hover state for icons */
 .study-guide-tile:hover::after {
     opacity: 1;
