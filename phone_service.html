@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phone Service Study Guide</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --bg-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .overview {
+            background-color: #e8f5e9;
+            border-left: 4px solid var(--success-color);
+            margin: 0 0 30px;
+            padding: 30px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .overview p {
+            margin: 0;
+            text-align: justify;
+            max-width: 1400px;
+            color: #1b5e20;
+        }
+
+        .overview p::first-letter {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            margin: 25px 0 15px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: var(--text-color);
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 20px 0 10px;
+        }
+
+        .key-point {
+            background-color: #e3f2fd;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--primary-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .warning {
+            background-color: #ffebee;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--error-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tip {
+            background-color: #fff3e0;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid var(--warning-color);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tip:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        th, td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        th {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-weight: 600;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: rgba(33, 150, 243, 0.05);
+        }
+
+        .technical-note {
+            background-color: #f1f8ff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #0366d6;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .example {
+            background-color: var(--bg-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .info-list li {
+            position: relative;
+            padding: 12px 15px 12px 35px;
+            margin: 8px 0;
+            background-color: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s ease;
+        }
+
+        .info-list li:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .info-list.telephony-types li::before {
+            content: "📞"; 
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        }
+        .info-list.wiring-issues li::before {
+            content: "🛠️"; 
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        }
+        .info-list.call-features li::before {
+            content: "⚙️"; 
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        }
+         .info-list.troubleshooting-tools li::before {
+            content: "🔧"; 
+            position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+        }
+
+        .info-list.common-mistakes li::before {
+            content: "⚠️";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .info-list.security-considerations li::before {
+            content: "🔒";
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2em;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+            }
+
+            h2 {
+                font-size: 1.5em;
+            }
+
+            h3 {
+                font-size: 1.2em;
+            }
+
+            .overview {
+                padding: 15px;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Phone Service Study Guide</h1>
+
+    <div class="section overview">
+        <p>This guide provides a comprehensive overview of phone services, covering GFiber Phone specifics and general telephony concepts. It aims to equip technicians with the knowledge for installation, configuration, troubleshooting, and delivering exceptional service quality. Understanding these components is crucial for maintaining system reliability and effectively resolving customer issues, from number porting and physical installation to advanced troubleshooting techniques and foundational telephony principles.</p>
+    </div>
+
+    <div class="section">
+        <h2>1. Introduction to Telephony Concepts</h2>
+        <p>A solid understanding of basic telephony principles is essential before diving into specific service types. This section covers the evolution of phone systems and common signals technicians may encounter.</p>
+
+        <div class="key-point">
+            <h3>Key Telephony Types:</h3>
+            <ul class="info-list telephony-types">
+                <li><strong>POTS (Plain Old Telephone Service):</strong> Traditional analog phone service delivered over copper wires. It's a circuit-switched system, meaning a dedicated connection is established for the duration of a call. Power is typically supplied from the central office.</li>
+                <li><strong>Digital Telephony:</strong> An evolution of POTS, often used in business systems (like ISDN or PBX trunks). Voice is digitized but still often relies on dedicated circuits or specialized wiring.</li>
+                <li><strong>VoIP (Voice over Internet Protocol):</strong> Modern telephony that converts analog voice signals into digital packets and transmits them over an IP network (like the internet). GFiber Phone is a VoIP service. This is a packet-switched system.</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>POTS Fundamentals:</h3>
+            <ul>
+                <li><strong>Loop Current:</strong> DC current flowing when a phone is off-hook, signaling the exchange.</li>
+                <li><strong>Talk Battery:</strong> The DC voltage (typically -48V) that powers analog phones, supplied by the central office or local adapter.</li>
+                <li><strong>Ringing Voltage:</strong> An AC voltage (e.g., ~90VAC at 20Hz) sent to make the phone ring.</li>
+                <li><strong>Demarcation Point (NID - Network Interface Device):</strong> The physical point where the telephone company's network ends and the customer's inside wiring begins. Technicians must understand this boundary.</li>
+            </ul>
+        </div>
+        
+        <div class="technical-note">
+            <h3>VoIP Core Components:</h3>
+            <ul>
+                <li><strong>ATA (Analog Telephone Adapter):</strong> A device that converts analog phone signals to digital IP packets and vice-versa, allowing standard analog phones to be used with VoIP services. GFiber Phone Box acts as an ATA.</li>
+                <li><strong>IP Phones:</strong> Phones that connect directly to an IP network via Ethernet and have built-in VoIP capabilities.</li>
+                <li><strong>Softphones:</strong> Software applications on computers or mobile devices that provide phone functionality over VoIP.</li>
+                <li><strong>Codecs:</strong> Algorithms (e.g., G.711, G.729, Opus) that compress and decompress voice data. They impact sound quality and bandwidth usage. GFiber Phone typically uses codecs optimized for high quality like Opus or G.711.</li>
+            </ul>
+        </div>
+
+        <div class="key-point">
+            <h3>Basic Signaling and Tones:</h3>
+            <ul>
+                <li><strong>Dial Tone:</strong> Indicates the system is ready for a number to be dialed.</li>
+                <li><strong>Ringback Tone:</strong> Heard by the caller, indicating the recipient's phone is ringing.</li>
+                <li><strong>Busy Signal:</strong> Indicates the called number is in use or network paths are unavailable.</li>
+                <li><strong>DTMF (Dual-Tone Multi-Frequency):</strong> The "touch-tones" generated when pressing keys on a phone. Used for dialing and interacting with automated systems (IVRs).</li>
+                <li><strong>Off-Hook/On-Hook:</strong> Describes the state of the phone (off-hook is handset lifted/in use, on-hook is handset down/idle).</li>
+            </ul>
+        </div>
+         <div class="tip">
+            <strong>Technician Insight:</strong> While GFiber Phone is VoIP, you may encounter homes with existing POTS wiring. Understanding POTS basics helps in safely integrating or replacing older systems.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>2. Phone Number Porting (LN P)</h2>
+        <p>Number porting (Local Number Portability) is a critical process that allows customers to retain their existing phone numbers when switching to GFiber Phone service. Understanding the proper procedures and requirements is essential for successful transitions.</p>
+
+        <div class="key-point">
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li>Porting must be initiated after installation appointment scheduling</li>
+                <li>Original service must remain active during the porting process</li>
+                <li>Process typically takes 3-5 business days (can vary)</li>
+                <li>Special transfer PINs required for certain carriers (especially mobile numbers)</li>
+                <li>Accurate customer information (name, address, account number) is crucial.</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>Porting Requirements by Carrier:</h3>
+            <table>
+                <tr>
+                    <th>Carrier Type</th>
+                    <th>Common Requirements</th>
+                    <th>Typical Timeline</th>
+                    <th>Common Issues</th>
+                </tr>
+                <tr>
+                    <td>Major Landline (e.g., AT&T, Verizon)</td>
+                    <td>Account Number, Billing Address, Name on Account. Sometimes a specific porting PIN.</td>
+                    <td>3-7 business days</td>
+                    <td>Address mismatch, Name mismatch, Incorrect Account #.</td>
+                </tr>
+                 <tr>
+                    <td>Mobile (e.g., AT&T Wireless, Verizon Wireless, T-Mobile)</td>
+                    <td>Account Number, Number Transfer PIN (NTP) from the carrier, Billing Zip Code.</td>
+                    <td>Can be faster (hours to a few days) but variable.</td>
+                    <td>Invalid/Expired NTP, Account lock, Incorrect Zip.</td>
+                </tr>
+                <tr>
+                    <td>Other VoIP/Cable Providers</td>
+                    <td>Account Number, Billing Address. May require specific PINs or explicit consent.</td>
+                    <td>3-10 business days</td>
+                    <td>Account info mismatch, Delays from losing carrier.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>Common Porting Mistakes:</h3>
+            <ul class="info-list common-mistakes">
+                <li>Canceling existing service before porting completes (results in losing the number).</li>
+                <li>Providing incorrect account information or PINs.</li>
+                <li>Attempting to port on weekends or holidays (processing usually occurs on business days).</li>
+                <li>Using account PIN instead of a specific Number Transfer PIN (for mobile numbers).</li>
+                <li>Initiating port before scheduling installation (can lead to service gaps).</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> Always verify that the customer has obtained any required transfer PINs *before* initiating the porting process. Double-check all customer-provided information against a recent bill from their old provider if possible. Emphasize they must not cancel their old service.
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>3. Physical Installation & Wiring</h2>
+        <p>Proper wiring and installation are fundamental to delivering reliable phone service, whether traditional or VoIP. Understanding cable types, connectors, and best practices ensures optimal service quality and safety.</p>
+
+        <div class="key-point">
+            <h3>Key GFiber Phone Installation Components:</h3>
+            <ul>
+                <li>UTP (Unshielded Twisted Pair) Cat5e or better Ethernet cable from ONT to Phone Box.</li>
+                <li>RJ11 connectors for connecting standard analog phones to the Phone Box.</li>
+                <li>Maximum support for 5 REN (Ringer Equivalence Number) or corded phones directly from the GFiber Phone Box.</li>
+                <li>Proper separation of phone/Ethernet wiring from electrical wiring to prevent interference.</li>
+            </ul>
+        </div>
+        
+        <div class="technical-note">
+            <h3>General Telephone Wiring:</h3>
+            <h4>Connectors:</h4>
+            <ul>
+                <li><strong>RJ11:</strong> Most common for single-line analog phones (uses 2 or 4 pins out of 6).</li>
+                <li><strong>RJ14:</strong> Similar to RJ11, but wired for two phone lines (uses 4 pins out of 6).</li>
+                <li><strong>RJ45:</strong> Used for Ethernet networking, but also by some IP phones directly. Be careful not to confuse with phone jacks.</li>
+            </ul>
+            <h4>Tip and Ring Color Codes (Traditional POTS):</h4>
+            <p>Understanding these is crucial when dealing with existing house wiring:</p>
+            <table>
+                <tr><th>Pair</th><th>Tip (+)</th><th>Ring (-)</th><th>Common Use</th></tr>
+                <tr><td>Pair 1</td><td>Green (or White/Blue)</td><td>Red (or Blue/White)</td><td>Primary Line</td></tr>
+                <tr><td>Pair 2</td><td>Black (or White/Orange)</td><td>Yellow (or Orange/White)</td><td>Second Line / Other Uses</td></tr>
+                <tr><td>Pair 3</td><td>White/Green</td><td>Green/White</td><td>Data / Other Uses</td></tr>
+                <tr><td>Pair 4</td><td>White/Brown</td><td>Brown/White</td><td>Data / Other Uses</td></tr>
+            </table>
+            <p><em>Note: Modern structured wiring uses T568A/B standards for Cat5e+ which also have specific color codes for pairs, essential for both data and VoIP.</em></p>
+        </div>
+
+        <div class="technical-note">
+            <h3>Cable and Wire Signal Loss (General & GFiber Phone):</h3>
+            <table>
+                <tr>
+                    <th>Source</th>
+                    <th>Potential Impact</th>
+                    <th>Best Practices</th>
+                </tr>
+                <tr>
+                    <td>Long UTP Cable Runs (Analog)</td>
+                    <td>5-10% signal reduction per 100ft</td>
+                    <td>Keep analog runs from ATA to phone under practical limits (e.g., 300ft as a guideline, but shorter is better).</td>
+                </tr>
+                 <tr>
+                    <td>Long Ethernet Cable Runs (VoIP Phone Box to ONT)</td>
+                    <td>Max 100 meters (328 ft) per Ethernet standards</td>
+                    <td>Use quality Cat5e or better, ensure proper termination.</td>
+                </tr>
+                <tr>
+                    <td>Spliced Connections</td>
+                    <td>2-5% loss per splice (analog); Potential data errors (Ethernet)</td>
+                    <td>Minimize splices. Use proper splicing connectors (e.g., Scotchloks for analog, keystone jacks/couplers for Ethernet). Avoid splicing Ethernet if possible.</td>
+                </tr>
+                <tr>
+                    <td>Wall Jacks / Connections</td>
+                    <td>1-2% loss per connection (analog); Potential point of failure</td>
+                    <td>Use quality components. Ensure secure connections.</td>
+                </tr>
+                <tr>
+                    <td>Electrical Interference (EMI)</td>
+                    <td>Hum, static, dropped calls, data errors</td>
+                    <td>Maintain separation from electrical wires (at least 12 inches for parallel runs, cross at 90 degrees if necessary). Use shielded cable in high EMI environments if absolutely necessary (though less common for residential).</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="warning">
+            <h3>Common Wiring & Installation Issues:</h3>
+            <ul class="info-list wiring-issues">
+                <li><strong>Running phone/Ethernet cables parallel and close to AC electrical wiring:</strong> Induces noise/interference.</li>
+                <li><strong>Sharp bends or kinks in cables:</strong> Can damage conductors and degrade signal. Maintain bend radius.</li>
+                <li><strong>Exceeding maximum supported devices/REN:</strong> Can overload the Phone Box, leading to weak ringing or no service.</li>
+                <li><strong>Untidy or improper splices:</strong> Leads to intermittent issues, noise, or complete failure.</li>
+                <li><strong>Crossed Pairs (Analog):</strong> Connecting tip to ring or vice-versa. Can cause no dial tone or other issues.</li>
+                <li><strong>Shorts (Analog):</strong> Tip and Ring wires touching. Will take the line off-hook or cause no service.</li>
+                <li><strong>Opens (Analog):</strong> A break in one or both conductors. Leads to no service or one-way audio.</li>
+                <li><strong>Poorly crimped RJ11/RJ45 connectors:</strong> Intermittent connections, no service.</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> When tapping into existing phone wiring for VoIP distribution (e.g., backfeeding dial tone from the Phone Box), *always* disconnect the old telco service at the NID first to avoid conflicts and potential damage. Ensure the existing wiring is in good condition.
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>4. General Phone Features & Services</h2>
+        <p>Understanding common phone features available across different systems can help in discussing options with customers and troubleshooting feature-related queries.</p>
+        
+        <div class="key-point">
+            <h3>Common Residential Call Features:</h3>
+            <ul class="info-list call-features">
+                <li><strong>Caller ID (Number & Name):</strong> Displays the caller's phone number and, if available, name.</li>
+                <li><strong>Call Waiting:</strong> Alerts you to an incoming call while you're on an active call.</li>
+                <li><strong>Voicemail:</strong> Answering service that records messages when you can't answer.</li>
+                <li><strong>Call Forwarding:</strong> Redirects incoming calls to another number.
+                    <ul>
+                        <li><em>Unconditional:</em> All calls are forwarded.</li>
+                        <li><em>Busy:</em> Calls forwarded when your line is busy.</li>
+                        <li><em>No Answer:</em> Calls forwarded if you don't answer after a set number of rings.</li>
+                    </ul>
+                </li>
+                <li><strong>Three-Way Calling (Conference Call):</strong> Allows you to add a third person to your conversation.</li>
+                <li><strong>Anonymous Call Rejection:</strong> Automatically rejects calls from numbers that have blocked their Caller ID.</li>
+                <li><strong>Call Blocking/Screening:</strong> Allows blocking of specific unwanted numbers.</li>
+                <li><strong>Speed Dialing:</strong> Assign short codes to frequently dialed numbers.</li>
+            </ul>
+        </div>
+        
+        <div class="technical-note">
+            <h3>Typical Star Codes (May vary by provider):</h3>
+            <p>Star codes are short sequences dialed to activate or deactivate features. GFiber Phone may have its own methods via online portal or app, but these are common traditional codes:</p>
+            <table>
+                <tr><th>Feature</th><th>Common Star Code (Activation)</th><th>Common Star Code (Deactivation)</th></tr>
+                <tr><td>Call Forwarding Unconditional</td><td>*72 + Number</td><td>*73</td></tr>
+                <tr><td>Call Forwarding Busy</td><td>*90 + Number</td><td>*91</td></tr>
+                <tr><td>Call Forwarding No Answer</td><td>*92 + Number</td><td>*93</td></tr>
+                <tr><td>Call Return / Last Call Info</td><td>*69</td><td>N/A</td></tr>
+                <tr><td>Caller ID Block (Per Call)</td><td>*67 + Number</td><td>N/A</td></tr>
+                <tr><td>Caller ID Unblock (Per Call)</td><td>*82 + Number</td><td>N/A</td></tr>
+                <tr><td>Anonymous Call Rejection Activate</td><td>*77</td><td>*87</td></tr>
+            </table>
+            <p><em>Always refer to the specific provider's documentation (like GFiber's) for accurate feature activation methods.</em></p>
+        </div>
+        
+        <div class="key-point">
+            <h3>Brief on Business Phone Systems (For Awareness):</h3>
+            <ul>
+                <li><strong>Key System Unit (KSU):</strong> A simpler system for small businesses, where phones have buttons for specific lines or features. Often less flexible than PBX.</li>
+                <li><strong>PBX (Private Branch Exchange):</strong> A private telephone network used within a company. Users share a certain number of outside lines for making external calls. Can be on-premise or hosted/cloud-based. Offers more advanced features like auto-attendants, hunt groups, call queuing.</li>
+                <li><strong>Hunt Groups:</strong> A set of phone numbers that ring in a specific order (e.g., sequential, simultaneous, round-robin) until the call is answered.</li>
+                <li><strong>Auto Attendant:</strong> A menu system that allows callers to be routed to an extension or department without a human operator.</li>
+            </ul>
+        </div>
+         <div class="tip">
+            <strong>Technician Insight:</strong> While residential installs are common, understanding these basic business terms can be helpful if you encounter a small business customer or if they ask about more advanced features.
+        </div>
+    </div>
+
+
+    <div class="section">
+        <h2>5. Technical Specifications & Compatibility (GFiber Phone Focus)</h2>
+        <p>Understanding the technical limitations and compatibility requirements of GFiber Phone service is essential for proper installation and troubleshooting.</p>
+
+        <div class="key-point">
+            <h3>System Specifications:</h3>
+            <ul>
+                <li>One GFiber Phone box (ATA) per account.</li>
+                <li>Support for up to 5 REN (Ringer Equivalence Number) or approximately 5 corded phones. Check REN for cordless base stations.</li>
+                <li>VoIP-based service requiring active GFiber internet connectivity.</li>
+                <li>Call encryption, often leveraging Google Voice technology features for security and reliability.</li>
+                <li>Maximum call duration: Typically 3 hours (a common VoIP provider limit to prevent hung lines).</li>
+                <li>E911 support: Address registration is critical for emergency services.</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>Device Compatibility:</h3>
+            <table>
+                <tr>
+                    <th>Device Type</th>
+                    <th>Compatibility</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>Modern Analog Handsets (Corded/Cordless)</td>
+                    <td>Generally Compatible</td>
+                    <td>Most standard digital and analog phones designed for POTS lines. Check REN value.</td>
+                </tr>
+                <tr>
+                    <td>Rotary Phones</td>
+                    <td>Not Compatible</td>
+                    <td>Lack DTMF tones for dialing on VoIP systems. Pulse dialing is not supported.</td>
+                </tr>
+                <tr>
+                    <td>Fax Machines</td>
+                    <td>Limited Support / Best Effort</td>
+                    <td>May require specific configurations (e.g., lower baud rate, ECM off). VoIP is not inherently reliable for faxing due to packet nature (T.38 protocol can help but isn't always perfectly implemented).</td>
+                </tr>
+                <tr>
+                    <td>Medical Alert Systems / Home Security Systems</td>
+                    <td>Requires Testing & Verification</td>
+                    <td>Many modern systems are IP-based or cellular. Older systems relying on analog phone lines for communication need careful testing with the VoIP service. Always verify with the alarm/medical alert provider for compatibility. Customer should inform their alarm company they are switching to VoIP.</td>
+                </tr>
+                <tr>
+                    <td>Point of Sale (POS) Terminals / Dial-up Modems</td>
+                    <td>Generally Not Recommended/Supported</td>
+                    <td>These devices often require a very stable analog line quality that VoIP may not consistently provide.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>Service Limitations to Communicate:</h3>
+            <ul class="info-list common-mistakes">
+                <li>No support for multiple phone boxes on a single residential account.</li>
+                <li>Outbound Caller ID is typically set by the system and cannot be arbitrarily modified by the user for all calls (though per-call blocking might be available).</li>
+                <li>Porting timelines apply; no instant porting, and weekend/holiday porting is generally not processed.</li>
+                <li>The 3-hour maximum call duration (or similar limits) can affect very long conversations.</li>
+                <li>Power Dependency: VoIP service (including E911) will not function during a power outage unless the ONT, router, and Phone Box (ATA) are connected to a working UPS (Uninterruptible Power Supply).</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>6. Power and Network Considerations for VoIP</h2>
+        <p>Reliable VoIP service depends heavily on stable power and a well-performing local network. Technicians should be aware of these factors.</p>
+
+        <div class="key-point">
+            <h3>Power for VoIP Devices:</h3>
+            <ul>
+                <li><strong>Stable Power is Crucial:</strong> The Optical Network Terminal (ONT), router, and the VoIP Phone Box (ATA) all require constant power to function.</li>
+                <li><strong>UPS (Uninterruptible Power Supply):</strong> Highly recommended for the ONT, router, and Phone Box. This ensures phone service (including E911) remains operational during short power outages. Discuss UPS options with customers.</li>
+                <li><strong>Correct Power Adapters:</strong> Always use the manufacturer-provided power adapters for each device. Incorrect voltage or amperage can damage equipment.</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>Impact of Local Network Equipment on VoIP:</h3>
+            <ul>
+                <li><strong>Router Quality & Configuration:</strong> The customer's router plays a vital role. Older or very basic routers might struggle with prioritizing voice traffic.
+                    <ul>
+                        <li><strong>QoS (Quality of Service):</strong> If available and configurable on the router, QoS can prioritize VoIP data packets over other internet traffic (like downloads or streaming), improving call quality. GFiber equipment often handles this automatically.</li>
+                        <li><strong>SIP ALG (Application Layer Gateway):</strong> A common router feature that tries to "help" SIP (Session Initiation Protocol, used by VoIP) traffic. However, it can sometimes interfere with VoIP calls (e.g., one-way audio, failed registrations). If persistent issues occur, disabling SIP ALG on the customer's third-party router (if applicable) can be a troubleshooting step. GFiber-provided routers are typically pre-configured correctly.</li>
+                        <li><strong>Firmware:</strong> Ensure the router has up-to-date firmware.</li>
+                    </ul>
+                </li>
+                <li><strong>Modem/ONT:</strong> This is the gateway to the internet. Issues here will affect all services, including phone.</li>
+                <li><strong>Network Congestion:</strong> Heavy internet usage on the local network (e.g., large downloads, multiple high-definition streams) can impact VoIP call quality if QoS is not effective or bandwidth is insufficient.</li>
+                <li><strong>Ethernet Cabling:</strong> Poor quality or damaged Ethernet cables between the ONT, router, and Phone Box can cause connectivity issues affecting voice.</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip:</strong> When troubleshooting call quality issues, always inquire about power stability (any recent outages or flickering lights?) and look at the entire network chain: ONT -> Router -> Phone Box -> Telephone. A problem at any point can impact voice.
+        </div>
+    </div>
+
+
+    <div class="section">
+        <h2>7. Troubleshooting Framework</h2>
+        <p>A systematic approach to troubleshooting helps identify and resolve issues efficiently. Understanding common problems and their solutions is crucial for maintaining service quality for both GFiber Phone and general telephony.</p>
+
+        <div class="key-point">
+            <h3>Common Issues (General & VoIP):</h3>
+            <ul>
+                <li>No dial tone / No service</li>
+                <li>Poor call quality (static, echo, choppy audio, dropped calls)</li>
+                <li>One-way audio (you can hear them, but they can't hear you, or vice-versa)</li>
+                <li>Inability to make or receive calls</li>
+                <li>Feature malfunctions (e.g., voicemail not working, call forwarding issues)</li>
+                <li>Port order exceptions or delays (GFiber Specific)</li>
+                <li>Missing phone numbers post-porting (GFiber Specific)</li>
+            </ul>
+        </div>
+        
+        <div class="technical-note">
+            <h3>General Troubleshooting Tools (Beyond GFiber Specific Tools):</h3>
+            <ul class="info-list troubleshooting-tools">
+                <li><strong>Butt Set (Lineman's Handset):</strong> Essential for analog line testing. Allows a technician to tap into a phone line at various points (NID, jacks, wiring blocks) to check for dial tone, make test calls, and monitor line quality directly.</li>
+                <li><strong>Tone Generator and Probe (Fox and Hound):</strong> Used to trace and identify specific wires within a bundle or wall. The tone generator sends a signal down a wire, and the probe audibly detects it.</li>
+                <li><strong>Multimeter:</strong> For checking AC/DC voltage (e.g., POTS line voltage, ringing voltage - with caution!), continuity (testing for breaks in wires), and resistance.</li>
+                <li><strong>Known Good Telephone:</strong> A simple analog phone known to be working. Essential for isolating if an issue is with the customer's phone equipment or the line/service.</li>
+                <li><strong>Ethernet Cable Tester:</strong> Verifies proper connectivity and pinout of Ethernet cables used for VoIP Phone Box and IP phones.</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>GFiber Phone Troubleshooting Steps:</h3>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>First Steps (GFiber Specific)</th>
+                    <th>If Not Resolved</th>
+                </tr>
+                <tr>
+                    <td>No Service / No Dial Tone</td>
+                    <td>
+                        <ul>
+                            <li>Check internet connection (is GFiber internet working?).</li>
+                            <li>Verify Phone Box lights (power, internet, phone status).</li>
+                            <li>Reboot Phone Box, then router, then ONT (in that order, waiting a minute between each).</li>
+                            <li>Check physical connections (Ethernet to Phone Box, phone cord to phone).</li>
+                            <li>Test with a known good corded analog phone directly at the Phone Box.</li>
+                            <li>Verify account status in provisioning systems.</li>
+                        </ul>
+                    </td>
+                    <td>If issue persists after basic checks and is localized to phone, create S0 OOS (Out of Service) ticket or follow specific GFiber escalation paths.</td>
+                </tr>
+                <tr>
+                    <td>Poor Call Quality (Choppy, Echo, Static)</td>
+                    <td>
+                        <ul>
+                            <li>Check for local network congestion (heavy downloads, streaming).</li>
+                            <li>Test call quality with a corded phone directly at the Phone Box to rule out inside wiring/customer equipment.</li>
+                            <li>Verify Ethernet connections are secure.</li>
+                            <li>Reboot Phone Box and router.</li>
+                            <li>Check for sources of RF or electrical interference near the Phone Box or phones.</li>
+                            <li>If using customer's existing wiring, check for bad splices, jacks, or bridged taps.</li>
+                        </ul>
+                    </td>
+                    <td>Escalate to GFSD (GFiber Service Desk) or appropriate support tier if problem is likely network/system related or cannot be resolved locally. Note specific symptoms.</td>
+                </tr>
+                <tr>
+                    <td>Missing Number / Porting Issue</td>
+                    <td>
+                        <ul>
+                            <li>Check port order status in relevant tools.</li>
+                            <li>Verify all customer details on the port order are 100% accurate.</li>
+                            <li>Confirm the port completion notification was received.</li>
+                            <li>Create S0 OOS ticket if number is not routing correctly post-port.</li>
+                        </ul>
+                    </td>
+                    <td>Escalate to porting specialists or GFSD as per procedure. Porting issues often require inter-carrier coordination.</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="key-point">
+            <h3>Expanded VoIP Quality Troubleshooting:</h3>
+            <ul>
+                <li><strong>Latency (Delay):</strong> Time taken for voice packets to travel from speaker to listener. High latency causes noticeable delays in conversation.
+                    <em>Causes:</em> Network congestion, distant servers, poor routing.
+                    <em>Check:</em> Ping tests to a reliable host can indicate latency.
+                </li>
+                <li><strong>Jitter (Packet Delay Variation):</strong> Variation in the arrival times of voice packets. High jitter makes speech sound garbled or choppy.
+                    <em>Causes:</em> Network congestion, router issues.
+                    <em>Solution:</em> Jitter buffers in ATAs/IP phones can smooth this out, but too much buffering adds latency. QoS helps.
+                </li>
+                <li><strong>Packet Loss:</strong> Voice packets that don't reach their destination.
+                    <em>Causes:</em> Severe network congestion, faulty hardware, bad cables, poor Wi-Fi (if applicable).
+                    <em>Impact:</em> Gaps in audio, dropped words or syllables.
+                </li>
+                <li><strong>Bandwidth:</strong> VoIP requires sufficient and stable upload and download bandwidth. While individual calls don't use much (e.g., ~100kbps per call depending on codec), insufficient bandwidth, especially upload, can degrade quality.</li>
+                <li><strong>Quality of Service (QoS):</strong> As mentioned, router settings that prioritize voice packets over other data. Crucial on busy networks.</li>
+            </ul>
+        </div>
+        
+        <div class="warning">
+            <h3>GFiber Escalation Criteria:</h3>
+            <ul class="info-list common-mistakes">
+                <li>Persistent No Service/No Dial Tone after all local troubleshooting.</li>
+                <li>Missing phone numbers or failed port orders after due process.</li>
+                <li>Suspected system-wide or network-level issues affecting multiple customers.</li>
+                <li>Persistent poor call quality that cannot be resolved by on-site actions or equipment replacement.</li>
+                <li>Security concerns or unauthorized account activity.</li>
+            </ul>
+        </div>
+
+        <div class="tip">
+            <strong>Pro Tip for Troubleshooting:</strong> Always follow a logical "bottom-up" or "divide and conquer" approach.
+            <ol>
+                <li><strong>Check Physical Layer:</strong> Connections, cables, power. Is the device powered on? Lights status?</li>
+                <li><strong>Check Network Layer:</strong> Is internet working? Can the Phone Box get an IP address? Any local network issues?</li>
+                <li><strong>Isolate the Problem:</strong>
+                    <ul>
+                        <li>Test directly at the Phone Box with a known good phone to rule out inside wiring/customer phone.</li>
+                        <li>If multiple phones, does the issue affect all or just one?</li>
+                        <li>Does the issue occur on all calls, or only to specific numbers/types of calls?</li>
+                    </ul>
+                </li>
+                <li><strong>Check Service/Account Specifics:</strong> Provisioning status, porting status, feature settings.</li>
+                <li>Always check for system-wide issues (outages) and verify basic connectivity before deep-diving into complex troubleshooting steps.</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>8. Security & Compliance (GFiber Phone Focus)</h2>
+        <p>Understanding security features and compliance requirements ensures proper service implementation and customer privacy protection, especially vital with VoIP services.</p>
+
+        <div class="key-point">
+            <h3>Security Features (Typical for GFiber Phone):</h3>
+            <ul>
+                <li><strong>Call Encryption:</strong> Voice traffic between the Phone Box and the network is typically encrypted (e.g., using SRTP - Secure Real-time Transport Protocol), similar to Google Voice technology, to prevent eavesdropping on the internet portion of the call.</li>
+                <li><strong>Secure Account Management:</strong> Customer accounts protected by passwords and potentially two-factor authentication through their Google account.</li>
+                <li><strong>Protected Customer Data:</strong> Adherence to privacy policies regarding customer information and call data.</li>
+                <li><strong>E911 Service:</strong> Critical for emergency services. Accurate registered physical address is paramount. Technicians must verify and explain the importance to customers. VoIP E911 has specific behaviors during network/power outages that customers need to understand (reliance on UPS).</li>
+                <li><strong>Network Security:</strong> GFiber network infrastructure has security measures to protect against common VoIP attacks like Denial of Service (DoS).</li>
+            </ul>
+        </div>
+
+        <div class="technical-note">
+            <h3>Access Control & Account Types:</h3>
+            <table>
+                <tr>
+                    <th>Account Type</th>
+                    <th>Common Features/Access</th>
+                    <th>Potential Limitations/Considerations</th>
+                </tr>
+                <tr>
+                    <td>Residential</td>
+                    <td>Standard phone features, online portal for settings, voicemail access. Secondary users on the Google Fiber account may have some level of access.</td>
+                    <td>Typically one phone box/number per primary account. E911 address is tied to the primary service location.</td>
+                </tr>
+                <tr>
+                    <td>SMB (Small and Medium Business) - If Offered</td>
+                    <td>May include features like hunt groups, auto-attendant (or integration options). Enhanced support options.</td>
+                    <td>Different account management structure. May have stricter data handling or compliance needs depending on the business type. Secondary user management might differ.</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="warning">
+            <h3>Security & Compliance Considerations for Technicians:</h3>
+            <ul class="info-list security-considerations">
+                <li><strong>Protect Customer Account Information:</strong> Never share customer passwords or sensitive account details. Follow all data privacy guidelines.</li>
+                <li><strong>Ensure Proper Service Verification:</strong> Verify customer identity before making account changes or discussing sensitive information.</li>
+                <li><strong>Maintain Call Privacy:</strong> Do not listen to customer conversations unless explicitly required for troubleshooting and with their clear consent.</li>
+                <li><strong>Follow Compliance Guidelines:</strong> Adhere to all legal and regulatory requirements (e.g., CPNI - Customer Proprietary Network Information).</li>
+                <li><strong>E911 Accuracy:</strong> Stress the importance of keeping the registered E911 address accurate and up-to-date with the customer. Explain limitations if power/internet is down without a UPS.</li>
+                <li><strong>Secure Equipment Handling:</strong> Ensure any returned or replaced equipment is handled according to company policy to protect data.</li>
+                <li><strong>Awareness of Common Scams:</strong> Be aware of phone scams (e.g., port-out scams, tech support scams) and advise customers on how to protect themselves if the topic arises. Do not give out information that could facilitate these.</li>
+            </ul>
+        </div>
+        <div class="tip">
+            <strong>Technician Responsibility:</strong> You are a key part of maintaining customer trust. Always handle customer information and access with the utmost care and professionalism. If you suspect a security issue, report it through the proper channels immediately.
+        </div>
+    </div>
+</body>
+</html>
