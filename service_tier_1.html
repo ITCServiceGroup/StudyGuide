@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repair Technician Study Guide - Comprehensive</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
+
+        :root {
+            --primary-color: #2196F3;
+            --primary-dark: #1976D2;
+            --success-color: #4CAF50;
+            --warning-color: #ff9800;
+            --error-color: #f44336;
+            --bg-color: #f8f9fa;
+            --text-color: #2c3e50;
+            --border-color: #e0e0e0;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        .overview {
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--primary-color);
+            margin: 0 0 30px;
+            padding: 30px;
+            font-size: 1.1em;
+            line-height: 1.8;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .overview p { margin: 0; text-align: justify; }
+        .overview p::first-letter { font-size: 1.5em; font-weight: bold; }
+
+        .section {
+            margin-bottom: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        h1 {
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h2 { color: var(--primary-dark); margin: 25px 0 15px; font-size: 1.8em; font-weight: 600; }
+        h3 { color: var(--text-color); font-size: 1.4em; font-weight: 600; margin: 20px 0 10px; }
+
+        .key-point { background-color: #e3f2fd; padding: 20px; margin: 20px 0; border-left: 4px solid var(--primary-color); border-radius: var(--radius-sm); }
+        .tip { background-color: #fffbeb; padding: 20px; margin: 20px 0; border-left: 4px solid var(--warning-color); border-radius: var(--radius-sm); }
+        .warning { background-color: #fff5f5; padding: 20px; margin: 20px 0; border-left: 4px solid var(--error-color); border-radius: var(--radius-sm); }
+        .warning strong, .tip strong { display: block; margin-bottom: 5px; font-size: 1.1em;}
+
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 20px 0; border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-sm); }
+        th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); text-align: left; vertical-align: middle; }
+        th { background-color: #f1f5f9; color: var(--text-color); font-weight: 600; border-bottom: 2px solid var(--primary-color); }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: rgba(33, 150, 243, 0.05); }
+        table ul { margin: 0; padding-left: 20px; }
+
+        .info-list { list-style-type: disc; padding-left: 20px; }
+        .info-list li { margin-bottom: 8px; }
+        .info-list strong { color: var(--primary-dark); }
+        
+        .tab-container {
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            background-color: #fff;
+            border-radius: var(--radius-md) var(--radius-md) 0 0;
+            display: flex;
+        }
+        .tab-link {
+            background-color: inherit;
+            flex-grow: 1;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            font-size: 1.1em;
+            font-weight: 500;
+            color: var(--text-color);
+            border-bottom: 3px solid transparent;
+            text-align: center;
+        }
+        .tab-link:hover { background-color: #f1f1f1; }
+        .tab-link.active { color: var(--primary-color); border-bottom: 3px solid var(--primary-color); }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-top: none;
+            background-color: #fff;
+            border-radius: 0 0 var(--radius-md) var(--radius-md);
+        }
+
+        .accordion {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+            outline: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: 0.4s;
+        }
+        .accordion:first-of-type { border-radius: var(--radius-sm) var(--radius-sm) 0 0; }
+        .accordion:last-of-type { border-bottom: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm); }
+        .accordion:hover, .accordion.active { background-color: #e3f2fd; }
+        .accordion:after {
+            content: '\\002B'; /* Plus sign */
+            color: var(--primary-color);
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+        .accordion.active:after { content: "\\2212"; /* Minus sign */ }
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+        }
+        .panel-content { padding: 15px 0; }
+        img.placeholder { max-width: 100%; border-radius: var(--radius-sm); margin: 15px 0; box-shadow: var(--shadow-sm); border: 1px solid var(--border-color);}
+        
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.4em; }
+            th, td { padding: 8px; font-size: 0.85em; }
+            .tab-container { flex-direction: column; }
+            .accordion { padding: 12px; font-size: 1em; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Repair Technician Study Guide</h1>
+
+    <div class="overview">
+        <p>This guide provides a comprehensive overview of the Repair Technician role, covering the Services & Expectations and the Understanding of the Repair Process. It is broken down into three main sections: an introduction to repair visits covering scope and diagnostics, a deep dive into advanced networking fundamentals, and a review of best effort practices for customer education and device troubleshooting.</p>
+    </div>
+
+    <div class="tab-container">
+        <button class="tab-link active" onclick="openTab(event, 'Introduction')">Section 1: Introduction to Service Visits</button>
+        <button class="tab-link" onclick="openTab(event, 'Networking')">Section 2: Advanced Networking</button>
+        <button class="tab-link" onclick="openTab(event, 'BestEffort')">Section 3: Best Effort Practices</button>
+    </div>
+
+    <div id="Introduction" class="tab-content" style="display: block;">
+        <h2>Section 1: Introduction to Service Visits</h2>
+        <p>This section covers the foundational knowledge for a service visit, including scope of work, customer interaction, expected speeds, and structured processes for troubleshooting.</p>
+
+        <button class="accordion">Scope of Work & Best Effort</button>
+        <div class="panel"><div class="panel-content">
+            <h3>Scope of Work (Slide 4, 17)</h3>
+            <p>The Scope of Work defines how far we go during a service visit. It's in place so we are all on the same page and the customer receives consistent experience regardless of the technician.</p>
+            <div class="key-point">
+                <h4>Core Principles:</h4>
+                <ul>
+                    <li>Follow established <strong>Protocols & Procedures</strong>.</li>
+                    <li>Understand company <strong>Liability</strong> to avoid overstepping boundaries.</li>
+                    <li><strong>When in Doubt:</strong> Always reach out to your Lead Tech or Supervisor. Going outside the scope breaks the standard of work we all follow.</li>
+                </ul>
+            </div>
+            <h3>What is Best Effort? (Slide 8)</h3>
+            <p>Best Effort means following the installation and troubleshooting steps with the equipment we are assisting with. This includes:</p>
+            <ul class="info-list">
+                <li>Google Fiber CPE</li>
+                <li>Customer Owned Equipment (COE)</li>
+                <li>Customer Education</li>
+            </ul>
+        </div></div>
+        
+        <button class="accordion">Diffusing an Angry Customer (Slide 5)</button>
+        <div class="panel"><div class="panel-content">
+            <p>Effectively managing customer frustration is a critical first step. Remember, they are upset with the situation, not necessarily with you.</p>
+            <ol>
+                <li><strong>Listen without emotion:</strong> Give the customer your full attention and do not interrupt. When they are finished, let them know you were listening by calmly summarizing what they said.</li>
+                <li><strong>Let the customer know you are listening:</strong> Use active listening and acknowledge their points.</li>
+                <li><strong>Offer a Reply:</strong> Apologize, empathize, and maintain a calm and caring tone.</li>
+                <li><strong>Take Responsibility:</strong> Take responsibility for the situation, even if you aren't at fault. DO NOT pass the buck, offer excuses, or blame a previous technician.</li>
+                <li><strong>Resolve or Repair as Quickly as Possible:</strong> Be prepared with a plan of action and implement it soon.</li>
+                <li><strong>Follow Up:</strong> Before leaving, tell the customer what problems you found, what you did to fix them, and any preventative measures taken.</li>
+            </ol>
+        </div></div>
+
+        <button class="accordion">Internet Speeds (Minimum & Maximum)</button>
+        <div class="panel"><div class="panel-content">
+            <h3>Minimum Expected Speeds (Slide 6)</h3>
+            <p>All of these speeds are minimum expected speeds run in an incognito window on <strong>OUR Chromebooks</strong>. Customer's expected speeds will vary depending on their devices.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Plan</th>
+                        <th>Wired (Download/Upload Mbps)</th>
+                        <th>Wireless - Primary (Download/Upload Mbps)</th>
+                        <th>Wireless - Secondary (Download/Upload Mbps)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>100/300/500 Meg</td><td>≥ 85 / n/a</td><td>n/a</td><td>n/a</td></tr>
+                    <tr><td>1 Gig</td><td>≥ 850 / ≥ 850</td><td>≥ 450 / ≥ 170</td><td>≥ 170 / ≥ 170</td></tr>
+                    <tr><td>2 Gig</td><td>≥ 1700 / ≥ 850</td><td>≥ 575 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td><td>≥ 300 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td></tr>
+                    <tr><td>5 Gig</td><td>≥ 4250 / ≥ 4250</td><td>≥ 700 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td><td>≥ 300 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td></tr>
+                    <tr><td>8 Gig</td><td>≥ 6800 / ≥ 6800</td><td>≥ 700 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td><td>≥ 300 (and RSSI -65 or better) / ≥ 300 (and RSSI -65 or better)</td></tr>
+                </tbody>
+            </table>
+            <div class="warning"><strong>If speeds do not meet the minimum acceptable criteria:</strong>
+                <ul>
+                    <li>Troubleshoot Device Connections</li>
+                    <li>Recheck all connections</li>
+                    <li>Power cycle applicable devices</li>
+                    <li>Contact Google Fiber Support Desk (Contact Dispatch to get ahold of IST/GFSD)</li>
+                </ul>
+            </div>
+            
+            <h3>Maximum Wireless Speeds & Limiting Factors (Slide 7)</h3>
+            <p>These are the <strong>maximum</strong> wireless speeds for each given network card. These should not necessarily be expected by the customer, as a multitude of factors play into the speeds your devices push.</p>
+            <table>
+                <tr><th>Device Type</th><th>Release Date</th><th>802.11 version</th><th>Maximum possible speed</th></tr>
+                <tr><td rowspan="4">Mobile Devices</td><td>2020-present</td><td>802.11ax (Wi-Fi 6)</td><td>500 Mbps</td></tr>
+                <tr><td>2013-present</td><td>802.11ac</td><td>180 Mbps-390 Mbps</td></tr>
+                <tr><td>2007-2010</td><td>802.11n</td><td>90 Mbps</td></tr>
+                <tr><td>2006 or earlier</td><td>802.11a/b/g</td><td>32 Mbps</td></tr>
+                <tr><td rowspan="4">Computers</td><td>2020-present</td><td>802.11ax (Wi-Fi 6)</td><td>700 Mbps</td></tr>
+                <tr><td>2013-present</td><td>802.11ac</td><td>195 Mbps-685 Mbps</td></tr>
+                <tr><td>2007-2010</td><td>802.11n</td><td>90 Mbps-180 Mbps</td></tr>
+                <tr><td>2006 or earlier</td><td>802.11a/b/g</td><td>32 Mbps</td></tr>
+            </table>
+            <h4>Factors Affecting Speed:</h4>
+            <ul class="info-list">
+                <li><strong>Out-of-date hardware:</strong> The type of hardware you use, age of the device, operating system, web browser, network interface card (NIC), available RAM, Hard Drive Space, and other applications all affect speed.</li>
+                <li><strong>Network Path:</strong> Slow connections between Google Fiber's network and the websites you visit can reduce speed due to heavy traffic or suboptimal routing.</li>
+                <li><strong>VPNs (Virtual Private Networks):</strong> If the VPN's server isn't capable of forwarding traffic at 1 gigabit, your speed may be reduced to the speed the VPN server is capable of.</li>
+                <li><strong>Latency:</strong> The measurement of how long it takes to transmit or receive packets. Affected by distance and the number of network packets to travel over.</li>
+                <li><strong>Packet loss:</strong> Occurs when packets fail to arrive. Caused by network congestion, faulty hardware, poor device performance, or software bugs.</li>
+            </ul>
+        </div></div>
+        
+        <button class="accordion active">Six Steps of Troubleshooting (Slides 18-25)</button>
+        <div class="panel" style="max-height: fit-content;"><div class="panel-content">
+            <p>A systematic method for problem-solving that ensures time is spent assessing the situation and determining what needs to be changed.</p>
+            <ol>
+                <li><strong>Identify the Problem:</strong>
+                    <ul>
+                        <li>Look at <strong>Previous</strong> Ticket Notes.</li>
+                        <li>Ask the Customer <strong>Relevant</strong> Questions.</li>
+                        <li><strong>Examine</strong> the Physical Layer.</li>
+                    </ul>
+                </li>
+                <li><strong>Establish a Theory of Probable Cause:</strong>
+                    <ul>
+                        <li>Make a List of Probable Causes using your knowledge.</li>
+                        <li>Prioritize the List and Question the Obvious.</li>
+                    </ul>
+                </li>
+                <li><strong>Test Potential Solutions:</strong>
+                    <ul>
+                        <li>Create your theory from the <strong>Most Probable Cause</strong>.</li>
+                        <li>If the Theory is <strong>Confirmed</strong>, Move On.</li>
+                        <li>If the Theory is <strong>NOT Confirmed</strong>, go back and establish a new theory or escalate.</li>
+                    </ul>
+                </li>
+                <li><strong>Act on Potential Solutions:</strong>
+                    <ul>
+                        <li>Plug-in Power Supply, Clean the Fiber, Factory/Circuit Reset, Escalate.</li>
+                    </ul>
+                </li>
+                <li><strong>Test, Analyze & Prevent:</strong>
+                    <ul>
+                        <li>Verify full system functionality is restored.</li>
+                        <li>Implement preventative measures so the problem does not occur again.</li>
+                        <li>If not fully functional, go back to step one.</li>
+                    </ul>
+                </li>
+                <li><strong>Evaluate and Report the Outcome:</strong>
+                    <ul>
+                        <li><strong>Document</strong> and <strong>Notate</strong> Findings, Actions Taken, and Outcomes.</li>
+                        <li><strong>Educate</strong> the Customer on what you found and what you changed.</li>
+                    </ul>
+                    <div class="tip"><strong>Notate, Notate, Notate.</strong> Clear and detailed notes are crucial.</div>
+                </li>
+            </ol>
+        </div></div>
+
+        <button class="accordion">Life of a Service Visit (Slide 26)</button>
+        <div class="panel"><div class="panel-content">
+            <p>This outlines the typical flow and required steps of a service visit, closely following the troubleshooting methodology.</p>
+            <ol>
+                <li><strong>Customer Consultation & Walkthrough:</strong> Identifying the problem, verifying CPE location and status.</li>
+                <li><strong>Check Light Levels:</strong> Clean Fiber, Check Cap Orientation. <span style="color:var(--error-color);"><strong>Failing Light:</strong> @NIU - Escalate ticket through dispatch. @ONT - Replace FPC.</span></li>
+                <li><strong>Inspect and Test Cabling:</strong> Power Supplies, RJ-45/RG-6 Fittings, CAT5e/COAX Cable. <span style="color:var(--error-color);"><strong>Failing:</strong> Replace if necessary.</span></li>
+                <li><strong>Troubleshoot Equipment:</strong> Run speed tests, Power Cycle, Factory Reset, Test Cables, Swap CPE, use WiFi Analyzer. <span style="color:var(--error-color);"><strong>Failing:</strong> Replace if necessary. Relocate CPE if poor placement.</span></li>
+                <li><strong>Health Check & Call IST:</strong> Run Health Check & Diagnostics, Troubleshoot with IST. <span style="color:var(--error-color);"><strong>Escalate Ticket</strong> if Account issues are found.</span></li>
+                <li><strong>Verify Speeds & All Services:</strong> On Chromebook and Customer Equipment, including TV Service.</li>
+                <li><strong>Set Customer Expectations & Close-out:</strong> Educate the customer and <strong>Notate, Notate, Notate.</strong></li>
+            </ol>
+        </div></div>
+
+        <button class="accordion">Post-Install QA / Donovan (Slides 27-28)</button>
+        <div class="panel"><div class="panel-content">
+            <p>Any account that has been serviced within the previous 30 days of the current truck roll is due for a Post-Install QA.</p>
+            <h4>Process Steps:</h4>
+            <ol>
+                <li>Follow the link to the Donovan Doc: <strong>Post-Install QA</strong>.</li>
+                <li>Enter the <strong>Previous Ticket ID</strong> and the <strong>Current Repair Ticket ID</strong>.</li>
+                <li>Enter the <strong>Previous technician's LDAP</strong> and select the <strong>Repeat Type</strong>.</li>
+                <li>Go through the entire physical layer and all previous ticket notes, grading the work of the previous technician.</li>
+                <li>Once the form is complete, submit it and forward the completed form to the previous technician's supervisor.</li>
+            </ol>
+        </div></div>
+    </div>
+
+    <div id="Networking" class="tab-content">
+        <h2>Section 2: Advanced Networking</h2>
+        <p>This section explores technical networking topics including Wi-Fi fundamentals, IP addressing, and essential network protocols. This contains pertinent information for daily jobs as service technicians.</p>
+
+        <button class="accordion">Wi-Fi Fundamentals (Slides 33-43)</button>
+        <div class="panel"><div class="panel-content">
+            <h3>How Wi-Fi Works (Slide 35)</h3>
+            <p>Simply put, Wi-Fi transmits radio waves. It operates on two different ISM (Industrial, Scientific, and Medical) bands, 2.4GHz and 5GHz networks. Radio waves can be impacted by numerous factors, which can affect the overall signal quality, speed, and range.</p>
+            
+            <h3>2.4 GHz vs 5 GHz Networks (Slide 37)</h3>
+            <table>
+                <tr><th>Feature</th><th>2.4 GHz Network</th><th>5 GHz Network</th></tr>
+                <tr><td>Range/Penetration</td><td><strong>Better</strong> range and penetration</td><td><strong>Weaker</strong> range and penetration</td></tr>
+                <tr><td>Interference</td><td><strong>More</strong> susceptible</td><td><strong>Less</strong> susceptible</td></tr>
+                <tr><td>Throughput</td><td>Much <strong>slower</strong></td><td>Much <strong>faster</strong></td></tr>
+                <tr><td>Channels</td><td>Offers only <strong>11 channels</strong> (3 non-overlapping: 1, 6, 11)</td><td>Offers <strong>23 channels</strong> (more space)</td></tr>
+            </table>
+            
+            <h3>Channel Bonding & Interference (Slides 39-41)</h3>
+            <p>Think of it like an information highway. A single lane (20 MHz) causes traffic congestion. Channel Bonding opens up more lanes (40, 80, 160 MHz), allowing more information to pass with less resistance.</p>
+            <ul class="info-list">
+                <li>802.11n allows up to <strong>40 MHz</strong> channel bonding.</li>
+                <li>802.11ac allows up to <strong>80 MHz</strong> channel bonding.</li>
+            </ul>
+            <p>The more overlapping networks you have, the greater the chance of network interference. Multi-Channel Bonded signals give your devices more options for a clear path to pass information.</p>
+            
+            <h3>Potential Sources of Wi-Fi Interference (Slide 42)</h3>
+            <ul class="info-list">
+                <li><strong>Structural:</strong> Dense Walls, Metal & Concrete, Mirrors</li>
+                <li><strong>Appliances:</strong> TVs, Refrigerators, Microwaves</li>
+                <li><strong>Other Electronics:</strong> Baby Monitors, Bluetooth Devices, Cordless Phones</li>
+            </ul>
+             <div class="tip"><strong>Importance of Device Placement:</strong> The best place for a router is in a central, open location. A cabinet, behind a TV, or in the basement are not optimal locations for signal propagation.</div>
+        </div></div>
+        
+        <button class="accordion">Network Models & Addressing (Slides 45-51)</button>
+        <div class="panel"><div class="panel-content">
+            <h3>TCP/IP vs OSI Model (Slide 46)</h3>
+            <p>We primarily deal with the lower layers:</p>
+            <ul class="info-list">
+                <li><strong>Layer 3 (Network Layer):</strong> This would be your routers. It handles all of your routing, IP addresses, etc. Also handles packets of data.</li>
+                <li><strong>Layer 2 (Data Link Layer):</strong> This would be your switches. It only concerns itself with MAC addresses and handles frames of data.</li>
+                <li><strong>Layer 1 (Physical Layer):</strong> This would be all your cables, network cards, etc. It handles raw bits of data.</li>
+            </ul>
+            
+            <h3>MAC vs IP Address (Slides 47-48)</h3>
+            <ul class="info-list">
+                <li><strong>MAC Address:</strong> A unique, hard-coded 12-digit hexadecimal identifier for a network interface (Ethernet, Wi-Fi). It's like a device's fingerprint, operating at Layer 2.</li>
+                <li><strong>IP Address:</strong> A unique address for a device on a network, assigned for communication. It's like a house's mailing address, operating at Layer 3.</li>
+            </ul>
+            
+            <h3>IPv4 vs IPv6 (Slide 49)</h3>
+             <table>
+                <tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr>
+                <tr><td>Format</td><td>Dotted-Decimal (e.g., 23.255.220.250)</td><td>Hexadecimal (e.g., 2605:a6...:2f27)</td></tr>
+                <tr><td>Address Space</td><td>32 bits (~4.3 billion addresses)</td><td>128 bits (Inexhaustible Supply)</td></tr>
+            </table>
+            <p>The increase in devices per household (from ~5 to ~50 between 2015-2020) prompted the creation of IPv6.</p>
+
+            <h3>IP Types (Static, Dynamic, Public, Private) (Slides 50-51)</h3>
+            <ul class="info-list">
+                <li><strong>Static IP:</strong> Does not change. Only supported on SMB.</li>
+                <li><strong>Dynamic IP:</strong> Changes over time. Supported on Residential and SMB.</li>
+                <li><strong>Public (External) IP:</strong> Assigned by your ISP. Identifies your network to the internet.</li>
+                <li><strong>Private (Local) IP:</strong> Assigned by your router. Identifies devices within your home network.</li>
+            </ul>
+        </div></div>
+
+        <button class="accordion">Core Network Protocols (Slides 52-59)</button>
+        <div class="panel"><div class="panel-content">
+            <h3>DHCP, APIPA, DNS (Slides 52-55)</h3>
+            <ul class="info-list">
+                <li><strong>DHCP (Dynamic Host Configuration Protocol):</strong> Automatically assigns <strong>private IP addresses</strong> to devices on a network.</li>
+                <li><strong>APIPA (Automatic Private IP Addressing):</strong> A fallback that self-assigns an IP if DHCP fails. An IP address starting with <strong>169.254.x.x</strong> indicates a problem with DHCP routing.</li>
+                <li><strong>DNS (Domain Name System):</strong> A phone book for the internet. Translates domain names (e.g., google.com) to IP addresses.
+                    <div class="tip"><strong>Troubleshooting DNS on Chromebook:</strong> Open Crosh (CTRL+ALT+T). Type `ping [ip address]` or `ping [domain name]`. If pinging the IP works but the name fails, the issue is DNS.</div>
+                </li>
+                <li><strong>Dynamic DNS:</strong> Automatically updates a server in the DNS system. Useful for remote access, Active Directory, or changing device locations. Can be used in lieu of a static IP for residential customers.</li>
+            </ul>
+            
+            <h3>NAT, Subnets, Port Forwarding (Slides 56-58)</h3>
+            <ul class="info-list">
+                <li><strong>NAT (Network Address Translation):</strong> Allows a router to use a single public IP to represent a whole private network.
+                    <div class="warning"><strong>Double NAT:</strong> Caused by two unbridged routers both performing NAT. Devices on different routers can't communicate, blocking access to game servers, printers, etc.</div>
+                </li>
+                <li><strong>Subnet/Subnet Mask:</strong> A subnet is a logical subdivision of a network. A subnet mask is an identifier for routing traffic within that subnet.</li>
+                <li><strong>Port Forwarding:</strong> Opens ports in a firewall to allow outside traffic to reach a specific device for services like IP cameras or game servers.
+                    <div class="warning">Forwarding will break if the device's IP address is not static or reserved.</div>
+                </li>
+                <li><strong>UPnP (Universal Plug and Play):</strong> Allows for automatic port forwarding. It's on by default but can be unreliable and a security risk.</li>
+                <li><strong>DMZ (Demilitarized Zone):</strong> Places a device <strong>outside the firewall</strong>, allowing ANY device to reach it.
+                    <div class="warning"><strong>NEVER place or suggest a customer place their devices in the DMZ.</strong> It's a huge liability.</div>
+                </li>
+            </ul>
+        </div></div>
+    </div>
+
+    <div id="BestEffort" class="tab-content">
+        <h2>Section 3: Best Effort Practices & Device Scope</h2>
+        <p>This section details the scope of support for various third-party devices and services. The core principle is <strong>"You own it once you touch it,"</strong> meaning we must be careful and knowledgeable when assisting with customer-owned equipment.</p>
+
+        <button class="accordion">Printers</button>
+        <div class="panel"><div class="panel-content">
+            <p><strong>What we DO support:</strong></p>
+            <ul>
+                <li><strong>Network printing ONLY.</strong> We can help connect a network-capable printer to the Wi-Fi.</li>
+                <li>Maximum of <strong>one</strong> printer per household.</li>
+            </ul>
+            <p><strong>What we DO NOT support:</strong></p>
+            <ul>
+                <li>Scanner, direct printing, or other setups.</li>
+                <li>Driver or software installation.</li>
+                <li>File sharing setups.</li>
+                <li><strong>Local Printing (e.g., USB):</strong> We do not set up local printing.</li>
+            </ul>
+            <div class="tip">Every printer is different. Use Google as a resource. Make sure the customer knows all information and settings may be reconfigured. <strong>Once you touch it, you own it.</strong></div>
+        </div></div>
+
+        <button class="accordion">Routers (Bridging)</button>
+        <div class="panel"><div class="panel-content">
+            <h4>Bridging Routers (Slides 71-72)</h4>
+            <p>We can "bridge" routers to act as an access point and assist in setting up a mesh network. Most customers only need one router bridged. Bridging drops a router from a Layer 3 device (router) to a Layer 2 device (switch with Wi-Fi).</p>
+            <div class="warning"><strong>Double NAT:</strong> Occurs when two routers are not bridged, preventing communication between devices on each network and blocking access to game servers, FTP, printers, etc.</div>
+            
+            <h4>How to Bridge a Router (General Steps - Slide 73):</h4>
+            <ol>
+                <li><strong>Always get customer permission before doing this.</strong></li>
+                <li><strong>Factory Reset the Router:</strong> Clears custom settings.</li>
+                <li><strong>Disable all internet</strong> on the bridging computer (including mobile data).</li>
+                <li>Plug your computer into one of the router's <strong>LAN ports</strong>.</li>
+                <li><strong>Login to the router</strong> (e.g., admin/admin, admin/password).</li>
+                <li>Configure the Wi-Fi and <strong>Enable Bridge Mode</strong> (or AP Mode).</li>
+                <li>Plug an internet source (NB or G-Wifi Point) into the router's <strong>LAN port</strong>.</li>
+                <li><strong>Verify full functionality</strong> (Wi-Fi bands and Web Access/DNS).</li>
+            </ol>
+            
+            <h4>Apple Airport Utility (Slide 74)</h4>
+            <p>Apple routers are much easier to set up. Connect to the same network and the utility will find the devices.</p>
+            <ul>
+                <li><strong>On the Primary Base Station:</strong> go to Network Tab: Router Mode: Off (Bridge Mode)</li>
+                <li><strong>On Time Capsule:</strong> go to Disk Tab: Enable File Sharing. Then run the Time Machine program on their MAC to verify it's functioning.</li>
+            </ul>
+            <div class="warning">We do <strong>not</strong> configure or adjust backups or settings!</div>
+        </div></div>
+
+        <button class="accordion">Unsupported Devices & Services</button>
+        <div class="panel"><div class="panel-content">
+            <div class="key-point">For all unsupported devices, the general rule is: you can provide customer education, but you are <strong>not allowed to touch or configure</strong> the device. You should direct the customer to the <strong>KB port forwarding article</strong> for reference if applicable.</div>
+            <ul class="info-list">
+                <li><strong>Home Theatre Systems:</strong> Keep it simple (soundbars, basic receivers). This is best effort. Only do what you are comfortable with.</li>
+                <li><strong>VPN (Virtual Private Network):</strong> WE DO NOT SUPPORT VPNs.</li>
+                <li><strong>Security Systems (CCTV):</strong> WE DO NOT SUPPORT SECURITY SYSTEMS. Do not touch or configure DVRs/NDRs or cameras.</li>
+                <li><strong>VoIP:</strong> We <strong>DO</strong> connect VoIP systems to the internet via Ethernet. We <strong>DO NOT</strong> connect phone lines/jacks or configure the device.</li>
+                <li><strong>IoT & Home Automation:</strong> WE DO NOT SUPPORT THESE DEVICES. If the problem is connection-related, verify Wi-Fi is working from your laptop. If it's a firewall/NAT issue, educate and direct to the KB article.</li>
+            </ul>
+        </div></div>
+
+        <button class="accordion">Customer Devices</button>
+        <div class="panel"><div class="panel-content">
+            <p>This can be a tricky area. We want to resolve issues without going too far.</p>
+            <p><strong>What we CAN do:</strong></p>
+            <ul>
+                <li>Investigate and solve <strong>network related problems only</strong>.</li>
+                <li>Use DOS commands, reset the TCP/IP stack, configure basic settings, etc.</li>
+                <li>Install a web browser (preferably Chrome from an official site) to isolate browser and connection issues.</li>
+            </ul>
+            <p><strong>What we DO NOT do:</strong></p>
+            <ul>
+                <li>Install drivers or updates.</li>
+                <li>Uninstall software.</li>
+                <li>Troubleshoot 3rd party problems (e.g., email clients, tune-up devices).</li>
+            </ul>
+        </div></div>
+
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tab-content");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab-link");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        var acc = document.getElementsByClassName("accordion");
+        for (let i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
