@@ -179,6 +179,8 @@
 
     <div id="Introduction" class="tab-content" style="display: block;">
         <h2>Section 1: Introduction to Service Visits</h2>
+        <p>Service visits are the cornerstone of delivering exceptional technical support, requiring a methodical approach that balances technical expertise with customer service excellence. This section provides essential guidance on executing successful service visits, from understanding scope boundaries and speed expectations to implementing structured troubleshooting procedures. You'll learn how to effectively manage customer interactions, evaluate network performance across different service tiers, and follow our six-step troubleshooting methodology. Through this systematic approach, you'll be equipped to handle a wide range of service scenarios while maintaining consistent quality standards.</p>
+
         <p>This section covers the foundational knowledge for a service visit, including scope of work, customer interaction, expected speeds, and structured processes for troubleshooting.</p>
 
         <button class="accordion">Scope of Work & Best Effort</button>
@@ -215,8 +217,8 @@
             </ol>
         </div></div>
 
-        <button class="accordion">Internet Speeds (Minimum & Maximum)</button>
-        <div class="panel"><div class="panel-content">
+        <button class="accordion active">Internet Speeds (Minimum & Maximum)</button>
+        <div class="panel" style="max-height: fit-content;"><div class="panel-content">
             <h3>Minimum Expected Speeds (Slide 6)</h3>
             <p>All of these speeds are minimum expected speeds run in an incognito window on <strong>OUR Chromebooks</strong>. Customer's expected speeds will vary depending on their devices.</p>
             <table>
@@ -245,31 +247,62 @@
                 </ul>
             </div>
             
-            <h3>Maximum Wireless Speeds & Limiting Factors (Slide 7)</h3>
-            <p>These are the <strong>maximum</strong> wireless speeds for each given network card. These should not necessarily be expected by the customer, as a multitude of factors play into the speeds your devices push.</p>
+            <h3 id="max-speeds-updated">Maximum Wireless Speeds & Limiting Factors</h3>
+            <div class="key-point">
+                <p>These are the maximum wireless speeds for each given network card. These speeds should not necessarily be expected by the customer; there are a multitude of factors that play into the speeds your device pushes.</p>
+                <p>Although Google Fiber provides incredibly fast network speeds, there are a number of situations that can cause your network speeds to slow down.</p>
+            </div>
+            
+            <h4>Real-World Speeds by Wi-Fi Standard & Device Type (Updated Information)</h4>
             <table>
-                <tr><th>Device Type</th><th>Release Date</th><th>802.11 version</th><th>Maximum possible speed</th></tr>
-                <tr><td rowspan="4">Mobile Devices</td><td>2020-present</td><td>802.11ax (Wi-Fi 6)</td><td>500 Mbps</td></tr>
-                <tr><td>2013-present</td><td>802.11ac</td><td>180 Mbps-390 Mbps</td></tr>
-                <tr><td>2007-2010</td><td>802.11n</td><td>90 Mbps</td></tr>
-                <tr><td>2006 or earlier</td><td>802.11a/b/g</td><td>32 Mbps</td></tr>
-                <tr><td rowspan="4">Computers</td><td>2020-present</td><td>802.11ax (Wi-Fi 6)</td><td>700 Mbps</td></tr>
-                <tr><td>2013-present</td><td>802.11ac</td><td>195 Mbps-685 Mbps</td></tr>
-                <tr><td>2007-2010</td><td>802.11n</td><td>90 Mbps-180 Mbps</td></tr>
-                <tr><td>2006 or earlier</td><td>802.11a/b/g</td><td>32 Mbps</td></tr>
+                <thead>
+                    <tr>
+                        <th>Wi-Fi Standard (IEEE)</th>
+                        <th>Year Released</th>
+                        <th>Bands Used</th>
+                        <th>Typical Real-World Speeds (Laptop/Desktop)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Wi-Fi 5</strong> (802.11ac)</td>
+                        <td>2014</td>
+                        <td>5 GHz</td>
+                        <td>200 - 700 Mbps</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wi-Fi 6</strong> (802.11ax)</td>
+                        <td>2019</td>
+                        <td>2.4, 5 GHz</td>
+                        <td>600 Mbps - 1.2 Gbps</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wi-Fi 6E</strong> (802.11ax)</td>
+                        <td>2021</td>
+                        <td>2.4, 5, <strong>6 GHz</strong></td>
+                        <td>800 Mbps - 1.6 Gbps</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Wi-Fi 7</strong> (802.11be)</td>
+                        <td>2024</td>
+                        <td>2.4, 5, <strong>6 GHz</strong></td>
+                        <td>1.5 Gbps - 5.8 Gbps+</td>
+                    </tr>
+                </tbody>
             </table>
-            <h4>Factors Affecting Speed:</h4>
+
+            <h4>Factors That Can Slow Your Network Speed</h4>
             <ul class="info-list">
-                <li><strong>Out-of-date hardware:</strong> The type of hardware you use, age of the device, operating system, web browser, network interface card (NIC), available RAM, Hard Drive Space, and other applications all affect speed.</li>
-                <li><strong>Network Path:</strong> Slow connections between Google Fiber's network and the websites you visit can reduce speed due to heavy traffic or suboptimal routing.</li>
-                <li><strong>VPNs (Virtual Private Networks):</strong> If the VPN's server isn't capable of forwarding traffic at 1 gigabit, your speed may be reduced to the speed the VPN server is capable of.</li>
-                <li><strong>Latency:</strong> The measurement of how long it takes to transmit or receive packets. Affected by distance and the number of network packets to travel over.</li>
-                <li><strong>Packet loss:</strong> Occurs when packets fail to arrive. Caused by network congestion, faulty hardware, poor device performance, or software bugs.</li>
+                <li><strong>Out-of-date hardware:</strong> The type of hardware you use, age of the device, operating system, web browser, network interface card (NIC), available RAM, Hard Drive Space, and other applications running on your device all affect upload and download speeds.</li>
+                <li><strong>Slow connections between Google Fiber's network and the websites you visit:</strong> Once your communication leaves the Fiber network, we can’t ensure you’ll receive maximum speeds due to heavy traffic or substantial rerouting delays at any time.</li>
+                <li><strong>VPNs (Virtual Private Networks):</strong> If the VPN’s server isn’t capable of forwarding traffic at 1 gigabit, your Internet speed may be reduced to the speed the VPN server is capable of.</li>
+                <li><strong>Latency:</strong> Latency is the measurement of how long it takes to transmit or receive packets on a particular network, and is affected by how far packets need to travel, how many network packets need to travel over, and the quality of those networks.</li>
+                <li><strong>Packet loss:</strong> Like latency, packet loss can have a number of different causes, including network congestion, faulty hardware, poor device performance or the presence of software bugs.</li>
             </ul>
         </div></div>
         
-        <button class="accordion active">Six Steps of Troubleshooting (Slides 18-25)</button>
-        <div class="panel" style="max-height: fit-content;"><div class="panel-content">
+        <button class="accordion">Six Steps of Troubleshooting</button>
+        <div class="panel"><div class="panel-content">
             <p>A systematic method for problem-solving that ensures time is spent assessing the situation and determining what needs to be changed.</p>
             <ol>
                 <li><strong>Identify the Problem:</strong>
@@ -344,27 +377,71 @@
 
     <div id="Networking" class="tab-content">
         <h2>Section 2: Advanced Networking</h2>
-        <p>This section explores technical networking topics including Wi-Fi fundamentals, IP addressing, and essential network protocols. This contains pertinent information for daily jobs as service technicians.</p>
+        <p>Advanced networking knowledge forms the backbone of effective technical support, encompassing crucial concepts from Wi-Fi fundamentals to complex networking protocols. This section delves into essential technical components including Wi-Fi frequency bands, IP addressing schemes, and core networking protocols that impact daily operations. Understanding these concepts enables technicians to diagnose issues more effectively, explain technical concepts to customers clearly, and implement solutions that address the root cause of network problems. Through comprehensive coverage of both theoretical foundations and practical applications, you'll develop the technical expertise needed to handle sophisticated networking challenges.</p>
+
+        <p>This section provides in-depth coverage of networking fundamentals, including Wi-Fi technology, IP addressing, and essential protocols that impact service delivery.</p>
 
         <button class="accordion">Wi-Fi Fundamentals (Slides 33-43)</button>
         <div class="panel"><div class="panel-content">
             <h3>How Wi-Fi Works (Slide 35)</h3>
-            <p>Simply put, Wi-Fi transmits radio waves. It operates on two different ISM (Industrial, Scientific, and Medical) bands, 2.4GHz and 5GHz networks. Radio waves can be impacted by numerous factors, which can affect the overall signal quality, speed, and range.</p>
+            <p>Simply put, Wi-Fi transmits radio waves. It operates on different ISM (Industrial, Scientific, and Medical) bands. Radio waves can be impacted by numerous factors, which can affect the overall signal quality, speed, and range.</p>
             
-            <h3>2.4 GHz vs 5 GHz Networks (Slide 37)</h3>
+            <h3>2.4 GHz vs 5 GHz vs 6 GHz Networks</h3>
             <table>
-                <tr><th>Feature</th><th>2.4 GHz Network</th><th>5 GHz Network</th></tr>
-                <tr><td>Range/Penetration</td><td><strong>Better</strong> range and penetration</td><td><strong>Weaker</strong> range and penetration</td></tr>
-                <tr><td>Interference</td><td><strong>More</strong> susceptible</td><td><strong>Less</strong> susceptible</td></tr>
-                <tr><td>Throughput</td><td>Much <strong>slower</strong></td><td>Much <strong>faster</strong></td></tr>
-                <tr><td>Channels</td><td>Offers only <strong>11 channels</strong> (3 non-overlapping: 1, 6, 11)</td><td>Offers <strong>23 channels</strong> (more space)</td></tr>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>2.4 GHz Network</th>
+                        <th>5 GHz Network</th>
+                        <th>6 GHz Network (Wi-Fi 6E/7)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Range</strong></td>
+                        <td>Longest range. [1]</td>
+                        <td>Medium range.</td>
+                        <td>Shortest range. [12, 13]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Penetration</strong></td>
+                        <td>Best penetration through walls/obstacles. [5, 12]</td>
+                        <td>Weaker penetration.</td>
+                        <td>Poorest penetration through obstacles. [12, 13]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Speed</strong></td>
+                        <td>Slower speeds. [1]</td>
+                        <td>Faster speeds. [1]</td>
+                        <td>Fastest speeds, ideal for multi-gigabit performance. [3, 8]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interference</strong></td>
+                        <td>High interference from many devices (microwaves, Bluetooth). [4, 5]</td>
+                        <td>Lower interference than 2.4 GHz.</td>
+                        <td>Lowest interference; it's an exclusive "superhighway" for new devices. [6, 11]</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Channels</strong></td>
+                        <td>11 channels (3 non-overlapping: 1, 6, 11). [4]</td>
+                        <td>23+ channels, allowing for more non-overlapping options.</td>
+                        <td>Up to 59 new 20 MHz channels, providing vast, uncongested space. [18]</td>
+                    </tr>
+                </tbody>
             </table>
             
+            <div class="key-point">
+                <h4>Understanding the 6 GHz Band</h4>
+                <p>The 6 GHz band is a new, expansive frequency (5.925 GHz to 7.125 GHz) made available for Wi-Fi 6E and Wi-Fi 7 devices. [2, 6] Its main advantage is that it is a "clean" band, free from interference from older, legacy Wi-Fi devices. [1, 2] This leads to more reliable, lower-latency connections, especially in dense environments. [3, 8] However, the shorter wavelength means it has the most difficulty passing through walls and solid objects, making it best for high-performance use in the same room as the router. [13]</p>
+            </div>
+
             <h3>Channel Bonding & Interference (Slides 39-41)</h3>
             <p>Think of it like an information highway. A single lane (20 MHz) causes traffic congestion. Channel Bonding opens up more lanes (40, 80, 160 MHz), allowing more information to pass with less resistance.</p>
             <ul class="info-list">
                 <li>802.11n allows up to <strong>40 MHz</strong> channel bonding.</li>
                 <li>802.11ac allows up to <strong>80 MHz</strong> channel bonding.</li>
+                <li>Wi-Fi 6/6E can use up to <strong>160 MHz</strong> channels. [14]</li>
+                <li>Wi-Fi 7 doubles that to <strong>320 MHz</strong> channels in the 6 GHz band for massive throughput. [14, 17]</li>
             </ul>
             <p>The more overlapping networks you have, the greater the chance of network interference. Multi-Channel Bonded signals give your devices more options for a clear path to pass information.</p>
             
@@ -374,17 +451,61 @@
                 <li><strong>Appliances:</strong> TVs, Refrigerators, Microwaves</li>
                 <li><strong>Other Electronics:</strong> Baby Monitors, Bluetooth Devices, Cordless Phones</li>
             </ul>
+            
+            <h3>Wi-Fi Encryption (WPA)</h3>
+            <p>Wi-Fi encryption is a security protocol for wireless networks that encrypts the data being transmitted, preventing unauthorized access. Using the strongest available encryption is crucial for protecting user privacy and data.</p>
+            <ul class="info-list">
+                <li><strong>WPA (Wi-Fi Protected Access):</strong> An older protocol that replaced the original, insecure WEP standard. It is now considered outdated and vulnerable.</li>
+                <li><strong>WPA2 (Wi-Fi Protected Access II):</strong> The long-time standard for security, using strong AES encryption. It is still widely used and secure for most purposes, but is being superseded by WPA3.</li>
+                <li><strong>WPA3 (Wi-Fi Protected Access 3):</strong> The current and most secure standard. It provides more robust authentication and increased cryptographic strength, making it much harder for attackers to crack passwords and eavesdrop on traffic, even on public networks.</li>
+            </ul>
+            <div class="warning">
+                <strong>Encryption's Impact on Wi-Fi Speed</strong>
+                <p>It is critical to understand that the choice of encryption protocol directly impacts the maximum possible speed of a Wi-Fi network.</p>
+                <ul class="info-list">
+                    <li><strong>WPA (with TKIP):</strong> The original WPA protocol uses an encryption method called TKIP. The Wi-Fi standard (802.11n and newer) specifies that if TKIP is used, the network speed <strong>cannot exceed 54 Mbps</strong>. This is a hard-coded limitation to ensure network stability, as TKIP was not designed for the high throughput of modern Wi-Fi.</li>
+                    <li><strong>WPA2 & WPA3 (with AES):</strong> To achieve speeds greater than 54 Mbps (such as the 144+ Mbps rates of Wi-Fi 4 and beyond), the network <strong>must</strong> be configured to use at least WPA2 with AES encryption. WPA3 also uses AES-based encryption and is required for the highest performance modes of Wi-Fi 6 and Wi-Fi 7.</li>
+                </ul>
+                <p>Therefore, if a network is slow, checking for an outdated WPA/TKIP security setting can be a valid troubleshooting step, as it creates a significant performance bottleneck.</p>
+            </div>
+            <div class="tip"><strong>Best Practice:</strong> Always configure a customer's network to use the highest level of security supported by their router and devices, which is ideally WPA3. If WPA3 is not available, WPA2-AES is the minimum secure standard that should be used.</div>
+
              <div class="tip"><strong>Importance of Device Placement:</strong> The best place for a router is in a central, open location. A cabinet, behind a TV, or in the basement are not optimal locations for signal propagation.</div>
         </div></div>
         
         <button class="accordion">Network Models & Addressing (Slides 45-51)</button>
         <div class="panel"><div class="panel-content">
+            <p>Understanding network models and addressing is fundamental to network troubleshooting, as it explains how data moves through networks and how devices communicate with each other using various addressing schemes at different network layers.</p>
+
             <h3>TCP/IP vs OSI Model (Slide 46)</h3>
-            <p>We primarily deal with the lower layers:</p>
+            <div class="key-point">
+                <h4>OSI Model (7 Layers)</h4>
+                <ul class="info-list">
+                    <li><strong>Layer 7 (Application):</strong> End-user applications like web browsers, email clients. HTTP, FTP, SMTP protocols operate here.</li>
+                    <li><strong>Layer 6 (Presentation):</strong> Data formatting, encryption, compression. Ensures data is readable by the receiving system.</li>
+                    <li><strong>Layer 5 (Session):</strong> Manages communication sessions between applications. Handles authentication and reconnection.</li>
+                    <li><strong>Layer 4 (Transport):</strong> End-to-end communication control. TCP ensures reliable delivery, UDP for faster, unreliable delivery.</li>
+                    <li><strong>Layer 3 (Network):</strong> Routes data between networks using IP addresses. Your routers operate here handling data packets.</li>
+                    <li><strong>Layer 2 (Data Link):</strong> Direct node-to-node delivery using MAC addresses. Switches operate here handling data frames.</li>
+                    <li><strong>Layer 1 (Physical):</strong> Raw bit transmission over physical medium. Includes cables, network cards, fiber optics.</li>
+                </ul>
+            </div>
+
+            <div class="key-point">
+                <h4>TCP/IP Model (4 Layers)</h4>
+                <ul class="info-list">
+                    <li><strong>Application Layer:</strong> Combines OSI layers 5-7. Handles all application protocols and user interfaces.</li>
+                    <li><strong>Transport Layer:</strong> Equivalent to OSI Layer 4. Uses TCP for reliable or UDP for fast delivery.</li>
+                    <li><strong>Internet Layer:</strong> Equivalent to OSI Layer 3. Handles IP addressing and routing between networks.</li>
+                    <li><strong>Network Access Layer:</strong> Combines OSI layers 1-2. Handles physical transmission and hardware addressing.</li>
+                </ul>
+            </div>
+
+            <p>As repair technicians, we primarily work with the lower layers where physical and addressing issues often occur:</p>
             <ul class="info-list">
-                <li><strong>Layer 3 (Network Layer):</strong> This would be your routers. It handles all of your routing, IP addresses, etc. Also handles packets of data.</li>
-                <li><strong>Layer 2 (Data Link Layer):</strong> This would be your switches. It only concerns itself with MAC addresses and handles frames of data.</li>
-                <li><strong>Layer 1 (Physical Layer):</strong> This would be all your cables, network cards, etc. It handles raw bits of data.</li>
+                <li><strong>Network/Internet Layer:</strong> Troubleshooting routing issues, IP addressing problems, and network connectivity.</li>
+                <li><strong>Data Link Layer:</strong> Resolving switch configurations, MAC address issues, and local network connectivity.</li>
+                <li><strong>Physical Layer:</strong> Dealing with cabling issues, signal problems, and hardware malfunctions.</li>
             </ul>
             
             <h3>MAC vs IP Address (Slides 47-48)</h3>
@@ -412,6 +533,8 @@
 
         <button class="accordion">Core Network Protocols (Slides 52-59)</button>
         <div class="panel"><div class="panel-content">
+            <p>Core network protocols are the fundamental building blocks of network communication, providing essential services like address assignment (DHCP), name resolution (DNS), and network address translation (NAT). Understanding these protocols is crucial for diagnosing network issues and ensuring proper network functionality.</p>
+
             <h3>DHCP, APIPA, DNS (Slides 52-55)</h3>
             <ul class="info-list">
                 <li><strong>DHCP (Dynamic Host Configuration Protocol):</strong> Automatically assigns <strong>private IP addresses</strong> to devices on a network.</li>
@@ -441,10 +564,14 @@
 
     <div id="BestEffort" class="tab-content">
         <h2>Section 3: Best Effort Practices & Device Scope</h2>
-        <p>This section details the scope of support for various third-party devices and services. The core principle is <strong>"You own it once you touch it,"</strong> meaning we must be careful and knowledgeable when assisting with customer-owned equipment.</p>
+        <p>Best effort support represents the delicate balance between providing comprehensive assistance and maintaining appropriate service boundaries when dealing with customer-owned equipment. This section outlines clear guidelines for supporting various third-party devices and services, emphasizing the principle that 'You own it once you touch it.' You'll learn specific protocols for handling common scenarios like printer setup, router bridging, and customer device troubleshooting, while understanding clear boundaries for unsupported services. These guidelines ensure consistent service delivery while protecting both the customer's equipment and the company's liability exposure.</p>
+
+        <p>This section details supported device types, configuration boundaries, and best practices for handling customer-owned equipment within our scope of service.</p>
 
         <button class="accordion">Printers</button>
         <div class="panel"><div class="panel-content">
+            <p>Network printer setup requires a careful balance between providing necessary connectivity support while staying within our service boundaries. Understanding what we do and don't support helps maintain consistent service delivery and clear customer expectations.</p>
+
             <p><strong>What we DO support:</strong></p>
             <ul>
                 <li><strong>Network printing ONLY.</strong> We can help connect a network-capable printer to the Wi-Fi.</li>
@@ -462,6 +589,8 @@
 
         <button class="accordion">Routers (Bridging)</button>
         <div class="panel"><div class="panel-content">
+            <p>Router bridging is a critical solution for extending network coverage while avoiding common networking issues like Double NAT. Understanding the bridging process and best practices ensures successful integration of customer-owned equipment.</p>
+
             <h4>Bridging Routers (Slides 71-72)</h4>
             <p>We can "bridge" routers to act as an access point and assist in setting up a mesh network. Most customers only need one router bridged. Bridging drops a router from a Layer 3 device (router) to a Layer 2 device (switch with Wi-Fi).</p>
             <div class="warning"><strong>Double NAT:</strong> Occurs when two routers are not bridged, preventing communication between devices on each network and blocking access to game servers, FTP, printers, etc.</div>
@@ -489,6 +618,8 @@
 
         <button class="accordion">Unsupported Devices & Services</button>
         <div class="panel"><div class="panel-content">
+            <p>Managing unsupported devices requires a clear understanding of service boundaries while still providing helpful guidance to customers. While we can't directly configure these devices, we can offer network validation and educational support to help customers resolve their connectivity issues.</p>
+
             <div class="key-point">For all unsupported devices, the general rule is: you can provide customer education, but you are <strong>not allowed to touch or configure</strong> the device. You should direct the customer to the <strong>KB port forwarding article</strong> for reference if applicable.</div>
             <ul class="info-list">
                 <li><strong>Home Theatre Systems:</strong> Keep it simple (soundbars, basic receivers). This is best effort. Only do what you are comfortable with.</li>
@@ -501,6 +632,8 @@
 
         <button class="accordion">Customer Devices</button>
         <div class="panel"><div class="panel-content">
+            <p>Supporting customer devices requires clear understanding of our service boundaries and troubleshooting scope. Knowing exactly what we can and cannot do helps maintain consistent service while avoiding potential liability issues.</p>
+
             <p>This can be a tricky area. We want to resolve issues without going too far.</p>
             <p><strong>What we CAN do:</strong></p>
             <ul>
@@ -536,6 +669,15 @@
         var acc = document.getElementsByClassName("accordion");
         for (let i = 0; i < acc.length; i++) {
             acc[i].addEventListener("click", function() {
+                /* Close all other open panels */
+                for (let j = 0; j < acc.length; j++) {
+                    if (this !== acc[j]) {
+                        acc[j].classList.remove("active");
+                        acc[j].nextElementSibling.style.maxHeight = null;
+                    }
+                }
+
+                /* Toggle the clicked panel */
                 this.classList.toggle("active");
                 var panel = this.nextElementSibling;
                 if (panel.style.maxHeight) {
