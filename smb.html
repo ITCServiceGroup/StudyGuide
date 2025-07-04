@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Fiber for Small Business - Study Guide</title>
+    <style>
+        :root {
+            --bg-color: #2c3e50;
+            --main-text-color: #ecf0f1;
+            --accent-color: #3498db;
+            --header-bg-color: #34495e;
+            --panel-bg-color: #465a70;
+            --note-bg-color: #f39c12;
+            --note-text-color: #2c3e50;
+            --table-border-color: #7f8c8d;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--main-text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--header-bg-color);
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 8px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-top: 40px;
+        }
+        
+        h3 {
+            font-size: 1.6em;
+            margin-top: 30px;
+            border-bottom-style: dashed;
+        }
+        
+        h4 {
+            font-size: 1.3em;
+            margin-top: 25px;
+            border-bottom: 1px solid var(--table-border-color);
+        }
+
+        .accordion {
+            background-color: var(--bg-color);
+            color: var(--main-text-color);
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 1.5em;
+            transition: 0.4s;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .accordion:after {
+            content: '\\002B'; /* Plus sign */
+            color: var(--accent-color);
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .accordion.active:after {
+            content: "\\2212"; /* Minus sign */
+        }
+
+        .active, .accordion:hover {
+            background-color: #3c526a;
+        }
+
+        .panel {
+            padding: 0 25px;
+            background-color: var(--panel-bg-color);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            border-radius: 0 0 5px 5px;
+            margin-bottom: 10px;
+        }
+        
+        .panel-content {
+             padding: 20px 0;
+        }
+
+        .placeholder {
+            border: 2px dashed var(--table-border-color);
+            padding: 20px;
+            text-align: center;
+            margin: 20px 0;
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            font-style: italic;
+        }
+
+        .note {
+            background-color: rgba(243, 156, 18, 0.2);
+            border-left: 5px solid var(--note-bg-color);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .note strong {
+             color: var(--note-bg-color);
+        }
+        
+        .important-note {
+            background-color: rgba(231, 76, 60, 0.2);
+            border-left: 5px solid #e74c3c;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .important-note strong {
+            color: #e74c3c;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid var(--table-border-color);
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: var(--bg-color);
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        code {
+            background-color: #222;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: "Courier New", Courier, monospace;
+        }
+        
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Google Fiber for Small Business<br>ITC Fiber Team Installer Training</h1>
+    
+    <div class="overview">
+        <p>This comprehensive guide provides essential training for Small Business Technicians, combining technical expertise with business-focused service delivery. Through three interconnected sections, you'll master the fundamentals of SMB services, installation procedures, and professional facility management. Each section builds upon the previous, ensuring you're well-equipped to handle the unique challenges of business installations while maintaining the highest standards of service quality.</p>
+    </div>
+    
+    <hr style="border-color: var(--accent-color); margin: 30px 0;">
+
+    <button class="accordion">Section One: Introduction to SMB</button>
+    <div class="panel">
+        <div class="panel-content">
+            <h3>Section Overview</h3>
+            <p>This foundational section introduces the core concepts of small business services, providing essential context for successful service delivery in commercial environments. Understanding the distinct needs and characteristics of small business customers enables technicians to provide appropriately tailored solutions while following established protocols for site assessment and preparation.</p>
+            
+            <h3>Course Structure</h3>
+            <ul>
+                <li><strong>Section One: Introduction to SMB</strong> - Master the fundamentals of business services through comprehensive coverage of product offerings, business classifications, and professional site survey procedures.</li>
+                <li><strong>Section Two: Installation and Setup</strong> - Develop expertise in business-grade installations, advanced troubleshooting techniques, and enterprise network configurations.</li>
+                <li><strong>Section Three: Comm Rooms and Closeouts</strong> - Learn professional standards for commercial facility work, including proper handling of communication rooms, safety protocols, and customer-focused service completion.</li>
+            </ul>
+
+            <h3>What is Considered a Small Business?</h3>
+            <p>You might have heard the term <strong>SMB</strong>. This stands for "small to medium" business.</p>
+            <ul>
+                <li>A <strong>small business</strong> is categorized by having between 1-9 employees.</li>
+                <li>A <strong>medium business</strong> is categorized by having 10-100 employees.</li>
+            </ul>
+            <div class="important-note">
+                <strong>Note:</strong> The Google Fiber for Small Business product is only targeting <strong>small businesses (1-9 employees)</strong> at this time.
+            </div>
+
+            <h3>Small Business Statistics</h3>
+            <div class="placeholder">[Image Placeholder: Small Business Statistics Infographic]</div>
+            <p>23 million SMB in America account for 54% of all U.S. sales. Many small business owners are still not adapting modern technology:</p>
+            <ul>
+                <li><strong>51%</strong> use technology to help with accounting operations</li>
+                <li><strong>39%</strong> for appointment booking and scheduling</li>
+                <li><strong>34%</strong> for customer relationship management</li>
+                <li><strong>25%</strong> for point-of-sale systems</li>
+                <li><strong>52%</strong> of Small Business owners do not have a website</li>
+            </ul>
+            <div class="note">
+                <strong>SAY:</strong> Our small business offering is an exciting opportunity to bring blazing fast internet to the workplace. There is a huge opportunity to help business grow their internet footprint. We are excited to be a part of their story and help them think big with a gig!
+                <br>
+                <em>Site ref: <a href="https://www.forbes.com/sites/forbesfinancecouncil/2019/10/31/how-small-business-owners-are-wrecking-their-own-chances-of-success/" target="_blank">Forbes Article</a></em>
+            </div>
+
+            <h3>SMB Product Overview and Sign-up Process</h3>
+            <div class="placeholder">[Image Placeholder: Business Internet Sign-up Form]</div>
+            <p>Business owners can go to the website and check their address by clicking the "Check availability" button.</p>
+            <p>We will open sign-ups in for small businesses and leave them open for 45 days.</p>
+            
+            <h4>Plan Selection</h4>
+            <div class="placeholder">[Image Placeholder: Business Plan Selection Screen]</div>
+            <ul>
+                <li><strong>SAY:</strong> Once the address is verified as eligible the customer will select what type of plan they want.</li>
+                <li><strong>ASK:</strong> What plans will they be able to choose from?
+                    <ul>
+                        <li><strong>Listen for:</strong> 0, 1, 5, or 13 static IPs.</li>
+                    </ul>
+                </li>
+                <li><strong>SAY:</strong> The customer will select the plan they would like and click the next button in the right.</li>
+            </ul>
+
+            <h4>What Happens After Sign-Up?</h4>
+            <div class="placeholder">[Image Placeholder: Sign-Up Flow Diagram: Site Survey Scheduled -> Performed -> Installation Appointment]</div>
+            <ul>
+                <li><strong>SAY:</strong> Once opened, sign-ups will remain open for 45 days. The customer will get an e-mail and an automated (IVR) call to schedule the site survey. During that time site surveys will be conducted. All businesses that signed up will require a site survey. The site survey will be scheduled separately from the install.</li>
+                <li><strong>SAY:</strong> The 'site survey' means that someone from our construction team will visit the location to assess and confirm its eligibility to receive a fiber connection. After 45 days we will close sign-ups and send out invitations to schedule install. Site Surveys will start sometime before closing signups and before the time installs start.</li>
+            </ul>
+            <div class="important-note">
+                <strong>Tentative - Installs Start 11/18/14.</strong> This is dependent on the site surveys. - <strong>Do not message externally.</strong>
+            </div>
+
+            <h3>SMB Building Types</h3>
+            <p>What types of building will you be installing Google Fiber for SMB?</p>
+            
+            <h4>Access Agreement Requirements</h4>
+            <p><strong>An Access Agreement is <u>NOT</u> required for:</strong></p>
+            <ul>
+                <li><strong>CHC</strong> - Church</li>
+                <li><strong>SBU</strong> - Single Business Unit</li>
+            </ul>
+            <p><strong>An access agreement <u>IS</u> required for:</strong></p>
+            <ul>
+                <li><strong>SBUAA</strong> - Single Business Unit w/ Required Access Agreement</li>
+                <li><strong>sMTU</strong> - Small Multi-Tenant Unit (2-8 tenants)</li>
+                <li><strong>MTU</strong> - Multi-Tenant Unit</li>
+            </ul>
+             <div class="note">
+                <strong>ASK:</strong> What do you think the difference between a SBUAA and an MTU is?
+                <br><strong>Answer:</strong> An SBUAA may be a business that has a tenant relationship but is the only business in the building. For instance, a call center that leases the building that it's in and there are no other businesses in the building. Just like an MTU the SBUAA is technically not eligible until the access agreement is signed.
+            </div>
+             <p>SBUAA's, sMTU's, and MTU's are all business that require an AA or Access Agreement before signing up. Once access arrangements (AAs) are signed, multi tenant business customers (MTUs and sMTUs) can sign up at any time, even after sign up closes. sMTUs and MTUs can sign up without a signed Access Agreement but they will still need the AA signed before install happens.</p>
+
+            <h4>Building Type Examples</h4>
+            <div class="placeholder">[Image Placeholder: SBU/SBUAA - Single Standing Business]</div>
+            <p><strong>SBU/SBUAA (Single Business Unit):</strong> An example of an SBU or SBUAA would be a one unit in building (dental office, accountant, etc).</p>
+            <div class="placeholder">[Image Placeholder: sMTU - Small Strip-Mall]</div>
+            <p><strong>sMTU (Small Multi-Tenant Unit):</strong> An example of a Single Multi-Tenant Unit would be 2-8 units (small strip mall w/ mix of businesses or small offices, etc).</p>
+            <div class="placeholder">[Image Placeholder: MTU - Multi-Story Building]</div>
+            <p><strong>MTU (Multi-Tenant Unit):</strong> An example of a Multi-Tenant Unit would be something that could have 9+ units (like a 1-3 story building with 6 offices on each floor, or a large strip mall, etc).</p>
+
+            <h4>Building Types - Installation Process</h4>
+            <ul>
+                <li><strong>SBUs and SBUAAs</strong> will follow a similar process as the current residential <strong>SFU model</strong>. Run a FPC from the NIU to the area where the customer would like to place the ONT/RG.</li>
+                <li><strong>sMTUs and MTUs</strong> will follow a similar process as the current residential <strong>MDU model</strong>. An ONT will be pre-placed within the unit for the majority of jobs. In some instances, ITC will run a FPC from the NIU to the area where the customer would like to place the ONT/RG. Some NIUs or 'Pill-Boxes' will be located above the drop ceiling at the entry to each unit, or in a centralized Comm Area.</li>
+            </ul>
+
+            <h3>Small Business Site Survey</h3>
+            <p>What happens before we arrive on site?</p>
+            <h4>SMB Installation Process: Site Survey Flow</h4>
+            <div class="placeholder">[Image Placeholder: Site Survey Flow Diagram]</div>
+            <ul>
+                <li><strong>Survey Passes:</strong>
+                    <ul>
+                        <li>NIU Dropped (or ONT for installed)</li>
+                        <li>Customer Notified via Email</li>
+                        <li>Installation Appointment Scheduled</li>
+                    </ul>
+                </li>
+                <li><strong>Site Survey on Hold (Possible Reasons):</strong>
+                    <ul>
+                        <li>Requires Access Agreement or Right of Entry</li>
+                        <li>No Fiber Count</li>
+                        <li>Requires Pre-Install Work</li>
+                        <li>Needs to Reschedule</li>
+                    </ul>
+                </li>
+                <li><strong>Site Survey Fails:</strong>
+                    <ul>
+                        <li>Customer Notified via Email</li>
+                        <li>Account Canceled</li>
+                        <li>Deposit Refunded</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="note">
+                <strong>REVIEW SURVEY PROCESS PATHS:</strong>
+                <ul>
+                    <li>If the survey fails we send an email, cancel their account and refund their $10 deposit.</li>
+                    <li><strong>ASK:</strong> What do you think would cause a site to fail a site survey? (unable to build or too costly, safety issues or unable to get agreement signed - when they fail the site survey it will be communicated to them via e-mail)</li>
+                    <li><strong>Discuss:</strong> What sort of empathy statements should we use with a customer who did not pass the site survey?</li>
+                    <li>If the site survey passes we notify them and they are asked to schedule the installation. We automatically send them an email with recommendations on how to prepare for the install.</li>
+                    <li><strong>Hold:</strong> A hold is neither a pass nor a fail... yet. You could possibly see this status on a ticket that hasn't been assigned pass or fail yet.</li>
+                    <li><strong>Activity:</strong> Bring up site survey questionnaire or have learner bring up the questionnaire. "please don't have them fill out or submit." <a href="https://docs.google.com/forms/d/12OoywPjtt5C3QWpPff5etCXQ30v4mDePv5r-mP4ZM-SQ/viewform?c=0&w=1&usp=mail_form_link" target="_blank">Survey Form Link</a>. Based on this form what do you think could cause a hold?
+                        <ul>
+                            <li><strong>Reason 1:</strong> If they are a tenant. They would need an AA (access agreement) or a ROE (right of entry).</li>
+                            <li><strong>Reason 2:</strong> No Fiber Count</li>
+                            <li><strong>Reason 3:</strong> Requires Pre-install work.</li>
+                            <li><strong>Reason 4:</strong> Needs to Reschedule.</li>
+                            <li><strong>Reason 5:</strong> Some other reason - details will be in the description.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            
+            <h3>Summary of Introduction</h3>
+            <p>To review, these are some of the things covered in this section:</p>
+            <ul>
+                <li>Product Overview</li>
+                <li>Small Business Types</li>
+                <li>Pre-Install Site Survey</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="accordion">Section Two: Installation & Setup</button>
+    <div class="panel">
+        <div class="panel-content">
+            <h3>Section Overview</h3>
+            <p>This technical section focuses on the specialized installation and configuration requirements for small business services. You'll learn to handle business-grade hardware deployments, manage static IP configurations, and understand the key differences between residential and commercial installations. This knowledge ensures you can deliver reliable, high-performance connectivity solutions that meet the unique demands of business customers.</p>
+
+            <h3>How is an SMB Install different than a Residential Install?</h3>
+            <p>The small business installation process is similar to an MDU or in-home installation process. However, there's a few key differences...</p>
+            <ul>
+                <li>Installation appointment duration is <strong>~2 hours</strong>.</li>
+                <li>Gig and 2 Gig services only. Option to add 1, 5, or 13 Static IPs.</li>
+                <li>Only uses <strong>2 Gig hardware</strong> (Pluggable ONT and Multi-Gig RG).</li>
+                <li>(Legacy Gig and SMB 250 plans utilize v.2 FJ/ONT and NB)</li>
+                <li>They are not offered the one terabyte of Google Drive Storage.</li>
+                <li>Site survey is performed and responses are provided in installation ticket.</li>
+                <li>Customers who sign up for 5 or 13 Static IPs <strong>Must Use Their Own Router</strong>.</li>
+                <li>Different cable running/wall-fishing considerations in a commercial building environment.</li>
+                <li>The installer is not responsible for configuring service to the customer's third-party business equipment (servers, VOIPs, wireless APIs, POS).</li>
+                <li>The consult and demo is slightly adapted to the small business customer.</li>
+            </ul>
+
+            <h3>All NEW SMB Customers: Hardware & Pricing</h3>
+            <h4>2-Gig Hardware</h4>
+            <div class="placeholder">[Image Placeholder: Pluggable ONT GFLT210, Residential Gateway GFRG300, Mesh Extenders GFEX310]</div>
+            <p>All Small business customers will receive 2 Gig hardware.</p>
+            <ul>
+                <li>Pluggable ONT (GFLT210)</li>
+                <li>MultiGig RG Router: Residential Gateway (GFRG300) and up to two Mesh Extenders (GFEX310) for Business 2 Gig plans.</li>
+            </ul>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Static IPs</th>
+                        <th>Equipment configuration</th>
+                        <th>Monthly Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>Pluggable ONT + Residential Gateway or Customer Provided 3rd Party Router</td>
+                        <td>$250 / $100</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Pluggable ONT + Residential Gateway or Customer Provided 3rd Party Router</td>
+                        <td>$270 / $120</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Pluggable ONT + Customer Provided 3rd Party Router</td>
+                        <td>$280 / $130</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>Pluggable ONT + Customer Provided 3rd Party Router</td>
+                        <td>$290 / $140</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="important-note">
+                <strong>NOTE:</strong> GFRG300 does not support multiple static IPs. This is why we require a compatible third party router. If they want to, the customer can also choose to use their own router with either plan configuration (0, 1, 5, 13 static IPs).
+                <br>
+                <strong>SAY:</strong> Wifi 6 RG Router: Residential Gateway does not support 5 static IP addresses. This is why we require a compatible third party router. If they want to, the customer can also choose to use their own router with either plan configuration (0, 1, 5, static IPs).
+            </div>
+            <div class="note">
+                <strong>Bridge mode will not work if there are other devices connected to the LAN ports of the GFRG300 router.</strong> For example, if Mesh Extenders or any other devices are connected to GFRG300 in routing mode, switching it to bridge mode may not take effect on the customer's own router (BYOR) because it wont get the IP allocated.
+            </div>
+
+            <h3>NEW Installation Details by Service Plan</h3>
+            <p>Here we review each component on how the service is different than an in-home installation.</p>
+            
+            <h4>Gig Service (No Static IP)</h4>
+            <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and/or Bridged)</td></tr>
+                <tr><th>Price</th><td>Monthly price is $100/month</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral specific for small business customers.</td></tr>
+            </table>
+
+            <h4>Gig Service with 1 Static IP</h4>
+            <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and/or Bridged)</td></tr>
+                <tr><th>Price</th><td>SMB 1 Gig $100/month + $20/month for 1 Static IP</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Customer Static IP Configuration</th><td>The static IP is emailed to the customer (also in ticket). Aside from educating the customer on basic static IP setup, it is up to them (or their IT employee) to connect their services that requires the static IP.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral specific for small business customers.</td></tr>
+            </table>
+
+            <h4>Gig Service with 5 Static IPs</h4>
+             <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and Bridged)</td></tr>
+                <tr><th>Price</th><td>Monthly price is $100/month + $30/month for 5 Static IPs.</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Installation Provisioning</th><td>The MultiGig RG does not support 5 Static IPs. The MultiGig RG must be installed and bridged through MyFiber page. The MultiGig port on the RG will serve as a single LAN connection to the customer's 3rd-party router.</td></tr>
+                <tr><th>Customer Static IP Configuration</th><td>The static IP is emailed to the customer (also in ticket). Aside from educating the customer on basic static IP setup, it is up to them (or their IT employee) to connect their services that requires the static IP configuration.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral specific for small business customers.</td></tr>
+            </table>
+            
+            <h4>Gig Service with 13 Static IPs</h4>
+             <table>
+                <tr><th>Price</th><td>Monthly price is $100/month + $40/month for 13 Static IPs.</td></tr>
+                <tr><td colspan="2"><em>All other details are the same as Gig Service with 5 Static IPs.</em></td></tr>
+            </table>
+
+            <h4>2 Gig Service (No Static IP)</h4>
+            <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and/or Bridged), Two Mesh Extenders included GFEX310 (Additional ME for $5/ea)</td></tr>
+                <tr><th>Price</th><td>Monthly price is $250/month</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral specific for small business customers.</td></tr>
+            </table>
+
+            <h4>2 Gig Service with 1 Static IP</h4>
+            <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and/or Bridged), Two Mesh Extenders included GFEX310 (Additional ME for $5/ea)</td></tr>
+                <tr><th>Price</th><td>SMB 2 Gig $250/month + $20/month for 1 Static IP</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Customer Static IP Configuration</th><td>The static IP is emailed to the customer (also in ticket). Aside from educating the customer on basic static IP setup, it is up to them (or their IT employee) to connect their services that requires the static IP configuration.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral specific for small business customers.</td></tr>
+            </table>
+            
+            <h4>2 Gig Service with 5 Static IPs</h4>
+            <table>
+                <tr><th>Hardware</th><td>Pluggable ONT GFLT210, MultiGig Residential Gateway GFRG300 (Installed and Bridged), Two Mesh Extenders included GFEX310 (Additional ME for $5/ea)</td></tr>
+                <tr><th>Price</th><td>Monthly price is $250/month + $30/month for 5 Static IPs.</td></tr>
+                <tr><th>Small Business Building / Cable Running Considerations</th><td>SBUs/SBUAAs/CHCs are similar to SFU installs. MTUs/sMTUs are similar to MDU installs.</td></tr>
+                <tr><th>Installation Provisioning</th><td>The MultiGig RG does not support 5 Static IPs. The MultiGig RG must be installed and bridged through MyFiber page. The MultiGig port on the RG will serve as a single LAN connection to the customer's 3rd-party router.</td></tr>
+                <tr><th>Customer Static IP Configuration</th><td>The static IP is emailed to the customer (also in ticket). Aside from educating the customer on basic static IP setup, it is up to them (or their IT employee) to connect their services that requires the static IP configuration.</td></tr>
+                <tr><th>Consultation, Demo and Closeout</th><td>The consultation and demo will be slightly retooled to fit the small business installation and service. Your closeout will include new marketing collateral.</td></tr>
+            </table>
+            
+            <h4>2 Gig Service with 13 Static IPs</h4>
+            <table>
+                <tr><th>Price</th><td>Monthly price is $250/month + $40/month for 13 Static IPs.</td></tr>
+                <tr><td colspan="2"><em>All other details are the same as 2 Gig Service with 5 Static IPs.</em></td></tr>
+            </table>
+
+            <h3>Legacy Small Business Plans & Equipment</h3>
+            <p>Legacy customers receive CPE 2.0 hardware (Fiber Jack 2.0 and Network Box 2.0).</p>
+            <div class="placeholder">[Image Placeholder: Fiber Jack 2.0 / COTS ONT and Network Box 2.0]</div>
+            <ul>
+                <li>Fiber Jack 2.0 is PoE (Power-over-Ethernet), except in a 3rd party router installation.</li>
+                <li>Network Box 2.0 provides increased internal diagnostics and customer-facing My Fiber management tools.</li>
+                <li><strong>The key difference for legacy plans is that for 5 or 13 Static IPs, the Network Box 2.0 is provisioned but then disconnected/removed, as it does not support multiple static IPs. The customer must use a 3rd party router.</strong></li>
+            </ul>
+            <table>
+                <caption>Legacy CPE 2.0 Configuration Summary</caption>
+                <thead>
+                    <tr>
+                        <th>Static IPs</th>
+                        <th>Equipment configuration</th>
+                        <th>Monthly Price (Gig / 250 Meg)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0</td>
+                        <td>FJ 2.0 + NB 2.0 or Customer Provided 3rd Party Router</td>
+                        <td>$250 / $100</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>FJ 2.0 + NB 2.0 or Customer Provided 3rd Party Router</td>
+                        <td>$270 / $120</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>FJ 2.0 + Customer Provided 3rd Party Router</td>
+                        <td>$280 / $130</td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>FJ 2.0 + Customer Provided 3rd Party Router</td>
+                        <td>$290 / $140</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="important-note">
+                <strong>NOTE / SAY:</strong> Network Box 2.0 does not support multiple static IP addresses. This is why we require a compatible third party router for plans with 5 or 13 static IPs.
+            </div>
+
+            <h3>Small Business Installer Troubleshooting</h3>
+            <h4>Troubleshooting Gig with <u>No Static IP(s)</u></h4>
+            <ul>
+                <li>Follow ALL existing in-home installation troubleshooting steps.</li>
+                <li><strong>SAY:</strong> Enable Bridge Mode on RG if customer is using 3rd Party router/firewall.
+                    <div class="important-note">
+                        <strong>Important:</strong> No other devices can be plugged into the MultiGig RG while in Bridge Mode (MultiGig Port ONLY).
+                    </div>
+                </li>
+            </ul>
+            
+            <h4>Troubleshooting Gig with <u>1 Static IP</u></h4>
+            <ul>
+                <li>Follow ALL existing in-home installation troubleshooting steps.</li>
+                <li><strong>Additionally:</strong> If the customer is troubleshooting issues with a device which requires a static IP, advise them to see if the DHCP is set to provision static IP addresses (<strong>not manually</strong>).</li>
+                <li>Advise them that their static IP may not be assigned yet.</li>
+                <li>Enable Bridge-Mode on RG if customer is using 3rd Party router/firewall. (No other devices may be plugged into the RG while in Bridge-mode).</li>
+            </ul>
+
+            <h4>Troubleshooting Gig with <u>5 or 13 Static IPs</u></h4>
+            <ul>
+                <li>Follow all existing SMB installation troubleshooting steps.</li>
+                <li><strong>Additionally:</strong>
+                    <ul>
+                        <li>Ensure the customer's <strong>3rd party router is Gig-certified</strong> and DHCP is set to provision static IP addresses (<strong>not manually</strong>).</li>
+                        <li>Advise the customer that their static IP may not have been assigned yet.</li>
+                        <li>Plug in CAT5e from the MultiGig port to your Chromebook and try to reach the internet.</li>
+                        <li><strong>No other devices can be plugged into the RG while in Bridge Mode (MultiGig Port ONLY).</strong></li>
+                        <li>Escalate as necessary.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>SMB Networking & Static IP Review</h3>
+            <h4>Some SMB Services Require Static IPs</h4>
+            <div class="placeholder">[Image Placeholder: Icons for Web/Email/FTP, Applications, Audio/Video Services]</div>
+            <p>Examples:</p>
+            <ul>
+                <li>Hosts, Serves, Connects a Business Website or Email Server, VPN, etc.</li>
+                <li>POS/Point of Sale Systems. Services that require a dedicated IP or IP with ports.</li>
+                <li>Hosted PBX telephone system, VOIP, and video conferencing services.</li>
+            </ul>
+            <div class="note">
+                Most Fiber customers do not need any static IP addresses. However, you might need static IPs if one or more of these statements applies to you:
+                <ul>
+                    <li>Maintain your own web server or other Internet server, such as an email server, that requires users to connect from the Internet.</li>
+                    <li>Have internal devices or services that must connect to your network via IP address (for example, 74.125.224.72) rather than by name (for example, example.com).</li>
+                    <li>Use a VPN or other service to remotely connect to computers in your business.</li>
+                </ul>
+                <p>In many cases you can host a server on an Internet connection without static IPs by using Dynamic DNS. With Dynamic DNS, when your IP address changes, your DNS entry is automatically updated with your new IP address. The Google Fiber Network Box includes support for Dynamic DNS. You can set up Dynamic DNS by following <a href="#">these instructions</a>.</p>
+                <p>If you are not sure whether you need static IPs, consult with your IT expert. Note that you can add or remove static IPs from your <a href="#">account</a>, even after your service starts.</p>
+            </div>
+            
+            <h4>CSA Tool - Static IP Info</h4>
+            <div class="placeholder">[Image Placeholder: CSA Tool Interface showing Static IP options]</div>
+            <ul>
+                <li><strong>SAY:</strong> To see the customer's plan & Static IP address navigate through CSA: Ticket: Fiber Plan: Options: Static IP.</li>
+                <li>You can also upgrade and downgrade their plan from this screen.</li>
+                <li>Once the Static IPs are assigned, an <strong>automatic Email</strong> (containing the IPs) is sent to the customer, and also available on the customer's <strong>My Fiber page</strong>.</li>
+                <li>If the Static IPs do not appear in CSA, click '<strong>Refresh Static IP</strong>' under the '<strong>Fiber Plan: Option: Static IP Tab</strong>' in the ticket.</li>
+            </ul>
+
+            <h4>How to set up a "1 static IP customer" in My Fiber</h4>
+            <div class="placeholder">[Image Placeholder: My Fiber Network Settings page]</div>
+            <p>Navigate to Network Settings (fiber.google.com). With the RG and 1 static IP, you should use the built-in port forwarding feature.</p>
+            <ul>
+                <li>Go to <strong>Advanced</strong> settings.</li>
+                <li>Click <strong>Ports</strong> tab.</li>
+                <li>Toggle uPnP to ON to allow uPnP devices on your network to set up Port Forwarding rules for themselves.</li>
+                <li>After setting up <strong>Port Forwarding</strong>, those devices appear in the list, along with the ports, protocol, and service to which each is mapped.</li>
+                <li>If you disable uPnP, the Residential Gateway stops forwarding incoming requests to ports for which UPnP port forwarding rules are in effect.</li>
+            </ul>
+            
+            <h4>Third-Party Routers: Bridge Mode MUST be Enabled on RG</h4>
+            <div class="important-note">
+                <p>All SMB Customers may <strong>choose</strong> to connect their own 3rd party router directly to the Multi-Gig port on the RG in Bridge-Mode. SMB Customers with 5 or 13 Static IP Addresses are <strong>required</strong> to do so.</p>
+                <ul>
+                    <li>Connect to Multi-Gig Ethernet WAN port on RG.</li>
+                    <li><strong>Set 3rd Party Router to DHCP</strong> and not manually add static IPs on its interface.</li>
+                    <li>LAN to WAN throughput: <strong>at least 800 Mbps</strong>.</li>
+                    <li>Forwarding and Network Address Translation (NAT) of private LAN addresses to public WAN addresses.</li>
+                </ul>
+                <p><strong>Customer steps to enable Bridge Mode:</strong></p>
+                <ol>
+                    <li>Customer logs into their Fiber account.</li>
+                    <li>Click on <strong>Network</strong> tab, then click on <strong>RG</strong>.</li>
+                    <li>Navigate to <strong>Admin</strong> tab.</li>
+                    <li>Place a check in the "<strong>Enable bridge mode</strong>" checkbox, then click <strong>APPLY</strong>.</li>
+                    <li>Once the RG reboots and comes online (the LED on RG is solid blue) you can verify <strong>Network Setting</strong> is off and cannot be toggled ON.</li>
+                </ol>
+            </div>
+
+            <h4>The Customer is Advised...</h4>
+            <div class="note">
+                <p>If the customer uses their own router: we <strong>CANNOT</strong> provide the same support as we do when using the Google Fiber MultiGig RG.</p>
+                <p>If the customer uses their own router: we <strong>ONLY</strong> support the Google Fiber connection up to the point it leaves the MultiGig RG.</p>
+                <p>We <strong>WILL NOT</strong> provide support with connecting, setting up, and maintaining ANY 3rd Party Equipment.</p>
+                <p><strong>EDUCATE THE CUSTOMER:</strong></p>
+                <ul>
+                    <li><strong>DO NOT</strong> provide any assistance connecting and maintaining 3rd party equipment.</li>
+                    <li><strong>DO NOT</strong> change any settings on any 3rd party equipment.</li>
+                    <li><strong>DO NOT</strong> attempt to setup 3rd party equipment.</li>
+                    <li><strong>DO NOT</strong> walk the customer through 3rd party equipment setup.</li>
+                    <li>Inform the customer they will need to hire an IT Professional to aid in any 3rd party assistance (or do it themselves).</li>
+                </ul>
+            </div>
+
+            <h4>Single Static IP Configuration Details</h4>
+            <div class="placeholder">[Image Placeholder: Static IPv4 Configuration Information box]</div>
+            <p>When reading a Single Static IP Configuration, you need to know a few things.</p>
+            <ul>
+                <li>The first three octets are considered the <strong>Network Host</strong>.</li>
+                <li>The Last Octet is the <strong>Host ID</strong>.</li>
+                <li>The WAN (via DHCP) is the customer's single Static IP Address.</li>
+                <li>This information will be available through CSA, an email sent directly to the customer, and through the customer's MyFiber page.</li>
+            </ul>
+            <div class="placeholder">[Image Placeholder: Diagram of Single Static IP Setup with NIU, RG in Bridge Mode, and 3rd Party Firewall]</div>
+            <p><strong>Setup Notes:</strong></p>
+            <ul>
+                <li>Make sure the router connected to the <strong>MultiGig Port (with Bridge Mode enabled)</strong> is set to DHCP. The customer <strong>cannot</strong> manually add the static IP.</li>
+                <li>The Static IP: 23.228.143.200 is allocated to the RG via DHCP from the Google Fiber network.</li>
+                <li>On the Network tab, The RG has to be configured to port forward the appropriate ports that the server is hosting applications for. E.g. a web server would require an entry to allow incoming connections on port 80 to be forwarded to 192.168.1.100.</li>
+            </ul>
+            
+            <h4>Multiple Static IP Configuration Details</h4>
+            <div class="placeholder">[Image Placeholder: Multiple Static IPv4 Configuration Information box with CIDR]</div>
+            <p>When reading Multiple Static IP Configuration, there are a few differences.</p>
+            <ul>
+                <li>In addition to the <strong>Network Host</strong> and <strong>Host ID</strong> you also have the <strong>CIDR</strong>.</li>
+                <li>The Host ID +1 will give you the <strong>Static LAN/Default Gateway</strong>.</li>
+                <li>Each sequential number after, will be your <strong>Public Static IP Addresses</strong>.</li>
+                <li>The Forward Slash is the <strong>CIDR</strong> (Classless Inter-Domain Routing) which tells you how many usable Static IPs the customer will have.
+                    <ul>
+                        <li>/29 will always have 5 usable Static IPs.</li>
+                        <li>/28 will always have 13 usable Static IPs.</li>
+                        <li>Refer to the <a href="#">Static IP Calculator</a> if you have any question on what the customer's IPs should be.</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="placeholder">[Image Placeholder: Diagram of Multiple Static IP Setup with NIU, RG in Bridge Mode, and 3rd Party Firewall with multiple web servers]</div>
+             <p><strong>Setup Notes:</strong></p>
+             <ul>
+                 <li>If you have a multi-layer router or firewall and router configuration, the customer must set up a static route to the first device.</li>
+                 <li>Router connected to the <strong>MultiGig Port (with Bridge Mode enabled)</strong> is set to DHCP and that one of its ports is set as the gateway.</li>
+                 <li>Make sure the remaining routers have static routes pointing to the gateway.</li>
+                 <li>The Static IP: 23.288.168.65 is persistently allocated to the RG via DHCP from the Google Fiber network and 216.21.162.216/29 is routed from our network to 23.288.168.65.</li>
+             </ul>
+
+            <h3>Summary of Installation and Setup</h3>
+            <p>To review, these are some of the things covered in this section:</p>
+            <ul>
+                <li>Installation Process</li>
+                <li>Small Business Plans & Equipment</li>
+                <li>Legacy Plans & Equipment</li>
+                <li>Device Troubleshooting</li>
+                <li>Static IP Review</li>
+                <li>3rd Party Support</li>
+            </ul>
+        </div>
+    </div>
+
+    <button class="accordion">Section Three: Comm Rooms & Closeouts</button>
+    <div class="panel">
+        <div class="panel-content">
+            <h3>Section Overview</h3>
+            <p>This final section covers the critical aspects of working in commercial facilities, with an emphasis on safety, security, and professional conduct. You'll learn proper techniques for cable management, fire safety compliance, and communication room protocols. Understanding these requirements ensures both regulatory compliance and the protection of sensitive business infrastructure during installation and maintenance work.</p>
+
+            <h3>Differences Between Residential and SMB</h3>
+            <p>As compared to a residential installation, the approach is different in these ways:</p>
+            <ul>
+                <li><strong>Consult:</strong> Introduce yourself as a 'Google Fiber for Small Business' installer.</li>
+                <li><strong>Demo:</strong> Review how they can add or remove static IPs (same place where they can change their plan on My Fiber).</li>
+                <li><strong>Close out:</strong> Marketing collateral specific to 'Google Fiber for Small Business' customers will be provided.</li>
+            </ul>
+
+            <h3>Small Business Cable Running Considerations</h3>
+            <p>Does anything differ from Residential installs?</p>
+            <ul>
+                <li>Working with drop tile ceilings, metal studs.</li>
+                <li>Identifying firewalls. Acceptable penetration methods.</li>
+                <li>Fine caulking new penetrations.</li>
+                <li>Wall fishing in a commercial environment (10' + ceiling heights).</li>
+                <li>Handling cable friction, turns, and exceeding the pull rating.</li>
+                <li>Running through red iron, D-Rings for vertical runs, J-hooks, etc...</li>
+                <li>Always follow provided specs. If not possible, contact your Master Tech or Supervisor.</li>
+                <li>Installing conduit & cable raceways upon customer request.</li>
+                <li>Using existing cabling when available. Example: Network Box needs to be placed outside of the comm. room and there is an existing Ethernet line already there.</li>
+                <li>Qualifying existing cable. Standard for data is blue. White is almost always voice.</li>
+                <li>Proper cable for the work environment (when to use plenum rated cable).</li>
+                <li>Use existing jet line (wire pull) for new wire pulls.</li>
+                <li>Always replace with a chaser (follow up).</li>
+                <li>Protecting the fiber while pulling it with jet line.</li>
+            </ul>
+
+            <h3>Firestop Procedures</h3>
+            <p>Ensuring your installation meets proper safety codes.</p>
+            <h4>What is a Firestop?</h4>
+            <ul>
+                <li><strong>SAY:</strong> A firestop is a fire protection system made of various components used to seal openings and joints in fire-resistance rated wall and/or assemblies. Firestops are designed to restore the fire-resistance ratings of wall and/or floor assemblies by impeding the spread of fire.</li>
+                <li>This is done by filling the openings with fire-resistant materials. Unprotected openings in fire separations cancel out the fire-resistance ratings of the fire separations.</li>
+                <li>This allows the spread of fire, usually past the limits of the fire safety plan of a building.</li>
+            </ul>
+            <div class="placeholder">[**Play Video** - Image Placeholder: Firestop Devices Video Frame]</div>
+
+            <h4>Small Business: Firestop Materials</h4>
+            <div class="placeholder">[Image Placeholder: Firestop Putty and Firestop Grommets]</div>
+            <ul>
+                <li><strong>Firestop Putty:</strong> Used <strong>around</strong> and <strong>inside</strong> firewall penetrations. (Tear, Knead, Place, Fill).
+                    <ol>
+                        <li>Tear off an appropriate amount of putty.</li>
+                        <li>Knead and shape the putty as desired.</li>
+                        <li>Place the putty completely around your passthrough device (conduit, sleeve, etc...).</li>
+                        <li>When you are finished installing your cables, fill both ends of the conduit with firestop putty as well. If there was an existing firestop pillow, putty or other material, don't forget to put it back.</li>
+                    </ol>
+                </li>
+                <li><strong>Firestop Grommets:</strong> Devices that will be used for all <strong>new firewall penetrations</strong>. (Drill, Run, Snap, Insert).
+                    <ol>
+                        <li>Drill a one inch hole through the firewall.</li>
+                        <li>Run your cable through the new penetration.</li>
+                        <li>Snap both pieces of the grommet together around your cable.</li>
+                        <li>Insert the grommet into the hole. You will do this on both sides of the wall.</li>
+                    </ol>
+                </li>
+            </ul>
+
+            <h4>Other Firestop Materials and Devices</h4>
+            <div class="placeholder">[Image Placeholder: Firestop Pillows, EZ Path Devices, Firestop Plugs]</div>
+            <ul>
+                <li>There are many other types of firestop systems and materials you will come across.</li>
+                <li>You will see a lot of approved systems, but that doesn't mean they are installed correctly.</li>
+                <li>Do not use an existing firestop pathway if it unsafe.</li>
+                <li>Whenever possible, we want to utilize any existing firestop penetrations that are available, as long as they will meet fire code requirements.</li>
+            </ul>
+            
+            <h4>Common Firestop Violations</h4>
+            <div class="placeholder">[Image Placeholder: Common Firestop Violations - Wrong vs. Right]</div>
+            <p>Let's explore some common firestop violations:</p>
+            <ul>
+                <li>Conduit penetration is not sealed properly</li>
+                <li>Conduits are missing internal firestop</li>
+                <li>Expanding foam is <strong>not</strong> a firestop material</li>
+            </ul>
+            
+            <h4>Firecode and Liability</h4>
+            <div class="important-note">
+                <p>Whether you use an existing penetration or you create a new one, you must comply with fire and safety codes.</p>
+                <p>It is very important that we restore the firestop rating to any openings or firestop systems we use. That means, if you have to remove firestop material from a conduit to run your cable through, you need to put it back when you are finished.</p>
+                <p>If you are the last man out, it is your responsibility to maintain the Fire Rating of the structure being used. <strong>Failure to do so can result in fines, and possibly even negligence charges.</strong></p>
+            </div>
+            
+            <h3>Communication Rooms: Equipment, Layout, Security & Safety</h3>
+            <h4>Site Survey Changes</h4>
+            <ul>
+                <li><strong>SAY:</strong> What changes in my initial site survey after the consult?</li>
+                <li>You will leverage the Site Survey responses in your installation plan.</li>
+                <li>You may encounter more communication closets and facilitate the appropriate conversations.</li>
+                <li>You will ask if they have keys/access to the (comm) rooms where their current networking equipment lives.</li>
+                <li>You might disable RG Wi-Fi (due to placement & availability of existing, 3rd party Wi-Fi equipment).</li>
+            </ul>
+            
+            <h4>Server Rooms: The Good, The Bad, & The Ugly</h4>
+            <div class="placeholder">[Image Placeholder: Examples of organized and messy server rooms]</div>
+            <ul>
+                <li><strong>SAY:</strong> Almost every SMB will have a communication room of some kind.</li>
+                <li>It may be a full blown distribution frame room, a broom closet, or even in a bathroom.</li>
+            </ul>
+
+            <h4>Comm Room Security & Privacy</h4>
+            <div class="important-note">
+                <p>When you are given access to a comm room, <strong>YOU</strong> become fully responsible for any damages or theft that may occur from negligence. That means, if you leave the comm room unattended and someone gains access to it, you could be liable. There is no excuse for leaving a comm room door unattended.</p>
+                <p>There will be times when you need to leave the comm room:</p>
+                <ul>
+                    <li>You need to use the bathroom.</li>
+                    <li>You left tools or material in your van.</li>
+                    <li>You have had cell phone reception.</li>
+                    <li>You need to talk with the customer.</li>
+                </ul>
+                <p>These are all valid reasons for leaving the comm room. However, we still need to follow security protocols.</p>
+            </div>
+            
+            <h4>Rules of Engagement</h4>
+            <ul>
+                <li><strong>Secure the Room:</strong> If you leave the comm room, it is usually best to lock and close the door. Make sure someone is available to let you back in. Do not allow access to the comm room to any personnel. Always make sure the comm room is locked and secured and communicate that position with your point of contact before leaving the job site.</li>
+                <li><strong>Do Not Share Sensitive Information:</strong> Comm rooms usually contain a lot of sensitive information that should never be shared with anyone other than the designated point of contact. You will often see documents in a comm room and in various places throughout the business. It is important that you <strong>never</strong> read any of these documents! They could contain very sensitive information, such as: financial data, employee records, etc... Never take photographs while in the business unless you have a valid reason to do so. You will need to obtain permission from your point of contact and notify your master technician or supervisor.</li>
+                <li><strong>Never Unplug ANY Devices:</strong> Unplugging even just one cable could be catastrophic to the network and cause thousands of dollars in lost revenue. Similarly, plugging into a live circuit could have undesirable consequences. You could bring a device online and expose it to potential online dangers. It could also be perceived that you are attempting to steal company data. If anything has to be unplugged or plugged in, always let the customer do this.</li>
+            </ul>
+            
+            <h4>Safety in Comm Rooms</h4>
+            <ul>
+                <li><strong>Loose Wiring:</strong> The number one hazard in comm rooms is loose cables and wiring. Some comm rooms are very disorganized and hard to move around in. Snagging loose cables, causing them to break or unplug, is a very common problem.</li>
+                <li><strong>Spatial Awareness:</strong> Tool pouches and ladders are the usual culprits, but carelessness is usually involved. Always scout out the comm room and identify any potential hazards before jumping in.</li>
+                <li><strong>Proper Ladder Usage:</strong>
+                    <div class="important-note">
+                        <ul>
+                            <li><strong>Do NOT</strong> lean Step Ladders on the Customer's Equipment, Server Racks, or Walls.</li>
+                            <li><strong>Do NOT</strong> climb on the Customer's Equipment, Server Racks, or Furniture.</li>
+                            <li>If you <strong>cannot</strong> set up your ladder properly, politely ask the customer to move objects out of the way for a clear space to work. If this is not possible, notify your master technician or supervisor of the situation.</li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+
+            <h3>Still Have Questions? Internal Knowledge Base</h3>
+            <div class="placeholder">[Image Placeholder: Internal Knowledge Base website]</div>
+            <ul>
+                <li><strong>SAY:</strong> Go to the Internal KB (https://support.google.com/fiberkb)</li>
+                <li><strong>SAY:</strong> Click the 'Small Business Product' menu</li>
+                <li><strong>SAY:</strong> Take the next 10 minutes to explore the Small Business Product KB articles.</li>
+                <li><strong>ASK:</strong> Is there any additional questions that came up as you explored the various Small Business articles?</li>
+                <li>The external, customer facing Google Fiber Help Center will also contain specific information to help support Google Fiber for Small Business customers.</li>
+            </ul>
+            
+            <h3>Summary of Comm Rooms and Closeouts</h3>
+            <p>To review, these are some of the things covered in this section:</p>
+            <ul>
+                <li>Cable Running Considerations</li>
+                <li>Firestop Procedures</li>
+                <li>Comm Room Layout & Equipment</li>
+                <li>Security & Privacy</li>
+                <li>Best Practices</li>
+            </ul>
+            
+            <hr style="border-color: var(--accent-color); margin: 30px 0;">
+            <p style="text-align:center; font-weight:bold;">End of Training Material / Small Business Final Exam follows.</p>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        });
+    }
+</script>
+
+</body>
+</html>
