@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide 5: Physical Installation - Cabling & Wiring</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-warn-bg: #fef7e0;
+            --warn-orange: #f9ab00;
+            --danger-red: #d93025;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .section {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section.is-visible { opacity: 1; transform: translateY(0); }
+
+        .section h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 10px;
+        }
+        .section h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 20px;
+        }
+        th, td { padding: 12px 15px; border: 1px solid var(--light-grey); text-align: left; }
+        th { background-color: #f8f9fa; font-weight: 500; color: var(--medium-text); }
+        td ul { margin-top: 10px; padding-left: 20px; }
+
+        .do-dont-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .do-column h4 { color: var(--primary-green); }
+        .dont-column h4 { color: var(--danger-red); }
+        .do-column ul, .dont-column ul { list-style: none; padding-left: 0; }
+        .do-column li::before { content: '✓'; color: var(--primary-green); font-weight: bold; margin-right: 10px; }
+        .dont-column li::before { content: '✗'; color: var(--danger-red); font-weight: bold; margin-right: 10px; }
+
+        .steps-list { list-style-type: none; padding-left: 0; counter-reset: steps-counter; }
+        .steps-list li {
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 15px;
+            counter-increment: steps-counter;
+        }
+        .steps-list li::before {
+            content: counter(steps-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Poppins', sans-serif;
+        }
+        .steps-list li ul { margin-top: 10px; padding-left: 20px; list-style-type: disc; }
+
+        .callout {
+            margin: 20px 0; padding: 15px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px;
+            background-color: var(--callout-warn-bg); border-left: 4px solid var(--danger-red);
+        }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; fill: var(--danger-red); }
+        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+        .code { font-family: monospace; background: #eee; padding: 2px 5px; border-radius: 3px; }
+
+        @media (max-width: 900px) { .do-dont-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Physical Installation: Cabling & Wiring</h1>
+            <p>A hands-on guide covering drilling, wall fishing, installing wall plates, and terminating cables for a professional installation.</p>
+        </header>
+
+        <main>
+            <div class="section" id="drilling">
+                <h2>Drilling Best Practices</h2>
+                <div class="do-dont-grid">
+                    <div class="do-column">
+                        <h4>Drilling Do's</h4>
+                        <ul>
+                            <li><b>Use a stud finder</b> to locate a clear wall cavity, away from studs and electrical wiring.</li>
+                            <li><b>Use the correct bit size:</b>
+                                <ul>
+                                    <li><b>1/2"</b> for Fiber Patch Cable</li>
+                                    <li><b>3/8"</b> for Coax Cable</li>
+                                    <li><b>1/4"</b> for Cat5e/CAT6A Cable</li>
+                                </ul>
+                            </li>
+                             <li><b>Start inside and drill out</b> for most siding types to prevent blowout.</li>
+                             <li><b>Drill at a slight angle</b> (upward from outside, downward from inside) to prevent water intrusion.</li>
+                             <li><b>Let the drill do the work.</b> Apply light, even pressure.</li>
+                        </ul>
+                    </div>
+                    <div class="dont-column">
+                        <h4>Drilling Don'ts</h4>
+                        <ul>
+                            <li><b>Never drill through a foundation.</b> This can compromise the structural integrity of the home.</li>
+                            <li><b>Never drill through a fireplace</b> or chimney.</li>
+                            <li>Avoid drilling on the front of the house whenever possible.</li>
+                            <li>Don't force the bit, especially in cold weather, as materials like vinyl can become brittle and crack.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Drilling Procedures by Surface Type</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Surface Material</th>
+                            <th>Drill Bit(s)</th>
+                            <th>Procedure & Considerations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Wood / Vinyl / Aluminum</b></td>
+                            <td>Wood</td>
+                            <td>
+                                <ul>
+                                    <li>Drill from <b>inside out</b>.</li>
+                                    <li>For loose siding, it may bend before the bit penetrates. If this happens, switch to a sharp 1/4" bit on a high setting with light pressure.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Masonry (Brick/Stone/Mortar)</b></td>
+                            <td>Masonry, Wood</td>
+                            <td>
+                                <ul>
+                                    <li>Drill from <b>outside in</b> through a <b>mortar joint</b>, not the brick or stone itself.</li>
+                                    <li>Use a masonry bit to penetrate the exterior, then switch to a wood bit for the interior wall.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Stucco</b></td>
+                            <td>Masonry</td>
+                            <td>
+                                <ul>
+                                    <li>Drill from <b>inside out</b>.</li>
+                                    <li>Apply very light pressure when your bit reaches the stucco exterior to avoid cracking.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><b>Asbestos Shingles</b></td>
+                            <td>Masonry</td>
+                            <td>
+                                <div class="callout">
+                                    <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div>
+                                    <div class="callout-text"><p><b>HAZARD:</b> Asbestos is carcinogenic. Follow all vendor safety procedures and warn the customer that shingles may break.</p></div>
+                                </div>
+                                <ul>
+                                    <li>Start inside-out with a 1/4" bit, then finish outside-in with a 1/2" bit.</li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section" id="wall-plates">
+                <h2>Installing Wall Plates & Wall Fishing</h2>
+                <h3>Installing a Mud Ring</h3>
+                <ol class="steps-list">
+                    <li><b>Locate Position:</b> Use a stud finder to find a clear wall cavity. The plate should be at least 16" from the floor or aligned with other outlets for a clean look.</li>
+                    <li><b>Trace & Cut:</b> Hold the mud ring against the wall and trace the inside opening. Use a jab saw to carefully cut along the traced line.</li>
+                    <li><b>Insert Mud Ring:</b> Place the mud ring into the opening. The mounting tabs will swing out behind the drywall. Tighten the screws to pull the tabs snug against the back of the drywall, securing the ring.</li>
+                    <li><b>Attach Plate:</b> Run your cable through the opening, connect it to the appropriate wall plate (e.g., Keystone Jack for Ethernet), and screw the plate onto the mud ring.</li>
+                </ol>
+
+                <h3>Wall Fishing Techniques</h3>
+                <div class="do-dont-grid">
+                    <div class="do-column">
+                        <h4>Upper Wall Fish (from Attic)</h4>
+                        <ol class="steps-list">
+                            <li>Cut your mud ring hole in the room below.</li>
+                            <li>In the attic, locate the top plate of the same wall cavity and drill straight down into it.</li>
+                            <li>Feed the cable down through the hole until it can be retrieved from the mud ring opening.</li>
+                        </ol>
+                    </div>
+                    <div class="dont-column">
+                        <h4>Lower Wall Fish (from Basement/Crawlspace)</h4>
+                         <ol class="steps-list">
+                            <li>Cut your mud ring hole in the room above.</li>
+                            <li>Using a flex bit, drill down through the floor plate inside the wall cavity.</li>
+                            <li>Go to the basement/crawlspace, find the bit, attach the cable, and pull it down.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section" id="terminating">
+                <h2>Terminating Ethernet Cable</h2>
+                <p>Proper termination is essential for a reliable data connection. Always test your custom cables with a Klein Scout Tester before connecting them to equipment.</p>
+                
+                <h3>Terminating with a Keystone Jack (for Wall Plates)</h3>
+                <ol class="steps-list">
+                    <li><b>Strip Sheath:</b> Carefully strip about 1.5" of the outer cable sheath to expose the twisted pairs.</li>
+                    <li><b>Align Wires:</b> Untwist the pairs and align them with the color code on the jack. <b>Always use the T568B standard.</b></li>
+                    <li><b>Seat Wires:</b> Press each wire into its corresponding slot. Use a punch-down tool with the "CUT" side facing outward to securely seat and trim the wires in one motion.</li>
+                    <li><b>Inspect & Finish:</b> Visually inspect for nicks or damage. Ensure the outer sheath is just inside the jack for strain relief. Snap on the dust cover.</li>
+                </ol>
+
+                <h3>Terminating with an RJ45 Connector (for Patch Cables)</h3>
+                <ol class="steps-list">
+                    <li><b>Strip & Prepare:</b> Strip 1.5" of the sheath. Untwist each pair completely down to the sheath and flatten them out.</li>
+                    <li><b>Arrange Wires:</b> Arrange the wires in the <b>T568B order</b> (from left to right with the clip facing down):
+                        <br>
+                        <code class="code">White/Orange, Orange, White/Green, Blue, White/Blue, Green, White/Brown, Brown</code>
+                    </li>
+                    <li><b>Trim & Insert:</b> Trim the wires so they are perfectly even. Slide them carefully into the RJ45 connector, ensuring they reach the very end and remain in the correct order.</li>
+                    <li><b>Crimp & Test:</b> Insert the connector into a crimping tool and squeeze firmly. Visually inspect the connection, then test the cable with a cable tester to ensure it "Passes."</li>
+                </ol>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsToAnimate = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            itemsToAnimate.forEach(item => { observer.observe(item); });
+        });
+    </script>
+</body>
+</html>

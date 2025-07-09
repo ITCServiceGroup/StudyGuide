@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide 3: Fiber Jack (ONT) Installation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-note-bg: #e9eef6;
+            --callout-warn-bg: #fef7e0;
+            --warn-orange: #f9ab00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            color: var(--dark-text);
+            margin: 60px 0 30px;
+            text-align: center;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 15px;
+        }
+        
+        .details-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .details-card.is-visible { opacity: 1; transform: translateY(0); }
+        .details-card h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .details-card ul { list-style: none; padding-left: 5px; }
+        .details-card li { position: relative; padding-left: 25px; margin-bottom: 12px; color: var(--medium-text); }
+        .details-card li::before { content: '✓'; position: absolute; left: 0; color: var(--primary-green); font-weight: bold; }
+        strong, b { color: var(--dark-text); font-weight: 700; }
+        
+        .ont-types-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .ont-column h3 {
+            border-left: 4px solid;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        .gpon .ont-column h3 { border-color: var(--primary-green); }
+        .xgs .ont-column h3 { border-color: var(--warn-orange); }
+
+        .led-table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .led-table-container th, .led-table-container td { padding: 10px; border: 1px solid var(--light-grey); text-align: left; }
+        .led-table-container th { background-color: #f8f9fa; font-weight: 500; }
+        .led-table-container .status-ok { color: var(--primary-green); font-weight: bold; }
+        .led-table-container .status-bad { color: #d93025; font-weight: bold; }
+        .led-table-container .status-warn { color: var(--warn-orange); font-weight: bold; }
+
+        .callout {
+            margin: 20px 0; padding: 20px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px;
+        }
+        .callout.note { background-color: var(--callout-note-bg); border-left: 4px solid var(--primary-blue); }
+        .callout.warn { background-color: var(--callout-warn-bg); border-left: 4px solid var(--warn-orange); }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; }
+        .callout.note .callout-icon svg { fill: var(--primary-blue); }
+        .callout.warn .callout-icon svg { fill: var(--warn-orange); }
+        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+
+        .troubleshooting-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        @media (max-width: 900px) {
+            .ont-types-container { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .section-title { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Fiber Jack (ONT) Installation Guide</h1>
+            <p>A deep dive into the placement, installation, and verification of all supported Optical Network Terminal (ONT) models.</p>
+        </header>
+
+        <section id="universal-guidelines">
+            <div class="details-card">
+                <h3>Universal Placement Guidelines (All Models)</h3>
+                <p>Before installing any model, ensure the chosen location meets these critical requirements.</p>
+                <ul>
+                    <li><b>Interior Wall Only:</b> The ONT must be placed on an interior wall, never an exterior one.</li>
+                    <li><b>Power Source:</b> The location must be within <b>4 feet</b> of a standard electrical outlet.</li>
+                    <li><b>Height:</b> The top of the wall plate should be <b>16-18 inches</b> from the floor or aligned with other nearby outlets for a clean look.</li>
+                    <li><b>Ventilation:</b> Ensure a minimum of <b>2 inches of clearance</b> around the device for proper airflow. It must be kept away from heat sources.</li>
+                    <li><b>Prohibited Areas:</b> Avoid installing in closets, cabinets, bathrooms, kitchens, or behind doors/furniture unless absolutely necessary and approved. Garages are also discouraged.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="ont-comparison">
+            <h2 class="section-title">ONT Models: GPON vs. XGS-PON</h2>
+            <div class="ont-types-container">
+                <!-- GPON Column -->
+                <div class="ont-column gpon">
+                    <div class="details-card">
+                        <h3>Standard GPON ONT</h3>
+                        <p>Used for plans 2 Gig and under in non-XGS areas.</p>
+                        <b>Models:</b> GOGP220C, GOGP222C, GOGP220H
+                        
+                        <h4>Installation Process</h4>
+                        <ul>
+                            <li><b>Light Test:</b> Use a light meter on the <b>1490nm</b> wavelength setting.</li>
+                            <li><b>Drilling & Mounting:</b> Drill hole from NIU, run fiber patch cable, and mount the Fiber Jack securely to a mud ring.</li>
+                            <li><b>Connection:</b> Clean the fiber connector and plug it securely into the ONT's optical port.</li>
+                            <li><b>Power:</b> Connect the <b>12V ⎓ 0.5A</b> power adapter and turn on.</li>
+                        </ul>
+                        
+                        <div class="led-table-container">
+                           <h4>LED Status Lights (4-Light Model)</h4>
+                           <table>
+                               <thead><tr><th>LED</th><th>Status</th><th>Meaning</th></tr></thead>
+                               <tbody>
+                                   <tr><td><b>Power</b></td><td class="status-ok">Solid Green</td><td>Device is powered on.</td></tr>
+                                   <tr><td><b>Alarm</b></td><td class="status-bad">Solid Red</td><td>Loss of Signal (LOS). Major issue.</td></tr>
+                                   <tr><td><b>Optical</b></td><td class="status-ok">Solid Green</td><td>Successfully ranged and authenticated.</td></tr>
+                                   <tr><td></td><td class="status-warn">Blinking Green</td><td>Ranging with OLT, not yet authenticated.</td></tr>
+                                   <tr><td><b>Network</b></td><td class="status-ok">Blinking Green</td><td>LAN traffic is passing to the router.</td></tr>
+                                   <tr><td></td><td class="status-warn">Solid Green</td><td>LAN port is connected, but no data is flowing.</td></tr>
+                               </tbody>
+                           </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- XGS-PON Column -->
+                <div class="ont-column xgs">
+                     <div class="details-card">
+                        <h3>10-Gig XGS-PON ONT</h3>
+                        <p>Required for all multi-gig plans (5G, 8G) and all installs in new markets.</p>
+                        <b>Models:</b> GOXP330C, GOXP330H
+
+                        <div class="callout warn">
+                            <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div>
+                            <div class="callout-text"><p><b>Hardware Alert:</b> This ONT is larger (~4.25"W x 8.5"L) and <b>requires a 12.0V ⎓ 1.0A power adapter</b>. Do not use older, lower-wattage adapters.</p></div>
+                        </div>
+
+                        <h4>Installation Process</h4>
+                        <ul>
+                             <li><b>Light Test:</b> Use a light meter on the <b>1577nm</b> wavelength setting.</li>
+                             <li><b>Mounting Bracket:</b> Secure the mounting bracket to the wall/mud ring. Loop the fiber around the bracket's built-in slack management.</li>
+                             <li><b>Connection:</b> Fit the ONT onto the bracket and slide down until you hear an audible <b>"click"</b>, confirming the fiber is engaged.</li>
+                             <li><b>Ethernet:</b> Connect a <b>CAT6A</b> cable from the ONT's "Network" port to the router.</li>
+                        </ul>
+                        
+                        <h4>Reset Button Functions</h4>
+                        <ul>
+                            <li><b>Soft Reset (1 sec press):</b> Reboots the CPU without losing configuration.</li>
+                            <li><b>Hard Reset (8+ sec press):</b> Clears the ONT's configuration from the OLT and reboots.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="special-cases">
+             <h2 class="section-title">Special Cases & Procedures</h2>
+             <div class="details-card">
+                 <h3>Centralized ONT / "Fiber Jack Farm"</h3>
+                 <p>In some MDU (apartment/condo) properties, ONTs are not located in each unit but are centralized in a utility closet (IDF/MDF room).</p>
+                 <ul>
+                     <li><b>Customer Connection:</b> The customer will have an <b>Ethernet wall jack</b> in their unit, not a Fiber Jack. The router plugs into this jack.</li>
+                     <li><b>Technician Access:</b> You must gain access to the IDF/MDF room to service the ONT. Check Salesforce/BSS for access notes or contact the building manager.</li>
+                     <li><b>Identification:</b> If the jacks in the closet are unlabeled, you may need to use a toner on the customer's in-unit Ethernet cable to identify the correct port connected to their ONT.</li>
+                 </ul>
+             </div>
+        </section>
+        
+        <section id="troubleshooting">
+             <h2 class="section-title">Verification & Troubleshooting</h2>
+            <div class="troubleshooting-section">
+                <div class="details-card">
+                    <h3>Light Level Testing</h3>
+                    <table>
+                        <thead><tr><th>Reading</th><th>Status</th><th>Action Required</th></tr></thead>
+                        <tbody>
+                            <tr><td>> -8.9 dBm</td><td class="status-bad">High / Hot Light</td><td>Escalate for OSP ticket.</td></tr>
+                            <tr><td>-9.0 to -23.0 dBm</td><td class="status-ok">Acceptable</td><td>Proceed with installation.</td></tr>
+                            <tr><td>-23.1 to -28.0 dBm</td><td class="status-warn">Low Light</td><td>Escalate for OSP ticket.</td></tr>
+                            <tr><td>< -28.1 dBm</td><td class="status-bad">No Light</td><td>Escalate for OSP ticket.</td></tr>
+                        </tbody>
+                    </table>
+                     <div class="callout note">
+                        <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></div>
+                        <div class="callout-text"><p>Always test light levels at the NIU first. If the NIU reading is good but the reading at the ONT location is bad, the in-home fiber patch cable is the likely culprit.</p></div>
+                     </div>
+                </div>
+                 <div class="details-card">
+                    <h3>Fiber Cleaning Best Practices</h3>
+                    <p>Dirty connections are a primary cause of light level issues. Proper cleaning is non-negotiable.</p>
+                    <ul>
+                        <li><b>Clean Both Sides:</b> Always clean <b>both</b> the fiber connector end-face and the inside of the bulkhead/port it's connecting to.</li>
+                        <li><b>Clean Every Time:</b> Even brand new patch cords with dust caps must be cleaned before first use.</li>
+                        <li><b>Use the Right Tool:</b>
+                            <ul>
+                                <li><b>Click Cleaner:</b> Good for both connectors and inside bulkheads. 1-2 clicks is sufficient.</li>
+                                <li><b>CLETOP Cleaner:</b> For connectors only. Wipe, rotate 90°, wipe again.</li>
+                                <li><b>Wet Cleaning:</b> Use pre-wet wipes/swabs for stubborn dirt, but always follow with a dry clean to remove residue.</li>
+                            </ul>
+                        </li>
+                        <li><b>Verify After Cleaning:</b> Re-test the light level after cleaning to confirm improvement.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsToAnimate = document.querySelectorAll('.details-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            itemsToAnimate.forEach(item => { observer.observe(item); });
+        });
+    </script>
+</body>
+</html>

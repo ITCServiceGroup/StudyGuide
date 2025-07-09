@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide 6: Installation Verification & Troubleshooting</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-note-bg: #e9eef6;
+            --callout-tip-bg: #e6f4ea;
+            --danger-red: #d93025;
+            --warn-orange: #f9ab00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .section {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .section.is-visible { opacity: 1; transform: translateY(0); }
+
+        .section h2 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-blue);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 10px;
+        }
+        .section h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            margin-top: 20px;
+        }
+        th, td { padding: 12px 15px; border: 1px solid var(--light-grey); text-align: left; }
+        th { background-color: #f8f9fa; font-weight: 500; color: var(--medium-text); }
+        .status-ok { color: var(--primary-green); font-weight: bold; }
+        .status-bad { color: var(--danger-red); font-weight: bold; }
+        .status-warn { color: var(--warn-orange); font-weight: bold; }
+        .status-proc { color: var(--primary-blue); font-weight: bold; }
+
+        .steps-list { list-style-type: none; padding-left: 0; counter-reset: steps-counter; }
+        .steps-list > li {
+            position: relative;
+            padding-left: 45px;
+            margin-bottom: 20px;
+            counter-increment: steps-counter;
+        }
+        .steps-list > li::before {
+            content: counter(steps-counter);
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-green);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-family: 'Poppins', sans-serif;
+        }
+        .steps-list li > strong { display: block; margin-bottom: 5px; font-size: 1.05rem; }
+        .steps-list p, .steps-list ul { color: var(--medium-text); }
+        .steps-list ul { list-style-type: disc; padding-left: 20px; margin-top: 10px; }
+        
+        strong, b { font-weight: 700; color: var(--dark-text); }
+        
+        .callout {
+            margin: 20px 0; padding: 15px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px;
+        }
+        .callout.note { background-color: var(--callout-note-bg); border-left: 4px solid var(--primary-blue); }
+        .callout.tip { background-color: var(--callout-tip-bg); border-left: 4px solid var(--primary-green); }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; }
+        .callout.note .callout-icon svg { fill: var(--primary-blue); }
+        .callout.tip .callout-icon svg { fill: var(--primary-green); }
+        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+
+        @media (max-width: 900px) { .grid-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Comprehensive Installation Verification & Troubleshooting</h1>
+            <p>A systematic guide to verifying a successful installation and diagnosing common issues encountered during setup.</p>
+        </header>
+
+        <main>
+            <div class="section" id="verification">
+                <h2>Phase 1: Signal & Connection Verification</h2>
+                <h3>Light Level Testing: The Go/No-Go Check</h3>
+                <p>This is the most fundamental verification step. An installation cannot proceed if light levels are outside the acceptable range.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reading (dBm)</th>
+                            <th>Status</th>
+                            <th>Action Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>> -8.9 dBm</td><td class="status-bad">High / Hot Light</td><td>STOP. Contact dispatch to create an OSP ticket.</td></tr>
+                        <tr><td><b>-9.0 to -23.0 dBm</b></td><td class="status-ok"><b>Acceptable</b></td><td><b>Proceed with installation.</b></td></tr>
+                        <tr><td>-23.1 to -28.0 dBm</td><td class="status-warn">Low Light</td><td>STOP. Contact dispatch to create an OSP ticket.</td></tr>
+                        <tr><td>< -28.1 dBm</td><td class="status-bad">No Light</td><td>STOP. Contact dispatch to create an OSP ticket.</td></tr>
+                    </tbody>
+                </table>
+                <div class="callout note">
+                    <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></div>
+                    <div class="callout-text"><p><b>Meter Settings:</b> Ensure your light meter (e.g., VeEx FX41xT) is set to the correct wavelength: <b>1490nm</b> for GPON or <b>1577nm</b> for XGS-PON.</p></div>
+                </div>
+
+                <h3>Fiber Cleaning: A Non-Negotiable Step</h3>
+                <p>Dirty connections are a leading cause of signal degradation. Follow this process for every fiber connection you make.</p>
+                <ol class="steps-list">
+                    <li><strong>Inspect First:</strong> Visually check the fiber connector and the port for any visible debris or smudges.</li>
+                    <li><strong>Clean Both Sides:</strong> You must clean <b>both</b> the fiber patch cable connector AND the port/bulkhead it is plugging into. Cleaning only one side will just transfer dirt.</li>
+                    <li><strong>Use the Right Tool:</strong> A "click cleaner" is effective for both connectors and ports. 1-2 clicks is sufficient. For stubborn dirt on a connector, a CLETOP style cleaner or a lint-free wipe with fiber optic cleaning solution can be used, followed by a dry wipe.</li>
+                    <li><strong>Re-Inspect and Connect:</strong> After cleaning, re-inspect to ensure it's spotless, then make the connection firmly. You should hear a "click" to confirm it's seated.</li>
+                    <li><strong>Verify Light Level:</strong> After cleaning and connecting, re-test the light level to confirm it has improved or remains in the acceptable range.</li>
+                </ol>
+            </div>
+
+            <div class="section" id="speed-test">
+                <h2>Phase 2: Service & Speed Test Verification</h2>
+                <h3>Speed Test Protocol</h3>
+                <p>This is how you demonstrate the value of the service to the customer and verify that the network is performing as expected.</p>
+                <ol class="steps-list">
+                    <li><strong>Use the Correct Tool:</strong> For all new installations, use the <b>Ookla SpeedTest Desktop App</b> on your work laptop.</li>
+                    <li><strong>Perform a Hardwired Test First:</strong> Connect your laptop directly to the router using a <b>CAT6A Ethernet cable</b>.
+                        <ul>
+                            <li>For multi-gig plans, you <b>must</b> use the <b>10G silver port</b> on the Wi-Fi 6E router to show full speeds.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Run the Test & Explain:</strong> Run the test while the customer is watching. Explain that this result shows the maximum speed being delivered to their home.</li>
+                    <li><strong>Perform a Wi-Fi Test:</strong> Next, run a speed test on the customer's primary wireless device (e.g., their smartphone).</li>
+                    <li><strong>Set Expectations:</strong> Use the results to explain the difference between wired and wireless speeds. Reference the tables below to show them what their devices are capable of.</li>
+                </ol>
+                
+                <h3>Expected Maximum Speeds by Device Type</h3>
+                <div class="grid-container">
+                    <div>
+                        <h3>Computers (Wi-Fi)</h3>
+                        <table>
+                            <thead><tr><th>Wi-Fi Version</th><th>Max Expected Speed</th></tr></thead>
+                            <tbody>
+                                <tr><td>802.11ax (Wi-Fi 6/6E)</td><td class="status-ok">~700 Mbps+</td></tr>
+                                <tr><td>802.11ac (Wi-Fi 5)</td><td>~200-600 Mbps</td></tr>
+                                <tr><td>802.11n (Wi-Fi 4)</td><td>~100-250 Mbps</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <h3>Mobile Devices (Wi-Fi)</h3>
+                        <table>
+                            <thead><tr><th>Wi-Fi Version</th><th>Max Expected Speed</th></tr></thead>
+                            <tbody>
+                                <tr><td>802.11ax (Wi-Fi 6/6E)</td><td class="status-ok">~500 Mbps+</td></tr>
+                                <tr><td>802.11ac (Wi-Fi 5)</td><td>~180-400 Mbps</td></tr>
+                                <tr><td>802.11n (Wi-Fi 4)</td><td>~90 Mbps</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section" id="troubleshooting">
+                <h2>Phase 3: Initial Troubleshooting Flow</h2>
+                <p>If the service isn't working as expected after installation, follow this systematic flow to diagnose the issue.</p>
+                
+                <ol class="steps-list">
+                    <li>
+                        <strong>Check Physical Connections & Third-Party Hardware</strong>
+                        <p>Start with the simplest potential issues before moving to device diagnostics.</p>
+                        <ul>
+                            <li><b>Check all cables:</b> Ensure Ethernet cables are securely plugged into the correct ports (e.g., ONT to Router's WAN port) and are not damaged. Ensure CAT6A is used for multi-gig plans.</li>
+                            <li><b>Isolate from 3rd Party Hardware:</b> If the customer has their own Ethernet switches, secondary routers, or Wi-Fi extenders, temporarily disconnect them. Connect a test laptop directly to the GFiber router to see if the issue resolves. If it does, the issue lies with the customer's equipment.</li>
+                            <li><b>Check for Interfering Software:</b> Ask the customer to temporarily disable any VPN or intensive antivirus software on their test device, as these can impact performance and connectivity.</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>Troubleshoot the Fiber Jack (ONT)</strong>
+                        <p>If physical connections are solid, verify the ONT is functioning correctly.</p>
+                        <ul>
+                            <li><b>Check Status in Salesforce/BSS:</b> In the Troubleshooting Tab, confirm the Fiber Jack's "Last Checkin" is recent and "Config Status" is "Up to Date."</li>
+                            <li><b>Verify Power Adapter:</b> Especially for intermittent issues, ensure the correct power adapter is being used. A 10-Gig XGS ONT requires a <b>12.0V ⎓ 1.0A</b> adapter, which is more powerful than older models. An incorrect adapter can cause reboots.</li>
+                            <li><b>Check LED Lights:</b> The ONT's lights are a primary diagnostic tool.
+                                <ul>
+                                    <li>A <b>Solid Red Alarm LED</b> indicates a Loss of Signal. This is a "stop and escalate" issue.</li>
+                                    <li>A <b>Solid Green Network LED</b> (on a 4-light model) means a device is connected but not passing traffic—this points to a router or configuration issue.</li>
+                                    <li>No light on the Optical LED means no optical connection is detected.</li>
+                                </ul>
+                            </li>
+                            <li><b>Perform a Power Cycle:</b> The first step for any unresponsive device. Unplug the ONT, wait 30 seconds, and plug it back in.</li>
+                        </ul>
+                    </li>
+                    
+                    <li>
+                        <strong>Troubleshoot the Router</strong>
+                        <p>Once the Fiber Jack is confirmed to be online with a good signal, focus on the router.</p>
+                        
+                        <h3>For GFiber Wi-Fi 6/6E Routers:</h3>
+                        <ul>
+                            <li><b>Check Router LEDs:</b> A <b>Solid Red WAN/Internet light</b> on the Wi-Fi 6E router indicates it's not getting a connection from the Fiber Jack. Verify the cable and that the ONT is online.</li>
+                            <li><b>Power Cycle the Router:</b> After the Fiber Jack is fully online, power cycle the router.</li>
+                            <li><b>Check for Device Reboots (in Salesforce/BSS):</b> In the Devices tab, check the router's "Events". Multiple unexpected "boot" logs can indicate a faulty router or power supply.</li>
+                            <li><b>Verify Mesh Extender Placement (RSSI):</b> If an extender is in use, check its Backhaul RSSI in Salesforce/BSS. The ideal range is <b>-56 to -66 dBm</b>. If it's too high (e.g., -50) or too low (e.g., -70), the extender is poorly placed and needs to be moved.</li>
+                        </ul>
+                        
+                        <div class="callout tip">
+                             <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224 64c-17.7 0-32 14.3-32 32s14.3 32 32 32c17.7 0 32-14.3 32-32s-14.3-32-32-32zM216 160c-13.3 0-24 10.7-24 24s10.7 24 24 24h16c13.3 0 24-10.7 24-24s-10.7-24-24-24h-16zm-80 64c-35.3 0-64 28.7-64 64s28.7 64 64 64h16c35.3 0 64-28.7 64-64s-28.7-64-64-64h-16zm128 0c-35.3 0-64 28.7-64 64s28.7 64 64 64h16c35.3 0 64-28.7 64-64s-28.7-64-64-64h-16z"/></svg></div>
+                             <div class="callout-text"><p><strong>Pro-Tip:</strong> If you must perform a factory reset on a Wi-Fi 6E router, you <b>must also factory reset any paired mesh extenders.</b> They will need to be re-paired from scratch.</p></div>
+                        </div>
+
+                        <h3>For Bring Your Own Router (BYOR):</h3>
+                        <ul>
+                            <li><b>Confirm Plan:</b> Ensure the customer is on a BYOR-compatible plan in Salesforce/BSS.</li>
+                            <li><b>Verify Physical Connection:</b> The Ethernet cable from the Fiber Jack must be plugged into the router's <b>WAN port</b> (often marked with a globe icon).</li>
+                            <li><b>Check Router Specs:</b> The customer's router must meet minimum requirements (Wi-Fi 6, Gigabit ports). For multi-gig plans, it needs a <b>5GBASE-T or 10GBASE-T WAN port</b> to get full speeds. A DSL modem/router combo will not work.</li>
+                             <li><b>Check Link Lights:</b> Confirm the router's WAN port has a blinking link light, indicating it's receiving data from the Fiber Jack. If not, the issue may be the cable or the router itself.</li>
+                             <li><b>Advise Customer:</b> If the Fiber Jack is confirmed to be working but the customer's router is not, advise them to contact their router's manufacturer for further support.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsToAnimate = document.querySelectorAll('.section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            itemsToAnimate.forEach(item => { observer.observe(item); });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide 4: Wi-Fi 6E Router & Mesh Extender Installation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-note-bg: #e9eef6;
+            --callout-tip-bg: #e6f4ea;
+            --callout-warn-bg: #fef7e0;
+            --warn-orange: #f9ab00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            color: var(--dark-text);
+            margin: 60px 0 30px;
+            text-align: center;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .details-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .details-card.is-visible { opacity: 1; transform: translateY(0); }
+        .details-card.full-width { grid-column: 1 / -1; }
+
+        .details-card h3 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 15px;
+        }
+        .details-card h4 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+
+        .details-card ul { list-style: none; padding-left: 5px; }
+        .details-card li { position: relative; padding-left: 25px; margin-bottom: 12px; color: var(--medium-text); }
+        .details-card li::before { content: '▸'; position: absolute; left: 0; color: var(--primary-green); font-weight: bold; }
+        strong, b { color: var(--dark-text); font-weight: 700; }
+        
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        th, td { padding: 12px; border: 1px solid var(--light-grey); text-align: left; }
+        th { background-color: #f8f9fa; font-weight: 500; }
+        .status-ok { color: var(--primary-green); font-weight: bold; }
+        .status-bad { color: #d93025; font-weight: bold; }
+        .status-warn { color: #f9ab00; font-weight: bold; }
+        .status-proc { color: var(--primary-blue); font-weight: bold; }
+        
+        .callout {
+            margin: 20px 0; padding: 15px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px;
+        }
+        .callout.note { background-color: var(--callout-note-bg); border-left: 4px solid var(--primary-blue); }
+        .callout.tip { background-color: var(--callout-tip-bg); border-left: 4px solid var(--primary-green); }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 20px; height: 20px; flex-shrink: 0; }
+        .callout.note .callout-icon svg { fill: var(--primary-blue); }
+        .callout.tip .callout-icon svg { fill: var(--primary-green); }
+        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+
+        @media (max-width: 900px) { .content-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .section-title { font-size: 1.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Wi-Fi 6E Router & Mesh Extender Installation</h1>
+            <p>A complete guide to installing, configuring, and verifying the GR6EXX0C Router and GE6E220C Mesh Extender.</p>
+        </header>
+
+        <section class="content-grid">
+            <div class="details-card full-width">
+                 <h3>Universal Wi-Fi Best Practices</h3>
+                 <ul>
+                     <li><b>Single SSID is Mandatory:</b> For the best customer experience, the network must be configured with a single, unified Wi-Fi name (SSID). Do not split the 2.4, 5, and 6 GHz bands. This allows devices to seamlessly roam to the optimal frequency.</li>
+                     <li><b>Placement is Crucial:</b> Proper equipment placement is key to performance. Use a Wi-Fi analyzer app (like NetSpot) to find the best locations, avoiding closets, cabinets, and obstructions.</li>
+                     <li><b>Set Expectations:</b> Clearly explain to the customer that maximum speeds are only achieved on a hardwired connection and that Wi-Fi speeds will vary based on device capability, distance, and home construction.</li>
+                 </ul>
+            </div>
+        </section>
+
+        <h2 class="section-title">Device Installation & Configuration</h2>
+        <main class="content-grid">
+            <!-- Router Section -->
+            <div class="details-card">
+                <h3>Wi-Fi 6E Router (GR6EXX0C)</h3>
+                <h4>Specifications</h4>
+                <table>
+                    <tbody>
+                        <tr><th>Wi-Fi Standard</th><td>Tri-band Wi-Fi 6E (802.11ax)</td></tr>
+                        <tr><th>Ports</th><td><b>1x 10G WAN (Silver)</b>, 3x 2.5G LAN</td></tr>
+                        <tr><th>Range</th><td>Up to 2,000 sq. ft.</td></tr>
+                        <tr><th>Security</th><td>WPA3</td></tr>
+                    </tbody>
+                </table>
+
+                <h4>Placement Guidelines</h4>
+                <ul>
+                    <li>Place in a <b>central location</b> within the home.</li>
+                    <li>Position in an <b>open space</b> (e.g., shelf, TV stand), not an enclosed cabinet or closet.</li>
+                    <li>Place in the room where Wi-Fi is used most often.</li>
+                    <li>Ensure it's in a well-ventilated area with at least 2" of clearance.</li>
+                </ul>
+                
+                <h4>Installation & Configuration Steps</h4>
+                <ol>
+                    <li>Connect a CAT6A Ethernet cable from the Fiber Jack's LAN port to the <b>silver 10G WAN port</b> on the router.</li>
+                    <li>Connect the power adapter and wait ~3 minutes for the <b>Power</b> and <b>WAN/Internet</b> LEDs to turn <b>Solid Green</b>.</li>
+                    <li>Guide the customer to log into their GFiber Portal or Mobile App.</li>
+                    <li>In the "Network Settings," have the customer create a Wi-Fi Name (SSID) and Password.</li>
+                    <li>Once saved, wait ~60 seconds for the router's <b>Wi-Fi LED</b> to turn <b>Solid Green</b>. The network is now active.</li>
+                </ol>
+            </div>
+            
+            <!-- Extender Section -->
+            <div class="details-card">
+                <h3>Wi-Fi 6E Mesh Extender (GE6E220C)</h3>
+                <div class="callout tip">
+                    <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></div>
+                    <div class="callout-text"><p><b>Install Only When Necessary!</b> Extenders are for homes larger than ~2,000 sq. ft. or with confirmed dead spots. Unneeded extenders can degrade Wi-Fi performance.</p></div>
+                </div>
+                <h4>Specifications</h4>
+                 <table>
+                    <tbody>
+                        <tr><th>Backhaul</th><td>Dedicated 4x4 6GHz wireless</td></tr>
+                        <tr><th>Ports</th><td>1x 2.5G LAN, 1x 1G LAN</td></tr>
+                        <tr><th>Compatibility</th><td><b>Only pairs with GR6EXX0C router.</b></td></tr>
+                    </tbody>
+                </table>
+
+                <h4>Placement Guidelines</h4>
+                <ul>
+                    <li>Place the extender roughly <b>halfway between the router and the furthest area</b> that needs coverage.</li>
+                    <li>Do not place it in the dead zone itself; it needs a strong signal from the router.</li>
+                    <li>Keep it in an open area, within the 6GHz coverage of the main router for a strong backhaul connection.</li>
+                </ul>
+
+                <h4>Pairing Instructions (Wireless)</h4>
+                 <ol>
+                     <li>Ensure the router's Wi-Fi is already set up.</li>
+                     <li>Power on the extender within 3-6 feet of the router. Wait for its LED to turn <b>Solid White</b>.</li>
+                     <li>Press the <b>WPS button</b> on the back of the router.</li>
+                     <li>Within 2 minutes, press the <b>WPS button</b> on the base of the extender.</li>
+                     <li>Wait 4-6 minutes. The extender LED will blink white, then turn <b>Solid Green</b> upon success.</li>
+                     <li>Move the extender to its final location.</li>
+                 </ol>
+
+                 <h4>Pairing Instructions (Wired - Preferred)</h4>
+                 <ol>
+                    <li>Connect a CAT6A Ethernet cable from a LAN port on the router to the <b>2.5G port</b> on the extender.</li>
+                    <li>Power on the extender. It will automatically pair and the LED will turn <b>Solid Green</b> within 5-6 minutes.</li>
+                 </ol>
+            </div>
+
+            <div class="details-card full-width">
+                <h3>Device LED Light Guide</h3>
+                <div class="content-grid">
+                    <div>
+                        <h4>Router (GR6EXX0C) Lights</h4>
+                        <table>
+                           <thead><tr><th>LED</th><th>Status</th><th>Meaning</th></tr></thead>
+                           <tbody>
+                               <tr><td><b>Power</b></td><td class="status-ok">Solid Green</td><td>Device is powered on.</td></tr>
+                               <tr><td><b>WAN</b></td><td class="status-ok">Solid Green</td><td>Connected to the internet.</td></tr>
+                               <tr><td><b>WAN</b></td><td class="status-bad">Solid Red</td><td>Connection failure. Check cables & Fiber Jack.</td></tr>
+                               <tr><td><b>Wi-Fi</b></td><td class="status-ok">Solid Green</td><td>Wi-Fi network is active.</td></tr>
+                               <tr><td><b>Wi-Fi</b></td><td class="status-warn">Solid Yellow</td><td>Wi-Fi is being configured.</td></tr>
+                               <tr><td><b>WPS</b></td><td class="status-proc">Blinking Green</td><td>WPS pairing in progress.</td></tr>
+                           </tbody>
+                       </table>
+                    </div>
+                    <div>
+                        <h4>Extender (GE6E220C) Light</h4>
+                        <table>
+                           <thead><tr><th>LED Status</th><th>Meaning</th></tr></thead>
+                           <tbody>
+                               <tr><td class="status-proc">Solid White</td><td>Booting up, ready to pair.</td></tr>
+                               <tr><td class="status-proc">Blinking White</td><td>WPS pairing in progress.</td></tr>
+                               <tr><td class="status-ok">Solid Green</td><td>Successfully paired and operational.</td></tr>
+                               <tr><td class="status-bad">Solid Red</td><td>Pairing failed or lost connection to router.</td></tr>
+                           </tbody>
+                       </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <h2 class="section-title">Verification & Troubleshooting</h2>
+        <main class="content-grid">
+            <div class="details-card">
+                <h3>Verification & Speed Testing</h3>
+                <h4>RSSI Testing (Wi-Fi Health)</h4>
+                <p>Use a tool like NetSpot or check Salesforce/BSS to measure the extender's backhaul signal strength (RSSI). Aim for the "Recommended" range.</p>
+                <table>
+                    <thead><tr><th>RSSI Value</th><th>Definition</th><th>Action</th></tr></thead>
+                    <tbody>
+                        <tr><td class="status-warn">> -50 dBm</td><td>Too Close</td><td>Move extender further from router.</td></tr>
+                        <tr><td class="status-ok"><b>-50 to -66 dBm</b></td><td>Recommended</td><td>Optimal placement. No action needed.</td></tr>
+                        <tr><td class="status-bad">< -66 dBm</td><td>Too Far</td><td>Move extender closer to router.</td></tr>
+                    </tbody>
+                </table>
+                <h4>Hardline Speed Test</h4>
+                 <ul>
+                    <li>For multi-gig plans, you <b>must</b> use the <b>10G silver port</b> on the router to test maximum speeds.</li>
+                    <li>Connect your laptop using a <b>CAT6A</b> cable.</li>
+                    <li>Use the <b>Ookla SpeedTest Desktop App</b> for all installation speed tests.</li>
+                 </ul>
+            </div>
+            <div class="details-card">
+                 <h3>Common Troubleshooting</h3>
+                 <h4>Extender is Offline or Not Responding</h4>
+                 <ul>
+                     <li>First, verify it is plugged in and within range of the router.</li>
+                     <li>If it needs to be re-paired, follow the pairing instructions.</li>
+                     <li>For a full reset, use a paperclip to press the <b>Reset button</b> on the base for <b>at least 10 seconds</b>. This will restore factory defaults, and the extender must be paired again.</li>
+                 </ul>
+
+                 <h4>Firmware 1.5.4+ Changes</h4>
+                 <ul>
+                     <li><b>Factory Reset:</b> If you factory reset the <b>Router</b>, you MUST also factory reset any paired <b>Extenders</b>. They will need to be re-paired from scratch.</li>
+                     <li><b>Backhaul Loss:</b> If the extender loses its connection to the router, its Wi-Fi signal (fronthaul) will now automatically turn off. This accurately shows the customer there is a problem. The Wi-Fi will re-enable once the backhaul connection is restored.</li>
+                 </ul>
+            </div>
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsToAnimate = document.querySelectorAll('.details-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            itemsToAnimate.forEach(item => { observer.observe(item); });
+        });
+    </script>
+</body>
+</html>

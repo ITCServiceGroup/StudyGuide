@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Guide 2: GFiber Service Plans & Equipment</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-warn-bg: #fef7e0;
+            --warn-orange: #f9ab00;
+            --deep-dive-bg: #e8eaed;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 20px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .section-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 2rem;
+            color: var(--dark-text);
+            margin: 60px 0 30px;
+            text-align: center;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 15px;
+        }
+
+        .plan-grid { display: grid; gap: 30px; }
+        
+        .plan-card {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            border-top: 5px solid;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .plan-card.is-visible { opacity: 1; transform: translateY(0); }
+        
+        .plan-card.edge { border-color: #d93025; } /* Red */
+        .plan-card.home { border-color: #f9ab00; } /* Yellow */
+        .plan-card.core { border-color: var(--primary-green); } /* Green */
+        .plan-card.legacy { border-color: var(--medium-text); }
+        .plan-card.basic { border-color: #80868b; }
+        
+        .plan-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; }
+        .plan-header h3 { font-family: 'Poppins', sans-serif; font-size: 1.8rem; color: var(--dark-text); margin-right: 20px; }
+        .plan-price { font-family: 'Poppins', sans-serif; font-size: 1.5rem; font-weight: 600; color: var(--primary-blue); }
+        
+        .plan-content { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        
+        .plan-content h4 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark-text);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--light-grey);
+            padding-bottom: 8px;
+        }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
+        th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--light-grey); }
+        th { color: var(--medium-text); font-weight: 500; }
+        td { color: var(--dark-text); }
+        tbody tr:last-child td { border-bottom: none; }
+
+        .notes-list { list-style-type: none; padding-left: 0; }
+        .notes-list li { position: relative; padding-left: 20px; margin-bottom: 10px; color: var(--medium-text); }
+        .notes-list li::before { content: '•'; position: absolute; left: 0; color: var(--primary-blue); font-weight: bold; font-size: 1.1rem; top: 1px;}
+        
+        .callout { margin: 40px 0; padding: 20px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px; background-color: var(--callout-warn-bg); border-left: 4px solid var(--warn-orange); }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; fill: var(--warn-orange); }
+        .callout-text p { margin: 0; font-size: 1rem; color: var(--dark-text); }
+        
+        .deep-dive {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: var(--card-shadow);
+            border-left: 5px solid var(--primary-blue);
+        }
+        .deep-dive h4 {
+             border-bottom: none;
+             padding-left: 0;
+        }
+
+        @media (max-width: 900px) { .plan-content { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+             .header h1 { font-size: 2rem; }
+             .section-title { font-size: 1.7rem; }
+             .plan-header { flex-direction: column; align-items: flex-start; gap: 5px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>GFiber Service Plans & Equipment Configurations</h1>
+            <p>A detailed reference for authorized Customer Premise Equipment (CPE), firmware, and key installation considerations for each GFiber service plan.</p>
+        </header>
+
+        <section id="universal-guidelines">
+            <h2 class="section-title">Universal Installation Guidelines</h2>
+            <div class="plan-card deep-dive">
+                <h4>Rules for All Modern Installations</h4>
+                <ul class="notes-list">
+                    <li>The <b>Wi-Fi 6E Router (GR6EXX0C)</b> is the new standard for all new connects on Lifestyle and modern Legacy plans (1 Gig and higher).</li>
+                    <li>For multi-gig plans (5 Gig and 8 Gig), <b>always use CAT6A Ethernet cable</b> for hardwired connections to achieve full speeds. For 2 Gig and lower, CAT5e is acceptable.</li>
+                    <li>Wired backhaul is always preferred over wireless mesh for the best performance. If the customer allows it, run Ethernet for mesh extenders.</li>
+                    <li>Technicians must ensure customers only have a <b>single, unified SSID</b> during install. Do not split bands (2.4/5/6 GHz) unless a customer has a specific, advanced need, as this leads to a poor user experience.</li>
+                    <li>Always confirm the required ONT is installed. If it's incorrect, a Pro Install is required to swap it.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="lifestyle-plans">
+            <h2 class="section-title">Lifestyle Product Plans</h2>
+            <div class="plan-grid">
+                
+                <!-- Edge 8 Gig -->
+                <div class="plan-card edge">
+                    <div class="plan-header"><h3>Edge 8 Gig</h3><div class="plan-price">$150/month</div></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>ONT</b></td><td>GOXP330C / GOXP330H</td></tr>
+                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C (Up to 2 free)</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Installation Info</h4>
+                            <ul class="notes-list">
+                                <li><b>ALWAYS install the 10 Gig Fiber Jack (GOXP330C/H).</b></li>
+                                <li><b>MUST USE CAT 6A</b> for all wired connections to achieve plan speeds.</li>
+                                <li>Pro Install is required if customer lacks the correct ONT or opts for Battery Backup.</li>
+                                <li>Internet Battery Backup is included at no cost if opted-in during sign-up.</li>
+                                <li>Priority Room Optimization (MoCA/Ethernet Switch) is recommended.</li>
+                            </ul>
+                        </div>
+                        <div><h4>Firmware</h4>
+                            <table><tbody>
+                                <tr><td>ONT (GOXP330C)</td><td>R4.4.09.032</td></tr>
+                                <tr><td>ONT (GOXP330H)</td><td>V1.0.020</td></tr>
+                                <tr><td>Router/Extender</td><td>1.5.5</td></tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Home 3 Gig -->
+                <div class="plan-card home">
+                    <div class="plan-header"><h3>Home 3 Gig</h3><div class="plan-price">$100/month</div></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>ONT</b></td><td>GOXP330C / GOXP330H</td></tr>
+                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C (Up to 2 free)</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Installation Info</h4>
+                            <ul class="notes-list">
+                                <li>Install the 10 Gig Fiber Jack if Salesforce shows "XGS PON" network architecture.</li>
+                                <li>Pro Install required if not XGS-enabled, lacks correct ONT, or customer wants Battery Backup.</li>
+                                <li>Internet Battery Backup is a <b>$10/month</b> add-on.</li>
+                                <li>Ethernet Switch and MoCA adapter are included in the monthly fee.</li>
+                            </ul>
+                        </div>
+                        <div><h4>Firmware</h4>
+                            <table><tbody>
+                                <tr><td>ONT (GOXP330C)</td><td>R4.4.09.032</td></tr>
+                                <tr><td>ONT (GOXP330H)</td><td>V1.0.020</td></tr>
+                                <tr><td>Router/Extender</td><td>1.5.5</td></tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Core 1 Gig -->
+                <div class="plan-card core">
+                    <div class="plan-header"><h3>Core 1 Gig</h3><div class="plan-price">$70/month</div></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                             <table><tbody>
+                                <tr><td><b>ONT</b></td><td>XGS (GOXP330C/H) <b>or</b><br>GPON (GOGP220C/H, GOGP222C)</td></tr>
+                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C (<b>One free</b>)</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Installation Info</h4>
+                            <ul class="notes-list">
+                                <li>Install XGS ONT if Salesforce shows "XGS PON"; otherwise, install a GPON ONT.</li>
+                                <li>This plan is <b>NOT</b> eligible for Priority Room Optimization or Battery Backup.</li>
+                                <li>Pro Install required if the customer does not have an eligible ONT.</li>
+                            </ul>
+                        </div>
+                        <div><h4>Firmware</h4>
+                             <table><tbody>
+                                <tr><td>GPON ONT</td><td>R4.2.137.032 / 23.10.07.1</td></tr>
+                                <tr><td>XGS ONT</td><td>R4.4.09.032 / V1.0.020</td></tr>
+                                <tr><td>Router/Extender</td><td>1.5.5</td></tr>
+                            </tbody></table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="legacy-plans">
+            <h2 class="section-title">Legacy Residential Plans (Reference Only)</h2>
+            <div class="plan-grid">
+                
+                <!-- Legacy 8 Gig / 5 Gig -->
+                <div class="plan-card legacy">
+                    <div class="plan-header"><h3>Legacy 8 Gig / 5 Gig</h3></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>ONT</b></td><td>GOXP330C / GOXP330H</td></tr>
+                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C (Up to 2 free)</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Info</h4>
+                            <ul class="notes-list">
+                                <li><b>MUST USE CAT 6A</b> for wired connections.</li>
+                                <li>Install the XGS ONT if Salesforce shows "XGS PON".</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Legacy 2 Gig / 1 Gig -->
+                <div class="plan-card legacy">
+                    <div class="plan-header"><h3>Legacy 2 Gig / 1 Gig</h3></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
+                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C (2 free for 2G, 1 for 1G)</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Info</h4><ul class="notes-list"><li><b>CAT5e</b> is acceptable for wired connections.</li></ul></div>
+                    </div>
+                </div>
+
+                <!-- Legacy Sub-Gig -->
+                <div class="plan-card legacy">
+                    <div class="plan-header"><h3>Legacy 500 / 300 / 100 Meg</h3></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>Router</b></td><td><b>Google Wifi</b> (Not GFiber Wi-Fi 6E)</td></tr>
+                                <tr><td><b>Extender</b></td><td>None included (Purchase only).</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Info</h4>
+                            <ul class="notes-list">
+                                <li>These plans are unavailable for new customers.</li>
+                                <li>Setup and troubleshooting is done via the <b>Google Home app</b>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Free Basic -->
+                <div class="plan-card basic">
+                    <div class="plan-header"><h3>Free Basic (BYOR)</h3></div>
+                    <div class="plan-content">
+                        <div><h4>Equipment</h4>
+                             <table><tbody>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
+                                <tr><td><b>Router</b></td><td><b>Customer Provided</b></td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Customer Router Minimum Specs</h4>
+                            <ul class="notes-list">
+                                <li><b>Wi-Fi 6 (802.11ax)</b> or better</li>
+                                <li>Dual-band or Tri-band</li>
+                                <li>Gigabit Ethernet ports (min. 2)</li>
+                                <li><b>For Multi-Gig:</b> Must have a 5GBASE-T or 10GBASE-T WAN port.</li>
+                                <li>WPA2 security protocols (WPA3 recommended)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="deep-dive">
+            <h2 class="section-title">Equipment Deep Dive</h2>
+            <div class="plan-grid">
+                
+                <!-- Wi-Fi 6E Router -->
+                <div class="plan-card deep-dive">
+                    <h4>Wi-Fi 6E Router (GR6EXX0C)</h4>
+                    <table>
+                        <thead><tr><th>Spec</th><th>Detail</th></tr></thead>
+                        <tbody>
+                            <tr><td><b>Wi-Fi Standard</b></td><td>Tri-band (2.4 / 5 / 6 GHz) Wi-Fi 6E (802.11ax)</td></tr>
+                            <tr><td><b>LAN/WAN Ports</b></td><td><b>1x 10 Gigabit WAN</b> (silver), 3x 2.5 Gigabit LAN</td></tr>
+                            <tr><td><b>Range</b></td><td>Up to 2,000 sq. ft.</td></tr>
+                            <tr><td><b>Security</b></td><td>WPA3</td></tr>
+                        </tbody>
+                    </table>
+                    <h4>Installation Rules & Best Practices</h4>
+                    <ul class="notes-list">
+                        <li>The Ethernet cable from the Fiber Jack <b>must</b> be connected to the <b>silver 10G WAN port</b>.</li>
+                        <li><b>Incompatible</b> with the older pluggable ONT (GFLT210) used in some legacy 2 Gig setups.</li>
+                        <li>For customers bringing their own router, the GR6EXX0C must still be installed first, then the customer can plug their router into it.</li>
+                    </ul>
+                </div>
+
+                <!-- Wi-Fi 6E Extender -->
+                <div class="plan-card deep-dive">
+                    <h4>Wi-Fi 6E Mesh Extender (GE6E220C)</h4>
+                    <table>
+                        <thead><tr><th>Spec</th><th>Detail</th></tr></thead>
+                        <tbody>
+                            <tr><td><b>Backhaul</b></td><td>Dedicated 4x4 6GHz wireless backhaul</td></tr>
+                            <tr><td><b>LAN Ports</b></td><td>1x 2.5 Gigabit, 1x 1 Gigabit</td></tr>
+                            <tr><td><b>Compatibility</b></td><td><b>Only pairs with the GR6EXX0C router.</b></td></tr>
+                            <tr><td><b>Added Range</b></td><td>Creates coverage up to 5,000 sq. ft. (with 1 extender)</td></tr>
+                        </tbody>
+                    </table>
+                    <h4>Installation Rules & Best Practices</h4>
+                    <ul class="notes-list">
+                        <li><b>Only install if needed</b> based on home size (>2,000 sq. ft.) or customer's tested need. Do not install just because the customer asks for it.</li>
+                        <li>Unneeded extenders can degrade Wi-Fi performance.</li>
+                        <li>Place the extender roughly halfway between the router and the area with poor coverage.</li>
+                        <li>Customers can purchase additional extenders for $85 each (max 6 per household).</li>
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemsToAnimate = document.querySelectorAll('.plan-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); 
+                    }
+                });
+            }, { rootMargin: '0px', threshold: 0.1 });
+            itemsToAnimate.forEach(item => { observer.observe(item); });
+        });
+    </script>
+</body>
+</html>
