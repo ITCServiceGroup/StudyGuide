@@ -359,15 +359,15 @@
             </div>
         </section>
 
-        <section id="legacy-plans">
-            <h2 class="section-title">Legacy Residential Plans</h2>
+                <section id="legacy-plans">
+            <h2 class="section-title">Legacy & Programmatic Plans</h2>
             
             <div class="callout warn">
                 <div class="callout-icon">
                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
                 </div>
                 <div class="callout-text">
-                    <p><strong>Important:</strong> The following plans are for reference only. As of January 2025, <b>new customers cannot sign up for these plans</b> and can only be placed on Lifestyle Product plans.</p>
+                    <p><strong>Important:</strong> Standard legacy plans (1G, 2G, 5G, 8G) are being retired for new, general sign-ups. The plans below are either unavailable or require specific eligibility verification that is handled by Sales and Customer Service agents.</p>
                 </div>
             </div>
             
@@ -375,89 +375,86 @@
                 
                 <!-- Legacy 8 Gig / 5 Gig -->
                 <div class="plan-card legacy">
-                    <div class="plan-header"><h3>Legacy 8 Gig / 5 Gig</h3></div>
+                    <div class="plan-header"><h3>Legacy 8 Gig / 5 Gig / 2 Gig / 1 Gig</h3></div>
                     <div class="plan-content">
                         <div><h4>Authorized Equipment</h4>
                             <table><tbody>
-                                <tr><td><b>ONT</b></td><td>GOXP330C / GOXP330H</td></tr>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce</td></tr>
                                 <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
-                                <tr><td><b>Extender</b></td><td>GE6E220C (Up to 2 free)</td></tr>
+                                <tr><td><b>Extender</b></td><td>GE6E220C</td></tr>
                             </tbody></table>
                         </div>
                         <div><h4>Key Info</h4>
                             <ul class="notes-list">
-                                <li>8 Gig: $150/month. 5 Gig: $125/month.</li>
-                                <li>Install the XGS ONT if Salesforce shows "XGS PON".</li>
+                                <li><b>Status:</b> <b style="color:var(--danger-red);">Not available for new sign-ups.</b></li>
+                                <li>These are being replaced by the "Lifestyle" product plans (Core 1 Gig, Home 3 Gig, etc.).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 300 Meg -->
+                <div class="plan-card basic">
+                    <div class="plan-header"><h3>300 Meg Plan</h3></div>
+                    <div class="plan-content">
+                        <div><h4>Authorized Equipment</h4>
+                            <table><tbody>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce</td></tr>
+                                <tr><td><b>Router</b></td><td><b>Google Wifi</b></td></tr>
+                                <tr><td><b>Extender</b></td><td>None included.</td></tr>
+                            </tbody></table>
+                        </div>
+                        <div><h4>Key Info & Eligibility</h4>
+                            <ul class="notes-list">
+                                <li><b>Status:</b> <b style="color:var(--warn-orange);">Available reactively for qualifying addresses only.</b> Not publicly advertised.</li>
+                                <li><b>Price:</b> $30/month.</li>
+                                <li><b>Eligibility Check:</b> Agents must use an internal dashboard to verify address eligibility.</li>
+                                <li><b>Self-Verification Required:</b> The customer must verbally confirm they meet income requirements (<$40k/year) and agree to provide documentation if requested. Agents must log this verification.</li>
+                                <li>Once a customer leaves this plan, they cannot return unless they re-qualify at their address.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Legacy 2 Gig -->
-                <div class="plan-card legacy">
-                    <div class="plan-header"><h3>Legacy 2 Gig</h3></div>
+                <!-- 100 Meg -->
+                <div class="plan-card basic">
+                    <div class="plan-header"><h3>Invitation 100 Meg Plan</h3></div>
                     <div class="plan-content">
                         <div><h4>Authorized Equipment</h4>
                             <table><tbody>
-                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
-                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
-                                <tr><td><b>Extender</b></td><td>GE6E220C (Up to 2 free)</td></tr>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce</td></tr>
+                                <tr><td><b>Router</b></td><td><b>Google Wifi</b> (or BYOR version)</td></tr>
+                                <tr><td><b>Extender</b></td><td>None included.</td></tr>
                             </tbody></table>
                         </div>
-                        <div><h4>Key Info</h4><ul class="notes-list"><li>Price: $100/month.</li></ul></div>
-                    </div>
-                </div>
-
-                <!-- Legacy 1 Gig -->
-                <div class="plan-card legacy">
-                    <div class="plan-header"><h3>Legacy 1 Gig</h3></div>
-                    <div class="plan-content">
-                        <div><h4>Authorized Equipment</h4>
-                            <table><tbody>
-                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
-                                <tr><td><b>Router</b></td><td>GR6EXX0C</td></tr>
-                                <tr><td><b>Extender</b></td><td>GE6E220C (One free)</td></tr>
-                            </tbody></table>
-                        </div>
-                        <div><h4>Key Info</h4><ul class="notes-list"><li>Price: $70/month.</li></ul></div>
-                    </div>
-                </div>
-
-                <!-- Legacy Sub-Gig -->
-                <div class="plan-card legacy">
-                    <div class="plan-header"><h3>Legacy 500 / 300 / 100 Meg</h3></div>
-                    <div class="plan-content">
-                        <div><h4>Authorized Equipment</h4>
-                            <table><tbody>
-                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
-                                <tr><td><b>Router</b></td><td><b>Google Wifi</b></td></tr>
-                                <tr><td><b>Extender</b></td><td>None included (Purchase only).</td></tr>
-                            </tbody></table>
-                        </div>
-                        <div><h4>Key Info</h4>
+                        <div><h4>Key Info & Eligibility</h4>
                             <ul class="notes-list">
-                                <li>These plans are unavailable for new customers.</li>
-                                <li>Router firmware is not managed by GFiber.</li>
+                                <li><b>Status:</b> <b style="color:var(--warn-orange);">Invitation only.</b></li>
+                                <li><b>Eligibility:</b> Only available to current residential customers on the <b>$0 Basic plan</b>.</li>
+                                <li><b>Price:</b> $30/month.</li>
+                                <li>This plan is an upgrade path for existing Basic customers and is not available to the general public.</li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Free Basic -->
                 <div class="plan-card basic">
-                    <div class="plan-header"><h3>Free Basic</h3></div>
+                    <div class="plan-header"><h3>$0 Basic Plan</h3></div>
                     <div class="plan-content">
                         <div><h4>Authorized Equipment</h4>
                              <table><tbody>
-                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce "XGS PON" flag.</td></tr>
-                                <tr><td><b>Router</b></td><td><b>None Provided</b></td></tr>
+                                <tr><td><b>ONT</b></td><td>XGS or GPON based on Salesforce</td></tr>
+                                <tr><td><b>Router</b></td><td><b>None Provided (Customer Owned)</b></td></tr>
                                 <tr><td><b>Extender</b></td><td><b>None Provided</b></td></tr>
                             </tbody></table>
                         </div>
-                        <div><h4>Key Info</h4>
+                        <div><h4>Key Info & Eligibility</h4>
                             <ul class="notes-list">
-                                <li>This is our $0/month plan.</li>
-                                <li>This is a "Bring Your Own Router" (BYOR) plan. The customer must supply their own router.</li>
+                                 <li><b>Status:</b> <b style="color:var(--warn-orange);">Highly restricted availability.</b></li>
+                                 <li><b>Eligibility:</b> Only available at a specific set of addresses in <b>Kansas City, Provo, and Austin</b>. Address eligibility expires over time.</li>
+                                 <li><b>Sign-up Process:</b> Agents must verify address eligibility, then generate and send a <b>custom signup URL</b> to the customer.</li>
+                                 <li><b>No Downgrades:</b> If a customer on this plan upgrades to any paid plan, they can <b>never</b> downgrade back to the Basic plan.</li>
                             </ul>
                         </div>
                     </div>

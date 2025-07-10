@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive GFiber Installation Process Guide</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+        :root {
+            --primary-blue: #1a73e8;
+            --primary-green: #34a853;
+            --dark-text: #202124;
+            --medium-text: #5f6368;
+            --light-grey: #e8eaed;
+            --background-color: #f1f3f4;
+            --card-background: #ffffff;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+            --callout-note-bg: #e9eef6;
+            --callout-tip-bg: #e6f4ea;
+            --danger-red: #d93025;
+            --warn-orange: #f9ab00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--dark-text);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header { text-align: center; margin-bottom: 50px; }
+        .header h1 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 2.5rem; font-weight: 700; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: var(--medium-text); max-width: 800px; margin: 0 auto; }
+        
+        .timeline-container { position: relative; padding-left: 50px; }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 18px; 
+            top: 20px;
+            bottom: 20px;
+            width: 4px;
+            background-color: var(--light-grey);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .timeline-icon {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            background-color: var(--primary-blue);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            border: 4px solid var(--background-color);
+        }
+        .timeline-icon svg { width: 20px; height: 20px; fill: white; }
+
+        .timeline-content {
+            background-color: var(--card-background);
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+        }
+        
+        .timeline-content h3 { font-family: 'Poppins', sans-serif; color: var(--primary-blue); font-size: 1.5rem; font-weight: 600; margin-bottom: 5px; }
+        .timeline-content h3 + .subtitle { font-weight: 400; font-size: 1.1rem; color: var(--medium-text); margin-top: -5px; margin-bottom: 20px; display: block; }
+        .timeline-content h4 { font-family: 'Poppins', sans-serif; color: var(--dark-text); font-size: 1.2rem; font-weight: 600; margin-top: 25px; margin-bottom: 15px; border-left: 3px solid var(--primary-green); padding-left: 10px; }
+        .timeline-content ul { list-style-type: none; padding-left: 5px; }
+        .timeline-content li { position: relative; padding-left: 25px; margin-bottom: 12px; color: var(--medium-text); }
+        .timeline-content ul > li::before { content: '›'; font-size: 1.5rem; line-height: 1; position: absolute; left: 0; top: 1px; color: var(--primary-blue); font-weight: bold; }
+        .timeline-content ul ul { margin-top: 10px; margin-left: 10px; padding-left: 0; }
+        .timeline-content ul ul > li::before { content: '•'; font-size: 1.2rem; color: var(--primary-green); }
+        
+        strong, b { font-weight: 700; color: var(--dark-text); }
+
+        .callout { margin: 20px 0; padding: 15px; border-radius: 8px; display: flex; align-items: flex-start; gap: 15px; background-color: var(--callout-note-bg); border-left: 4px solid var(--primary-blue); }
+        .callout-icon { margin-top: 3px; }
+        .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; fill: var(--primary-blue); }
+        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+        
+        @media (max-width: 768px) {
+            .container { padding: 20px 15px; }
+            .header h1 { font-size: 2rem; }
+            .timeline-container { padding-left: 40px; }
+            .timeline-icon { left: -42px; width: 32px; height: 32px; }
+            .timeline-icon svg { width: 16px; height: 16px; }
+            .timeline-container::before { left: -25px; }
+            .timeline-content h3 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <h1>Comprehensive GFiber Installation Process</h1>
+            <p>A detailed, step-by-step guide to the entire installation appointment, from preparation to close-out.</p>
+        </header>
+
+        <main class="timeline-container">
+            
+            <div class="timeline-item">
+                <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg></div>
+                <div class="timeline-content">
+                    <h3>1. Preparation & Pre-Call</h3>
+                    <span class="subtitle">Setting Up for Success</span>
+                    
+                    <h4>Daily Prep Checklist</h4>
+                    <ul>
+                        <li><b>Activate Route (First Task):</b> The very first task of the day is to check your schedule in <b>Salesforce/BSS (OFS)</b> and activate your route. This signals to dispatch that you are active and allows real-time status updates to flow to both dispatch and customers.</li>
+                        <li><b>Equipment Check-out & Acknowledgement:</b>
+                             <ul>
+                                <li>Grab the designated Customer Premise Equipment (CPE) for your jobs from the warehouse.</li>
+                                <li><b>Immediately, while still at the warehouse,</b> check the CPE against your job list and acknowledge it in the Inventory Management System (i2MS). This ensures inventory accuracy and exposes any shortages while replacements are still available.</li>
+                            </ul>
+                        </li>
+                        <li><b>Vehicle & Materials Inspection:</b>
+                            <ul>
+                                <li>Inspect your service vehicle for safety, checking <b>tire condition and fluid levels</b>.</li>
+                                <li>Confirm you have all required hand tools and materials for the day's work.</li>
+                                <li>Ensure all Personal Protective Equipment (PPE) such as <b>safety cones, gloves, and boot covers</b> are stocked.</li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <h4>The Pre-Call (15+ mins before arrival)</h4>
+                    <ul>
+                        <li>Call your first customer within 15 minutes of your arrival window (Note: 8am appointments should be contacted no earlier than 7:30am).
+                             <ul>
+                                <li>Greet the customer and verify the <b>appointment time</b> and <b>address</b>.</li>
+                                <li>Verify the customer's <b>service plan</b>.</li>
+                                <li>Confirm an <b>adult (18+)</b> will be present.</li>
+                                <li>Ask about any <b>pets</b> in the home and any special access instructions (gate codes, etc.).</li>
+                                <li>Ask the customer to have their <b>GFiber account login and password</b> ready for Wi-Fi setup.</li>
+                            </ul>
+                        </li>
+                        <li><b>As soon as your vehicle is rolling</b> toward the address, activate your route in your field service tool and select the <b>On My Way Button</b> to provide the most accurate ETA notification.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 288A144 144 0 1 0 256 0a144 144 0 1 0 0 288zm-94.7 32C72.2 320 0 392.2 0 481.3c0 17 13.8 30.7 30.7 30.7H481.3c17 0 30.7-13.8 30.7-30.7C512 392.2 439.8 320 350.7 320H161.3z"/></svg></div>
+                <div class="timeline-content">
+                    <h3>2. Arrival, Greeting, and Assessment</h3>
+                    <span class="subtitle">Planning the Perfect Install</span>
+                    
+                    <h4>Arrival & Initial Contact</h4>
+                    <ul>
+                        <li>Arrive and park no later than <b>10 minutes</b> after the scheduled appointment time to be considered "on-time."</li>
+                        <li>Any time the service vehicle is legally parked on a residential street, you <b>must place safety cones</b> to make the work area visible and reduce risk.</li>
+                        <li>At the door, ensure your badge is visible, introduce yourself, and state your purpose.</li>
+                    </ul>
+
+                    <h4>NIU Light Test & Assessment</h4>
+                    <ul>
+                        <li>Inform the customer you'll start by accessing the gray box on the side of their house, the <b>Network Interface Unit (NIU)</b>.</li>
+                        <li>At the NIU, use a fiber light meter to test the signal.
+                            <ul>
+                                <li>The meter's test channel must be set to <b>1490nm</b> for GPON or <b>1577nm</b> for XGS-PON.</li>
+                                <li>The acceptable optical power level is between <b>-9.0 dBm and -23.0 dBm</b>.</li>
+                            </ul>
+                        </li>
+                        <li>Clean the fiber jumper before inserting and testing. Write the date and final light level on the inside lid of the NIU with a permanent marker.</li>
+                    </ul>
+
+                    <h4>Hardware Consultation & Home Survey</h4>
+                    <ul>
+                        <li>Put on boot covers. Explain the function of each piece of equipment you will install.</li>
+                        <li>Perform a walk-through survey with the customer, asking key questions to finalize the installation plan:
+                            <ul>
+                                <li>"Where in the home do you use <b>Wi-Fi the most often</b>?"</li>
+                                <li>"Are there any <b>pets</b> we need to be mindful of?"</li>
+                                <li>"Do you have any <b>existing cables or jacks</b> you would like us to try to reuse?"</li>
+                                <li>"To find the best path, may I have your permission to access areas like closets or the garage and discuss any <b>rooms that may need drilling</b>?"</li>
+                            </ul>
+                        </li>
+                        <li><b>Customer permission is required before drilling or cutting anywhere on the premises.</b> Explicit approval protects both parties.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M352 288c0-10.2-4.2-19.5-11-26.3l-14.8-14.8C337.8 235.4 345.5 224 358.3 224H384c17.7 0 32-14.3 32-32s-14.3-32-32-32H358.3c-12.8 0-20.5-11.4-19-22.9l14.8-111.4c2.1-16.2-10.1-30.7-26.3-30.7H184.2c-16.2 0-28.4 14.5-26.3 30.7l14.8 111.4c1.5 11.5-6.2 22.9-19 22.9H128c-17.7 0-32 14.3-32 32s14.3 32 32 32h25.8c12.8 0 20.5 11.4 19 22.9L158 402.3c-2.1 16.2 10.1 30.7 26.3 30.7h49.4c16.2 0 28.4-14.5 26.3-30.7L245.1 291.5c-1.5-11.5 6.2-22.9 19-22.9H288c10.2 0 19.5 4.2 26.3 11l14.8 14.8c11.5 11.5 30.2 11.5 41.7 0l4.8-4.8c11.5-11.5 11.5-30.2 0-41.7L352 288z"/></svg></div>
+                <div class="timeline-content">
+                    <h3>3. Wiring and Hardware Installation</h3>
+                    <span class="subtitle">Building the Network</span>
+                    
+                    <h4>Wiring and Fiber Jack Installation</h4>
+                    <ul>
+                        <li>Run the fiber patch cable from the NIU to the designated Fiber Jack location, using discreet paths and securing the cable every 18 inches. Check for pinches.</li>
+                        <li>If installing into drywall, install a mud ring at 16" from the floor or aligned with other plates.</li>
+                        <li>Clean the fiber patch cable connector before connecting to the Fiber Jack.</li>
+                        <li>Mount the Fiber Jack. Scan its serial number into Salesforce/BSS and note its location (e.g., Living Room).</li>
+                        <li>Plug the Fiber Jack into a power outlet and turn it on.</li>
+                    </ul>
+                    <div class="callout note">
+                        <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg></div>
+                        <div class="callout-text"><p><b>Handling an Existing Fiber Jack:</b> If a functional Fiber Jack already exists, it can be reused. If it needs to be moved and the existing fiber is too short, use a coupler to extend it. Be careful not to damage the existing fiber.</p></div>
+                    </div>
+                    
+                    <h4>Router and Mesh Extender Setup</h4>
+                    <ul>
+                        <li>Run a CAT6A Ethernet cable from the Fiber Jack's LAN port to the <b>10G silver WAN port</b> on the back of the Wi-Fi 6E Router.</li>
+                        <li>Install devices on the account in Salesforce/BSS. Power on the router and wait for the Power and WAN LEDs to turn solid green (this can take up to 5 minutes).</li>
+                        <li><b>Mesh Extender Setup (if needed):</b>
+                             <ul>
+                                <li>The customer's Wi-Fi SSID and password <b>must</b> be set up on the router first before pairing.</li>
+                                <li>For wireless pairing, press the WPS button on the router, then the extender. Wait for the extender's light to turn solid green.</li>
+                                <li>For wired backhaul (preferred), connect an Ethernet cable from a router LAN port to the extender's WAN port.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64s-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64z"/></svg></div>
+                <div class="timeline-content">
+                    <h3>4. Service Demonstration & Education</h3>
+                    <span class="subtitle">Verifying and Empowering</span>
+                    
+                    <h4>Internet Demo with Customer</h4>
+                    <ul>
+                        <li>Guide the customer through a tour of the <b>GFiber mobile app</b>, showing them where to manage their network.</li>
+                        <li>Show them how to change their <b>Wi-Fi network name (SSID) and password</b>.</li>
+                        <li>Perform a <b>wireless speed test</b> on their device to show a real-world result.</li>
+                        <li><b>Explain that Wi-Fi speeds will differ from hard-wired speeds</b>, and that maximum plan speeds are best measured on a wired connection.</li>
+                        <li>Confirm their account is set up for automatic billing and they know where to find support.</li>
+                    </ul>
+                    
+                    <h4>Fiber Phone Demo (If Applicable)</h4>
+                    <ul>
+                        <li>Verify any services that need to run on the phone line (e.g., alarm, medical alert).</li>
+                        <li>Test for a dial tone, and test both incoming and outgoing calls.</li>
+                        <li><b>Crucially, test Emergency (911)</b> to verify the call connects and the address is received correctly.</li>
+                    </ul>
+                    
+                    <h4>Video Service Demo (If Applicable)</h4>
+                    <ul>
+                        <li>Guide the customer through signing into their chosen streaming service (e.g., YouTube TV, Sling TV) on at least one device.</li>
+                        <li>Guide them through the Search, Browse, and DVR features of the service.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg></div>
+                <div class="timeline-content">
+                    <h3>5. Clean Up & Close Out</h3>
+                    <span class="subtitle">Finishing Professionally</span>
+                    
+                    <h4>Final Steps Checklist</h4>
+                    <ul>
+                        <li>Clean up all work locations. Remove all debris, wire clippings, dust, and packaging. Use the company-issued vacuum; never the customer's.</li>
+                        <li>Leave your business card and any relevant marketing or help-center collateral.</li>
+                        <li>Answer any final questions and remind the customer about the satisfaction survey they will receive via email.</li>
+                        <li>Conduct a final check for all your bags and tools before leaving.</li>
+                        <li>Complete the job by closing out the ticket in <b>Salesforce/BSS</b> with accurate and detailed notes. This is a mandatory final step.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+</body>
+</html>
