@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Guide 5: Physical Installation - Cabling & Wiring</title>
+    <title>Study Guide: Physical Installation - Cabling & Wiring</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,12 +52,8 @@
             box-shadow: var(--card-shadow);
             padding: 30px;
             margin-bottom: 30px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .section.is-visible { opacity: 1; transform: translateY(0); }
-
+        
         .section h2 {
             font-family: 'Poppins', sans-serif;
             color: var(--primary-blue);
@@ -81,7 +77,7 @@
             font-size: 0.95rem;
             margin-top: 20px;
         }
-        th, td { padding: 12px 15px; border: 1px solid var(--light-grey); text-align: left; }
+        th, td { padding: 12px 15px; border: 1px solid var(--light-grey); text-align: left; vertical-align: top; }
         th { background-color: #f8f9fa; font-weight: 500; color: var(--medium-text); }
         td ul { margin-top: 10px; padding-left: 20px; }
 
@@ -94,10 +90,11 @@
         .do-column h4 { color: var(--primary-green); }
         .dont-column h4 { color: var(--danger-red); }
         .do-column ul, .dont-column ul { list-style: none; padding-left: 0; }
-        .do-column li::before { content: '✓'; color: var(--primary-green); font-weight: bold; margin-right: 10px; }
-        .dont-column li::before { content: '✗'; color: var(--danger-red); font-weight: bold; margin-right: 10px; }
+        .do-column li, .dont-column li { padding-left: 25px; position: relative; }
+        .do-column li::before { content: '✓'; position: absolute; left: 0; color: var(--primary-green); font-weight: bold; }
+        .dont-column li::before { content: '✗'; position: absolute; left: 0; color: var(--danger-red); font-weight: bold; }
 
-        .steps-list { list-style-type: none; padding-left: 0; counter-reset: steps-counter; }
+        .steps-list { list-style-type: none; padding-left: 0; counter-reset: steps-counter; margin-top: 15px; }
         .steps-list li {
             position: relative;
             padding-left: 45px;
@@ -128,8 +125,9 @@
         }
         .callout-icon { margin-top: 3px; }
         .callout-icon svg { width: 24px; height: 24px; flex-shrink: 0; fill: var(--danger-red); }
-        .callout-text p { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
+        .callout-text p, .callout-text ul { margin: 0; font-size: 0.95rem; color: var(--dark-text); }
         .code { font-family: monospace; background: #eee; padding: 2px 5px; border-radius: 3px; }
+        .key-term { font-weight: 600; color: var(--primary-blue); }
 
         @media (max-width: 900px) { .do-dont-grid { grid-template-columns: 1fr; } }
     </style>
@@ -139,17 +137,54 @@
     <div class="container">
         <header class="header">
             <h1>Physical Installation: Cabling & Wiring</h1>
-            <p>A hands-on guide covering drilling, wall fishing, installing wall plates, and terminating cables for a professional installation.</p>
+            <p>A hands-on guide covering planning, safety, drilling, wall fishing, installing wall plates, and terminating cables for a professional installation.</p>
         </header>
 
         <main>
+            <div class="section" id="planning">
+                <h2>Pre-Installation Planning & Safety</h2>
+                <p>Before any drilling or installation begins, a thorough assessment is crucial to ensure safety, meet customer expectations, and avoid costly errors.</p>
+                <ul>
+                    <li><b>Confirm the Plan with the Customer:</b> Walk the proposed cable path with the customer. Get their explicit permission before proceeding.</li>
+                    <li><b>Inspect the Path:</b> Visually inspect the entire path, both inside and out, for potential obstructions like utility lines, HVAC ducts, or other wiring.</li>
+                    <li><b>Plan the Exterior Route:</b> Identify the most discreet path for any exterior cable runs to minimize visual impact on the home's appearance.</li>
+                </ul>
+                <h3>General Safety Rules</h3>
+                <ul>
+                    <li><b>Roofs:</b> Technicians are <span class="key-term">not allowed</span> to get on a residential roof under any circumstances.</li>
+                    <li><b>Hazardous Materials (Asbestos):</b> If you suspect hazardous materials, <span class="key-term">stop work immediately.</span> Do not drill. Inform your supervisor and follow all company/OSHA safety procedures.</li>
+                    <li><b>Rotting Wood:</b> Never drill through rotting or visibly compromised wood. Find an alternate, solid location.</li>
+                </ul>
+            </div>
+
+            <div class="section" id="fiber-handling">
+                <h2>Fiber Optic Cable Handling</h2>
+                <p>Fiber optic cables are sensitive and require careful handling to prevent signal loss.</p>
+                <h3>Inspect New Cables</h3>
+                <p>Before installation, you must discard a fiber cable and use a new one if you find:</p>
+                <ul>
+                    <li>Sharp kinks or tight bends in the cable.</li>
+                    <li>Any visible damage to the connector tip, like a pit or scratch.</li>
+                    <li>A missing protective cap on the connector.</li>
+                </ul>
+                <h3>When to Re-run a Fiber Cable</h3>
+                <p>You must run a new fiber patch cable during an installation if:</p>
+                <ul>
+                    <li>The existing fiber line provides a low light or no light reading.</li>
+                    <li>The pre-existing Fiber Jack needs to be relocated and the current line is inaccessible or too short.</li>
+                    <li>The line was defective or damaged during the installation process.</li>
+                    <li>The pre-existing path is hazardous (e.g., trip hazard, near a heat source).</li>
+                    <li>The customer (a new resident) requests a different location from the previous install.</li>
+                </ul>
+            </div>
+
             <div class="section" id="drilling">
                 <h2>Drilling Best Practices</h2>
                 <div class="do-dont-grid">
                     <div class="do-column">
                         <h4>Drilling Do's</h4>
                         <ul>
-                            <li><b>Use a stud finder</b> to locate a clear wall cavity, away from studs and electrical wiring.</li>
+                            <li><b>Use a stud finder</b> to locate a clear wall cavity.</li>
                             <li><b>Use the correct bit size:</b>
                                 <ul>
                                     <li><b>1/2"</b> for Fiber Patch Cable</li>
@@ -157,7 +192,7 @@
                                     <li><b>1/4"</b> for Cat5e/CAT6A Cable</li>
                                 </ul>
                             </li>
-                             <li><b>Start inside and drill out</b> for most siding types to prevent blowout.</li>
+                             <li><b>Start inside and drill out</b> for most siding types.</li>
                              <li><b>Drill at a slight angle</b> (upward from outside, downward from inside) to prevent water intrusion.</li>
                              <li><b>Let the drill do the work.</b> Apply light, even pressure.</li>
                         </ul>
@@ -165,10 +200,10 @@
                     <div class="dont-column">
                         <h4>Drilling Don'ts</h4>
                         <ul>
-                            <li><b>Never drill through a foundation.</b> This can compromise the structural integrity of the home.</li>
+                            <li><b>Never drill through a foundation.</b> This can compromise structural integrity.</li>
                             <li><b>Never drill through a fireplace</b> or chimney.</li>
                             <li>Avoid drilling on the front of the house whenever possible.</li>
-                            <li>Don't force the bit, especially in cold weather, as materials like vinyl can become brittle and crack.</li>
+                            <li>Don't force the bit, especially in cold weather, as vinyl can crack.</li>
                         </ul>
                     </div>
                 </div>
@@ -188,8 +223,8 @@
                             <td>Wood</td>
                             <td>
                                 <ul>
-                                    <li>Drill from <b>inside out</b>.</li>
-                                    <li>For loose siding, it may bend before the bit penetrates. If this happens, switch to a sharp 1/4" bit on a high setting with light pressure.</li>
+                                    <li>Drill from <b>inside out</b> with light pressure.</li>
+                                    <li>For loose or cold vinyl, switch to a sharp 1/4" bit on a high setting to prevent bending or cracking.</li>
                                 </ul>
                             </td>
                         </tr>
@@ -198,8 +233,9 @@
                             <td>Masonry, Wood</td>
                             <td>
                                 <ul>
-                                    <li>Drill from <b>outside in</b> through a <b>mortar joint</b>, not the brick or stone itself.</li>
-                                    <li>Use a masonry bit to penetrate the exterior, then switch to a wood bit for the interior wall.</li>
+                                    <li>Drill from <b>outside in</b> through a <b>mortar joint</b>, not the brick or stone.</li>
+                                    <li>Drill at a slight <span class="key-term">upward angle</span> to prevent water intrusion.</li>
+                                    <li>Use a masonry bit for the exterior, then switch to a wood bit for the interior wall.</li>
                                 </ul>
                             </td>
                         </tr>
@@ -209,7 +245,7 @@
                             <td>
                                 <ul>
                                     <li>Drill from <b>inside out</b>.</li>
-                                    <li>Apply very light pressure when your bit reaches the stucco exterior to avoid cracking.</li>
+                                    <li>Apply very light pressure when the bit reaches the stucco to avoid cracking.</li>
                                 </ul>
                             </td>
                         </tr>
@@ -219,11 +255,8 @@
                             <td>
                                 <div class="callout">
                                     <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div>
-                                    <div class="callout-text"><p><b>HAZARD:</b> Asbestos is carcinogenic. Follow all vendor safety procedures and warn the customer that shingles may break.</p></div>
+                                    <div class="callout-text"><p><b>HAZARD:</b> Asbestos is carcinogenic. Stop work, report to a supervisor, and follow all established safety protocols.</p></div>
                                 </div>
-                                <ul>
-                                    <li>Start inside-out with a 1/4" bit, then finish outside-in with a 1/2" bit.</li>
-                                </ul>
                             </td>
                         </tr>
                     </tbody>
@@ -232,74 +265,110 @@
             
             <div class="section" id="wall-plates">
                 <h2>Installing Wall Plates & Wall Fishing</h2>
-                <h3>Installing a Mud Ring</h3>
+                <h3>Installing a Cutout Box (Mud Ring)</h3>
                 <ol class="steps-list">
-                    <li><b>Locate Position:</b> Use a stud finder to find a clear wall cavity. The plate should be at least 16" from the floor or aligned with other outlets for a clean look.</li>
-                    <li><b>Trace & Cut:</b> Hold the mud ring against the wall and trace the inside opening. Use a jab saw to carefully cut along the traced line.</li>
-                    <li><b>Insert Mud Ring:</b> Place the mud ring into the opening. The mounting tabs will swing out behind the drywall. Tighten the screws to pull the tabs snug against the back of the drywall, securing the ring.</li>
-                    <li><b>Attach Plate:</b> Run your cable through the opening, connect it to the appropriate wall plate (e.g., Keystone Jack for Ethernet), and screw the plate onto the mud ring.</li>
+                    <li><b>Locate Position:</b> Use a stud finder to find a clear wall cavity. Position the box at least 16" from the floor and at least <span class="key-term">6 inches away</span> from any power outlet to avoid interference.</li>
+                    <li><b>Trace & Cut:</b> Hold the cutout box against the wall and trace the inside. The purpose of the cutout is to provide access and confirm the wall cavity is clear <span class="key-term">before</span> drilling. Use a jab saw to cut the hole.</li>
+                    <li><b>Insert Cutout Box:</b> Place the box into the opening. Tighten the screws to pull the mounting tabs snug against the back of the drywall.</li>
+                    <li><b>Attach Plate:</b> Run your cable through, connect it to the wall plate, and screw the plate onto the cutout box.</li>
                 </ol>
 
                 <h3>Wall Fishing Techniques</h3>
-                <div class="do-dont-grid">
-                    <div class="do-column">
-                        <h4>Upper Wall Fish (from Attic)</h4>
-                        <ol class="steps-list">
-                            <li>Cut your mud ring hole in the room below.</li>
-                            <li>In the attic, locate the top plate of the same wall cavity and drill straight down into it.</li>
-                            <li>Feed the cable down through the hole until it can be retrieved from the mud ring opening.</li>
-                        </ol>
-                    </div>
-                    <div class="dont-column">
-                        <h4>Lower Wall Fish (from Basement/Crawlspace)</h4>
-                         <ol class="steps-list">
-                            <li>Cut your mud ring hole in the room above.</li>
-                            <li>Using a flex bit, drill down through the floor plate inside the wall cavity.</li>
-                            <li>Go to the basement/crawlspace, find the bit, attach the cable, and pull it down.</li>
-                        </ol>
-                    </div>
+                <div class="callout">
+                    <div class="callout-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg></div>
+                    <div class="callout-text"><p><b>PROCESS VIOLATION:</b> Making a cutout before verifying a clear path can lead to a formal coaching. If glow rods hit an obstruction, <b>STOP</b>. Discuss an alternate path with the customer.</p></div>
                 </div>
+                
+                <h3>Upper Wall Fish (from Attic)</h3>
+                <ol class="steps-list">
+                    <li>Locate the desired wall cavity with a stud finder.</li>
+                    <li>Push a stinger through the ceiling drywall to locate the cavity from the attic.</li>
+                    <li>In the attic, locate the stinger and drill straight down into the <span class="key-term">center</span> of the wall's top plate.</li>
+                    <li>Feed glow rods down to verify the path is clear of obstructions.</li>
+                    <li>Once clear, attach your cable to the rods and go to the room below.</li>
+                    <li>Make your cutout in the wall, in-line with the stinger.</li>
+                    <li>Pull the glow rods and attached cable through the new opening.</li>
+                </ol>
+
+                <h3>Lower Wall Fish (from Basement/Crawlspace)</h3>
+                 <ol class="steps-list">
+                    <li>Locate the desired wall cavity and make your cutout in the wall.</li>
+                    <li>In the basement/crawlspace, identify the correct wall cavity from below.</li>
+                    <li>Using a <span class="key-term">flex bit</span> and angle tool, drill up through the floor plate into the wall cavity.</li>
+                    <li>Go back upstairs and verify you've drilled into the correct cavity.</li>
+                    <li>Use a glow rod or fishtape to pull your cable through the hole.</li>
+                </ol>
+            </div>
+            
+            <!-- NEW SECTION: Cable or Wire Closets/Cabinets -->
+            <div class="section" id="existing-wiring">
+                <h2>Leveraging Existing Infrastructure</h2>
+                <h3>Cable or Wire Closets/Cabinets</h3>
+                <p>Many homes have a central wiring closet or cabinet (often called a "smart panel") where coax or Ethernet from a previous provider terminates. Utilizing this can minimize the amount of new cabling needed.</p>
+                <ul>
+                    <li>The closet acts as a central distribution point for the whole home.</li>
+                    <li>If an Ethernet infrastructure is already in place with wall outlets in various rooms, you may only need to run a short patch cable from the outlet to the GFiber device in that room.</li>
+                    <li><b>Important:</b> If a customer requests custom cable routing beyond standard installation practices, they will need to hire a third-party contractor to complete that work.</li>
+                </ul>
+            </div>
+            
+            <!-- NEW SECTION: Fittings & Connectors -->
+            <div class="section" id="fittings">
+                <h2>Fittings & Connectors</h2>
+                <p>During an installation, you must verify all fittings on any cable related to the service. This includes Coax, Ethernet (CAT5e/6A), and Fiber Patch cables.</p>
+                <h3>Standard Installation Procedures</h3>
+                <ul>
+                    <li>Pull wall plates and check for bad connection points (e.g., splitters, barrels).</li>
+                    <li>Swap out any fitting that is not a modern compression fitting.</li>
+                    <li>Replace any painted-over or physically damaged wall plates.</li>
+                    <li>For Ethernet, replace any fittings that are not terminated to the T568B standard.</li>
+                    <li>For Fiber, if the SC connector cap has been removed, damaged, or installed incorrectly, the entire run must be replaced.</li>
+                </ul>
+                <h3>Common Issues to Look For</h3>
+                <ul>
+                    <li><b>Ethernet (RJ45):</b> Connector not fully crimped; too much cable jacket removed at the base of the connector.</li>
+                    <li><b>CAT6A Ethernet:</b> This cable is thicker and more sensitive to termination quality. Test every run to avoid signal degradation.</li>
+                    <li><b>Fiber Patch Cable:</b> Scratched connector tips (check with light meter), sharp bends/kinks, or an improperly seated SC connector (ensure the molded notch lines up with the mark).</li>
+                </ul>
             </div>
 
             <div class="section" id="terminating">
                 <h2>Terminating Ethernet Cable</h2>
-                <p>Proper termination is essential for a reliable data connection. Always test your custom cables with a Klein Scout Tester before connecting them to equipment.</p>
-                
+                <h3>Ethernet Cable Standards & Usage</h3>
+                <ul>
+                    <li><b>CAT5e:</b> Minimum standard for speeds up to 1 Gbps.</li>
+                    <li><b>CAT6A:</b> <span class="key-term">Required</span> for high-speed services like 5 Gig or 8 Gig.</li>
+                    <li><b>When to Run New Cable:</b> A new line is required if:
+                        <ul>
+                           <li>The existing Ethernet line is not CAT5e or higher.</li>
+                           <li>The existing coax lines have too many splitters or barrels.</li>
+                           <li>The existing lines show physical damage.</li>
+                           <li>The existing lines are being actively used by a different provider.</li>
+                        </ul>
+                    </li>
+                </ul>
+
                 <h3>Terminating with a Keystone Jack (for Wall Plates)</h3>
                 <ol class="steps-list">
-                    <li><b>Strip Sheath:</b> Carefully strip about 1.5" of the outer cable sheath to expose the twisted pairs.</li>
+                    <li><b>Strip Sheath:</b> Carefully strip about 1.5"- 2" of the outer cable sheath.</li>
                     <li><b>Align Wires:</b> Untwist the pairs and align them with the color code on the jack. <b>Always use the T568B standard.</b></li>
-                    <li><b>Seat Wires:</b> Press each wire into its corresponding slot. Use a punch-down tool with the "CUT" side facing outward to securely seat and trim the wires in one motion.</li>
-                    <li><b>Inspect & Finish:</b> Visually inspect for nicks or damage. Ensure the outer sheath is just inside the jack for strain relief. Snap on the dust cover.</li>
+                    <li><b>Seat Wires:</b> Use a punch-down tool with the "CUT" side facing outward to securely seat and trim the wires.</li>
+                    <li><b>Inspect & Finish:</b> Ensure the sheath is just inside the jack for strain relief and snap on the dust cover.</li>
                 </ol>
 
                 <h3>Terminating with an RJ45 Connector (for Patch Cables)</h3>
                 <ol class="steps-list">
-                    <li><b>Strip & Prepare:</b> Strip 1.5" of the sheath. Untwist each pair completely down to the sheath and flatten them out.</li>
-                    <li><b>Arrange Wires:</b> Arrange the wires in the <b>T568B order</b> (from left to right with the clip facing down):
+                    <li><b>Strip & Prepare:</b> Strip 1.5"- 2" of the sheath. Untwist each pair completely and flatten them out.</li>
+                    <li><b>Arrange Wires:</b> Arrange the wires in the <b>T568B order</b> (left to right, clip facing down):
                         <br>
                         <code class="code">White/Orange, Orange, White/Green, Blue, White/Blue, Green, White/Brown, Brown</code>
                     </li>
-                    <li><b>Trim & Insert:</b> Trim the wires so they are perfectly even. Slide them carefully into the RJ45 connector, ensuring they reach the very end and remain in the correct order.</li>
-                    <li><b>Crimp & Test:</b> Insert the connector into a crimping tool and squeeze firmly. Visually inspect the connection, then test the cable with a cable tester to ensure it "Passes."</li>
+                    <li><b>Trim & Insert:</b> Trim the wires so they are perfectly even. Slide them into the RJ45 connector, ensuring they reach the end in the correct order.</li>
+                    <li><b>Crimp & Test:</b> Insert into a crimping tool and squeeze firmly. Test the cable to ensure it "Passes."</li>
                 </ol>
             </div>
         </main>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const itemsToAnimate = document.querySelectorAll('.section');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); 
-                    }
-                });
-            }, { rootMargin: '0px', threshold: 0.1 });
-            itemsToAnimate.forEach(item => { observer.observe(item); });
-        });
-    </script>
 </body>
 </html>
